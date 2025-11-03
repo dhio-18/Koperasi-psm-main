@@ -40,8 +40,8 @@
                                                        pl-4 pr-10 shadow-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
                         <option value="">Semua</option>
                         <option value="waiting">Menunggu Konfirmasi</option>
-                        <option value="sending">Dikirim</option>
                         <option value="verified">Terverifikasi</option>
+                        <option value="sending">Dikirim</option>
                         <option value="completed">Selesai</option>
                         <option value="rejected">Dibatalkan</option>
                     </select>
