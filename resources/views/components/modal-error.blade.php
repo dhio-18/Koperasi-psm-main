@@ -1,0 +1,43 @@
+@if (session('error'))
+    <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="successModal">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm mx-4">
+            <!-- Fail Icon -->
+            <div class="flex justify-center mb-4">
+                <div class="rounded-full bg-red-100 p-3">
+                    <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+            <!-- Message -->
+            <div class="text-center">
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Gagal!</h3>
+                <p class="text-gray-600 mb-4">{{ session('error') }}</p>
+
+                <!-- Close Button -->
+                <button onclick="closeErrorModal()"
+                    class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-2 rounded-lg transition duration-200">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto close after 3 seconds
+        // setTimeout(function () {
+        //     closeErrorModal();
+        // }, 10000);
+
+        function closeErrorModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('successModal').addEventListener('click', function (e) {
+            if (e.target === this) {
+                closeErrorModal();
+            }
+        });
+    </script>
+@endif

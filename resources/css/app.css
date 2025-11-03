@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.pagination-green .flex a,
+.pagination-green .flex span {
+  @apply px-3 py-1 border rounded-md mx-1 text-sm;
+}
+
+.pagination-green .flex a {
+  @apply text-green-600 border-gray-300 hover:bg-green-50;
+}
+
+.pagination-green .flex span[aria-current='page'] {
+  @apply bg-green-600 text-white border-green-600;
+}
+
