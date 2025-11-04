@@ -62,9 +62,9 @@
                              x-transition:enter-end="opacity-100 scale-100"
                              class="absolute inset-0">
                             <img :src="image" alt="Carousel Slide"
-                                 class="w-full h-full object-cover">
+                                 class="w-full h-full object-cover rounded-2xl">
                             <!-- Gradient overlay untuk depth -->
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent rounded-2xl"></div>
                         </div>
                     </template>
                 </div>
