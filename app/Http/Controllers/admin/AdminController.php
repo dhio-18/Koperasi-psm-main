@@ -115,7 +115,7 @@ class AdminController extends Controller
             $image_path = $fileUploadService->upload($request, 'icon', 'categories');
 
             Categories::create([
-                'slug' => \Str::slug($validated['name']),
+                'slug' => Str::slug($validated['name']),
                 'name' => $validated['name'],
                 'image' => $image_path,
             ]);
@@ -149,7 +149,7 @@ class AdminController extends Controller
             DB::beginTransaction();
 
             $updateData = [
-                'slug' => \Str::slug($validated['name']),
+                'slug' => Str::slug($validated['name']),
                 'name' => $validated['name'],
             ];
 
@@ -218,7 +218,7 @@ class AdminController extends Controller
             $image_path = $fileUploadService->upload($request, 'images', 'products');
 
             Products::create([
-                'slug' => \Str::slug($validated['name']),
+                'slug' => Str::slug($validated['name']),
                 'name' => $validated['name'],
                 'category_id' => $validated['category_id'],
                 'price' => $validated['price'],
@@ -250,7 +250,7 @@ class AdminController extends Controller
             DB::beginTransaction();
 
             $updateData = [
-                'slug' => \Str::slug($validated['name']),
+                'slug' => Str::slug($validated['name']),
                 'name' => $validated['name'],
                 'category_id' => $validated['category_id'],
                 'price' => $validated['price'],

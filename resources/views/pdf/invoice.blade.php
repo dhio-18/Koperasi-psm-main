@@ -92,8 +92,8 @@
         <p>
           Koperasi PSM<br>
           Hutan Register, Kec. Pakuan Ratu, Kabupaten Way Kanan, Lampung<br>
-          support@harmonystore.com<br>
-          +62 812 3456 7890
+          koperasipsm@gmail.com<br>
+          +62 822 8597 8581
         </p>
       </div>
     </div>

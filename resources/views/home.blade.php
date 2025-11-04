@@ -26,15 +26,14 @@
             <div
                 x-data="{
                     images: [
-                        '{{ asset('images/slider1.jpg') }}',
-                        '{{ asset('images/slider2.jpg') }}',
-                        '{{ asset('images/slider3.jpg') }}',
-                        '{{ asset('images/slider4.jpg') }}'
+                        @foreach($carouselImages as $carousel)
+                            '{{ asset('storage/' . $carousel->image_path) }}',
+                        @endforeach
                     ],
                     active: 0,
                     next() { this.active = (this.active + 1) % this.images.length },
                     prev() { this.active = (this.active - 1 + this.images.length) % this.images.length },
-                    start() { setInterval(() => this.next(), 4000) }
+                    start() { if(this.images.length > 1) { setInterval(() => this.next(), 4000) } }
                 }"
                 x-init="start()"
                 class="relative w-full overflow-hidden rounded-xl shadow-md mt-4 md:mt-0"

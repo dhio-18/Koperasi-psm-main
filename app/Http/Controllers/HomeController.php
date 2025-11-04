@@ -14,7 +14,13 @@ class HomeController extends Controller
                 $query->select('id', 'name', 'slug');
             }
         ])->where('is_active', true)->paginate(10);
-        return view('home', compact('categories', 'products'));
+
+        // Ambil gambar carousel yang aktif
+        $carouselImages = \App\Models\CarouselImage::where('is_active', true)
+            ->orderBy('order')
+            ->get();
+
+        return view('home', compact('categories', 'products', 'carouselImages'));
     }
 
     public function indexAboutUs()
