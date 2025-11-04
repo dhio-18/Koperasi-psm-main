@@ -69,7 +69,7 @@
             </a>
 
             {{-- Desktop links --}}
-            <div class="hidden md:flex items-center gap-x-2">
+            <div class="hidden lg:flex items-center gap-x-2">
                 <a href="{{ route('admin.dashboard') }}"
                     class="px-3 py-2 rounded-lg transition-colors hover:bg-green-700/60 {{ request()->routeIs('admin.dashboard') ? 'bg-green-700/80' : '' }}">
                     Dashboard
@@ -107,10 +107,10 @@
                 @endif
             </div>
 
-            {{-- Hamburger (mobile) --}}
+            {{-- Hamburger (mobile & tablet) --}}
             <button @click="open = !open" @keydown.escape.window="open=false" :aria-expanded="open.toString()"
                 aria-controls="admin-mobile-menu" aria-label="Toggle navigation"
-                class="md:hidden inline-flex items-center justify-center p-2 rounded-lg hover:bg-green-700/60 focus:outline-none focus:ring-2 focus:ring-white/50">
+                class="lg:hidden inline-flex items-center justify-center p-2 rounded-lg hover:bg-green-700/60 focus:outline-none focus:ring-2 focus:ring-white/50">
                 <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
@@ -120,9 +120,9 @@
             </button>
         </div>
 
-        {{-- Mobile panel --}}
+        {{-- Mobile & Tablet panel --}}
         <div id="admin-mobile-menu" x-show="open" x-transition.origin.top @click.outside="open=false"
-            class="md:hidden pb-3 border-t border-white/20 mt-1 space-y-1 sm:space-y-2">
+            class="lg:hidden pb-3 border-t border-white/20 mt-1 space-y-1 sm:space-y-2">
             <a href="{{ route('admin.dashboard') }}"
                 class="block px-3 py-2 rounded-lg text-sm sm:text-base hover:bg-green-700/60 transition-colors {{ request()->routeIs('admin.dashboard') ? 'bg-green-700/80' : '' }}">
                 Dashboard
