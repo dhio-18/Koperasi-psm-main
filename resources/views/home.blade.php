@@ -99,18 +99,9 @@
 
         <!-- Kategori Modern & Compact -->
         <div class="flex flex-col gap-3">
-            <div class="flex items-center justify-between">
-                <div>
-                    <h2 class="text-xl md:text-2xl font-bold text-gray-900">Kategori Produk</h2>
-                    <p class="text-sm text-gray-500 mt-0.5">Temukan produk berdasarkan kategori</p>
-                </div>
-                <a href="{{ route('products.index') }}"
-                   class="hidden sm:inline-flex items-center gap-1 text-sm font-semibold text-green-600 hover:text-green-700 transition-colors">
-                    Lihat Semua
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-                    </svg>
-                </a>
+            <div>
+                <h2 class="text-xl md:text-2xl font-bold text-gray-900">Kategori Produk</h2>
+                <p class="text-sm text-gray-500 mt-0.5">Temukan produk berdasarkan kategori</p>
             </div>
 
             <div class="relative rounded-2xl bg-gradient-to-br from-gray-50 to-white shadow-sm ring-1 ring-gray-100 p-4 md:p-5">
