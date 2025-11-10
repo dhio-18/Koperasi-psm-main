@@ -1,43 +1,73 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Lupa kata sandi Anda? Tidak masalah. Cukup beri tahu kami alamat email Anda, dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi sehingga Anda dapat membuat yang baru.') }}
+    <!-- Logo -->
+    <div class="flex justify-center items-center text-center mb-6">
+        <a href="{{ route('home') }}">
+            <img src="/logo.svg" alt="logo" width="80" height="80" class="hover:scale-105 transition-transform duration-200">
+        </a>
+    </div>
+
+    <!-- Title -->
+    <div class="text-center mb-8">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Lupa Password?</h1>
+        <div class="text-sm text-gray-500">
+            Cukup beri tahu kami alamat email Anda, dan kami akan mengirimkan tautan untuk mengatur ulang kata sandi
+        </div>
     </div>
 
     <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    @if (session('status'))
+        <div class="mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+            {{ session('status') }}
+        </div>
+    @endif
 
-    <form method="POST" action="{{ route('password.email') }}">
+    <!-- Forgot Password Form -->
+    <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
         @csrf
 
-        <!-- Email Address -->
+        <!-- Email Field -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
-                autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+            <input type="email" name="email" id="email" placeholder="Masukkan email Anda" value="{{ old('email') }}"
+                class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200"
+                required autofocus>
         </div>
 
-        <!-- Tombol kirim tautan -->
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Kirim Tautan Reset Kata Sandi') }}
-            </x-primary-button>
+        <!-- Error Messages -->
+        @if($errors->has('email'))
+            <div class="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                <ul class="text-sm">
+                    @foreach($errors->get('email') as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <!-- Submit Button -->
+        <div class="pt-4">
+            <button type="submit"
+                class="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+                Kirim Tautan Reset Password
+            </button>
         </div>
     </form>
 
-    <div class="mt-4 flex items-center justify-start gap-2">
+    <!-- Back to Login Link -->
+    <div class="mt-6 text-center">
         <span class="text-sm text-gray-500">
             Sudah ingat password?
         </span>
         <a href="{{ route('login') }}"
-            class="text-sm text-green-600 hover:text-green-700 font-semibold transition-colors duration-200">
+            class="block text-sm text-green-600 hover:text-green-700 font-semibold transition-colors duration-200 mt-1">
             Kembali ke Halaman Login
         </a>
     </div>
 
-    <!-- Pesan tambahan -->
-    <p class="mt-6 text-xs text-gray-500 text-center">
-        Pastikan Anda memeriksa folder <span class="font-medium text-gray-700">Spam</span> atau
-        <span class="font-medium text-gray-700">Junk</span> jika email tidak muncul dalam beberapa menit.
-    </p>
+    <!-- Info Message -->
+    <div class="mt-6 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <p class="text-xs text-blue-700 text-center">
+            <strong>Tips:</strong> Pastikan Anda memeriksa folder <span class="font-medium">Spam</span> atau
+            <span class="font-medium">Junk</span> jika email tidak muncul dalam beberapa menit.
+        </p>
+    </div>
 </x-guest-layout>

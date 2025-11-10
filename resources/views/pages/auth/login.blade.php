@@ -110,11 +110,7 @@
             </div>
         @endif
     </div>
-
-
-    <p class="mt-20 font-bold text-sm text-black">&copy; 2025, Company, Seluruh Hak Cipta Dilindungi Undang-Undang</p>
-
-
+    
     <script>
         function togglePassword() {
             var passwordInput = document.getElementById('password');

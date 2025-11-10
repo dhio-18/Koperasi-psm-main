@@ -80,7 +80,7 @@
                         {{ $errors->first('email') }}
                     </div>
                     <div id="lockout-timer" class="text-sm text-red-700 mt-2 font-bold" style="display: none;">
-                        ⏱️ Coba lagi dalam: <span id="countdown">00:00</span>
+                        Coba lagi dalam: <span id="countdown">00:00</span>
                     </div>
                 </div>
             </div>
