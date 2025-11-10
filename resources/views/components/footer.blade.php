@@ -81,8 +81,9 @@
               </svg>
             </div>
             @php $phone = config('app.phone', '+6282285978581'); @endphp
-            <a href="tel:{{ $phone }}"
-               class="text-gray-600 hover:text-green-600 transition-colors leading-relaxed">
+            <a href="https://wa.me/6282285978581?text=Halo%20Koperasi%20PSM"
+               target="_blank" rel="noopener"
+               class="text-gray-600 hover:text-green-600 transition-colors text-left flex-1">
               {{ $phone }}
             </a>
           </li>
@@ -95,10 +96,10 @@
                       d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
               </svg>
             </div>
-            @php $email = config('app.email', 'koperasipsm@gmail.com'); @endphp
-            <a href="mailto:{{ $email }}"
-               class="text-gray-600 hover:text-green-600 transition-colors break-all leading-relaxed">
-              {{ $email }}
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kpmsiapsedia@gmail.com"
+               target="_blank" rel="noopener"
+               class="text-gray-600 hover:text-green-600 transition-colors text-left flex-1">
+              kpmsiapsedia@gmail.com
             </a>
           </li>
         </ul>
