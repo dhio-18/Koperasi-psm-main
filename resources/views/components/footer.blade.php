@@ -27,31 +27,27 @@
           <li>
             <a href="{{ route('home') }}"
                class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
-              <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
               <span>Beranda</span>
             </a>
           </li>
           <li>
             <a href="{{ route('about-us') }}"
                class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
-              <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
               <span>Tentang Kami</span>
             </a>
           </li>
           <li>
             <a href="{{ route('products.index') }}"
                class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
-              <svg class="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-              </svg>
               <span>Produk</span>
             </a>
           </li>
-        </ul>
+          <li>
+            <a href="{{ route('ordering-guide') }}"
+               class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
+              <span>Tata Cara Pemesanan</span>
+            </a>
+          </li>
       </nav>
 
       <!-- Contact -->
@@ -129,7 +125,7 @@
               <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 7.94 9.8v-6.93H7.1v-2.87h2.84V9.84c0-2.8 1.67-4.34 4.22-4.34 1.22 0 2.5.22 2.5.22v2.75h-1.41c-1.39 0-1.82.87-1.82 1.76v2.12h3.1l-.5 2.87h-2.6v6.93C18.56 20.87 22 16.84 22 12z"/>
             </svg>
           </a>
-          
+
         </div>
       </section>
 

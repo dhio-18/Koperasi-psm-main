@@ -8,7 +8,7 @@
     <div class="bg-gray-50 font-sans">
         <div class="min-h-screen flex flex-col">
 
-            <!--  HERO (dipadatkan) -->
+            <!--  HERO -->
             <section
                 class="bg-gradient-to-br from-green-600 to-green-700 text-white rounded-[1.75rem] shadow-md mx-4 md:mx-6 lg:mx-10 mt-16 mb-8">
                 <div class="max-w-6xl mx-auto px-4 py-14 md:py-16 text-center flex flex-col items-center">
@@ -26,10 +26,6 @@
                             <a href="{{ route('products.index') }}"
                                 class="inline-flex items-center justify-center bg-white text-green-700 font-semibold px-4 py-2.5 rounded-lg shadow hover:shadow-md transition">
                                 Belanja Sekarang
-                                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                </svg>
                             </a>
 
                             <a href="#jam-op"
@@ -41,7 +37,7 @@
                 </div>
             </section>
 
-            <!--  PROFIL / SIAPA KAMI (dipadatkan) -->
+            <!--  PROFIL / SIAPA KAMI -->
             <section class="bg-gray-50 py-12 md:py-14 px-4">
                 <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
 
@@ -83,7 +79,7 @@
                 </div>
             </section>
 
-            <!--  VISI & MISI (dipadatkan) -->
+            <!--  VISI & MISI -->
             <section class="bg-white py-12 md:py-14 px-4 rounded-2xl mx-4 md:mx-6 lg:mx-10 shadow-sm mb-8">
                 <div class="max-w-5xl mx-auto">
                     <div class="text-center mb-8 md:mb-10">
@@ -143,7 +139,7 @@
                 </div>
             </section>
 
-            <!-- JAM OPERASIONAL (dipadatkan + auto-center scroll) -->
+            <!-- jam oprasional -->
             <section id="jam-op"
                 class="px-4 mx-4 md:mx-6 lg:mx-10 mb-14 mt-4 scroll-mt-24 sm:scroll-mt-28 lg:scroll-mt-32">
                 <div class="max-w-5xl mx-auto">

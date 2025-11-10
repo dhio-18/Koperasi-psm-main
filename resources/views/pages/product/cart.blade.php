@@ -167,7 +167,7 @@
                             <div class="border-t pt-4">
                                 <div class="flex justify-between font-semibold text-lg">
                                     <span>Total</span>
-                                    <span>Rp.<span id="total-selected">0</span></span>
+                                    <span>Rp<span id="total-selected">0</span></span>
                                 </div>
                             </div>
 

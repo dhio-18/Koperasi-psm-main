@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\ManageUserController;
 use App\Http\Controllers\product\CartController;
 use App\Http\Controllers\product\CheckoutController;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 /*********** Public Routes *************/
 Route::get('/', [HomeController::class, 'indexHome'])->name('home');
 Route::get('/about-us', [HomeController::class, 'indexAboutUs'])->name('about-us');
+Route::get('/ordering-guide', [InformationController::class, 'orderingGuide'])->name('ordering-guide');
 Route::get('/search', [HomeController::class, 'search'])->name('search');
 
 // Products
