@@ -56,7 +56,15 @@ class AdminController extends Controller
         $ordersQuery = Orders::with('returns')->whereNot('status', 'rejected');
 
         if ($statusFilter !== 'all') {
-            $ordersQuery->where('status', $statusFilter);
+            if ($statusFilter === 'return') {
+                // Filter untuk pesanan yang memiliki retur
+                $ordersQuery->whereHas('returns', function ($query) {
+                    $query->whereNotNull('id');
+                });
+            } else {
+                // Filter untuk status pesanan lainnya
+                $ordersQuery->where('status', $statusFilter);
+            }
         }
 
         $orders = $ordersQuery->latest()->paginate(10)->appends(['status' => $statusFilter]);

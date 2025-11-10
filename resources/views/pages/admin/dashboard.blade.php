@@ -126,7 +126,14 @@
                             <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
                             </svg>
-                            Dikirim
+                            Sedang Dikirim
+                        </a>
+                        <a href="{{ route('admin.dashboard', ['status' => 'return']) }}"
+                           class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 {{ $statusFilter === 'return' ? 'bg-pink-600 text-white shadow-md' : 'bg-pink-50 text-pink-700 hover:bg-pink-100 border border-pink-200' }}">
+                            <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/>
+                            </svg>
+                            Retur
                         </a>
                     </div>
                 </div>
