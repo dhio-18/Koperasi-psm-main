@@ -45,7 +45,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <input type="checkbox" id="show-password" class="mr-2" onclick="togglePassword()">
-                    <label for="show-password" class="text-sm text-gray-600">Show Password</label>
+                    <label for="show-password" class="text-sm text-gray-600">Tampilkan Password</label>
                 </div>
 
                 @if (Route::has('password.request'))
@@ -110,7 +110,7 @@
             </div>
         @endif
     </div>
-    
+
     <script>
         function togglePassword() {
             var passwordInput = document.getElementById('password');
