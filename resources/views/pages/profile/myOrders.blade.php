@@ -811,7 +811,7 @@
 
                     const now = new Date();
                     const orderDate = new Date(updatedAt);
-                    const cutoffTime = new Date(orderDate.getTime() + (48 * 60 * 60 * 1000)); // 48 hours in milliseconds
+                    const cutoffTime = new Date(orderDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
 
                     const diff = cutoffTime - now;
 

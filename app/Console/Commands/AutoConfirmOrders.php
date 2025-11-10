@@ -21,7 +21,7 @@ class AutoConfirmOrders extends Command
      *
      * @var string
      */
-    protected $description = 'Auto-confirm orders that have not been confirmed or returned within 48 hours';
+    protected $description = 'Auto-confirm orders that have not been confirmed or returned within 8 hours';
 
     /**
      * Execute the console command.
@@ -30,8 +30,8 @@ class AutoConfirmOrders extends Command
     {
         $this->info('Checking orders for auto-confirmation...');
 
-        // Ambil pesanan yang statusnya 'sending' dan sudah lebih dari 48 jam
-        $cutoffTime = Carbon::now()->subHours(48);
+        // Ambil pesanan yang statusnya 'sending' dan sudah lebih dari 8 jam
+        $cutoffTime = Carbon::now()->subHours(8);
 
         $orders = Orders::where('status', 'sending')
             ->where('updated_at', '<=', $cutoffTime)
@@ -56,7 +56,7 @@ class AutoConfirmOrders extends Command
                 'order_id' => $order->id,
                 'user_id' => $order->user_id,
                 'action' => 'completed',
-                'description' => 'Pesanan otomatis dikonfirmasi setelah 48 jam (sistem auto-confirm)',
+                'description' => 'Pesanan otomatis dikonfirmasi setelah 8 jam (sistem auto-confirm)',
             ]);
 
             $confirmedCount++;
