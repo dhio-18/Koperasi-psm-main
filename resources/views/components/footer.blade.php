@@ -25,6 +25,12 @@
         <h2 id="footer-links" class="text-gray-900 font-bold text-sm sm:text-base mb-3 sm:mb-4">Tautan Cepat</h2>
         <ul class="space-y-2 sm:space-y-3 text-xs sm:text-sm">
           <li>
+            <a href="{{ route('ordering-guide') }}"
+               class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
+              <span>Tata Cara Pemesanan</span>
+            </a>
+          </li>
+            <li>
             <a href="{{ route('home') }}"
                class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
               <span>Beranda</span>
@@ -40,12 +46,6 @@
             <a href="{{ route('products.index') }}"
                class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
               <span>Produk</span>
-            </a>
-          </li>
-          <li>
-            <a href="{{ route('ordering-guide') }}"
-               class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
-              <span>Tata Cara Pemesanan</span>
             </a>
           </li>
       </nav>
