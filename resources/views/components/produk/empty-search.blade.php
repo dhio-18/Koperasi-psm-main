@@ -42,11 +42,15 @@
         </div>
 
         {{-- Action Buttons --}}
-        <div class="space-y-3">
-            {{-- Primary Button --}}
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
             <a href="{{ route('products.index') }}"
-                class="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200">
+                class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200">
                 Lihat Semua Produk
+            </a>
+
+            <a href="{{ route('home') }}"
+                class="inline-flex items-center justify-center px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-green-500 hover:text-green-600 transition-all duration-200">
+                Kembali ke Beranda
             </a>
         </div>
     </div>
