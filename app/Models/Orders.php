@@ -21,6 +21,8 @@ class Orders extends Model
         'invoice_path',
         'notes',
         'user_id',
+        'confirmed_at',
+        'rejection_reason',
     ];
 
     public function user()
@@ -40,7 +42,7 @@ class Orders extends Model
 
     public function shipment()
     {
-        return $this->hasOne(Shipments::class, 'order_id');
+        return $this->hasOne(Shipments::class, 'order_id')->latestOfMany();
     }
 
     public function histories()

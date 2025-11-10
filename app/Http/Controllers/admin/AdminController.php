@@ -22,7 +22,7 @@ use Str;
 
 class AdminController extends Controller
 {
-    public function dashboard()
+    public function dashboard(Request $request)
     {
         $totalOrders = Orders::whereNot('status', 'rejected')->count();
         $ordersThisWeek = Orders::whereNot('status', 'rejected')
@@ -45,19 +45,21 @@ class AdminController extends Controller
             ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->count();
 
-        $orders = Orders::selectRaw('DATE(created_at) as date, COUNT(*) as total')
-            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->groupBy('date')
-            ->pluck('total', 'date');
+        // Barang Belum Terkirim (pending, waiting, verified, processing)
+        $totalPendingOrders = Orders::whereIn('status', ['pending', 'waiting', 'verified', 'processing'])
+            ->count();
 
-        $dailyOrders = [];
-        $startOfWeek = now()->startOfWeek();
-        for ($i = 0; $i < 7; $i++) {
-            $day = $startOfWeek->copy()->addDays($i)->toDateString();
-            $dailyOrders[] = $orders[$day] ?? 0;
+        // Filter status dari request
+        $statusFilter = $request->get('status', 'all');
+
+        // Query pesanan dengan filter dan load relasi returns
+        $ordersQuery = Orders::with('returns')->whereNot('status', 'rejected');
+
+        if ($statusFilter !== 'all') {
+            $ordersQuery->where('status', $statusFilter);
         }
 
-        $latestOrders = Orders::latest()->take(3)->get();
+        $orders = $ordersQuery->latest()->paginate(10)->appends(['status' => $statusFilter]);
 
         return view('pages.admin.dashboard', [
             'totalOrders' => $totalOrders,
@@ -67,8 +69,9 @@ class AdminController extends Controller
             'totalReturns' => $totalReturns,
             'totalCompletedOrders' => $totalCompletedOrders,
             'completedOrdersThisWeek' => $completedOrdersThisWeek,
-            'dailyOrders' => $dailyOrders,
-            'latestOrders' => $latestOrders,
+            'totalPendingOrders' => $totalPendingOrders,
+            'orders' => $orders,
+            'statusFilter' => $statusFilter,
         ]);
     }
 
@@ -193,11 +196,42 @@ class AdminController extends Controller
     /**
      * Kelola Produk
      */
-    public function product()
+    public function product(Request $request)
     {
         $categories = Categories::where('is_active', 1)->get();
-        $products = Products::with('category')->where('is_active', 1)->get();
-        return view('pages.admin.product', compact('categories', 'products'));
+
+        // Filter status produk
+        $statusFilter = $request->get('status', 'active');
+
+        $productsQuery = Products::with('category');
+
+        if ($statusFilter === 'active') {
+            $productsQuery->where('is_active', 1);
+        } elseif ($statusFilter === 'inactive') {
+            $productsQuery->where('is_active', 0);
+        }
+        // 'all' akan menampilkan semua produk
+
+        $products = $productsQuery->get();
+
+        return view('pages.admin.product', compact('categories', 'products', 'statusFilter'));
+    }
+
+    /**
+     * Toggle Status Produk (Aktif/Non-Aktif)
+     */
+    public function productToggleStatus($id)
+    {
+        try {
+            $product = Products::findOrFail($id);
+            $product->is_active = !$product->is_active;
+            $product->save();
+
+            $status = $product->is_active ? 'diaktifkan' : 'dinonaktifkan';
+            return redirect()->back()->with('success', "Produk berhasil {$status}.");
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Gagal mengubah status produk: ' . $e->getMessage());
+        }
     }
 
     public function productStore(Request $request)
@@ -290,15 +324,22 @@ class AdminController extends Controller
     /**
      * Kelola Pesanan
      */
-    public function order()
+    public function order(Request $request)
     {
         $type = DB::select("SHOW COLUMNS FROM orders WHERE Field = 'status'")[0]->Type;
         preg_match("/^enum\('(.*)'\)$/", $type, $matches);
         $enumValues = explode("','", $matches[1]);
 
-        $orders = Orders::with('user', 'orderItems.products', 'payment', 'returns','shipment', 'histories')
-            ->whereDoesntHave('returns')
-            ->get()
+        $statusFilter = $request->get('status', null);
+
+        $ordersQuery = Orders::with('user', 'orderItems.products', 'payment', 'returns','shipment', 'histories')
+            ->whereDoesntHave('returns');
+
+        if ($statusFilter) {
+            $ordersQuery->where('status', $statusFilter);
+        }
+
+        $orders = $ordersQuery->get()
             ->map(function ($order) {
                 $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
                 return $order;
@@ -310,20 +351,28 @@ class AdminController extends Controller
             'status' => $enumValues,
             'orders' => $orders,
             'paymentAccount' => $paymentAccount,
+            'statusFilter' => $statusFilter,
         ]);
     }
 
-    public function return () {
+    public function return (Request $request) {
         $type = DB::select("SHOW COLUMNS FROM orders WHERE Field = 'status'")[0]->Type;
         preg_match("/^enum\('(.*)'\)$/", $type, $matches);
         $enumValues = explode("','", $matches[1]);
 
-        $orders = Orders::with('user', 'orderItems.products', 'payment', 'returns', 'histories')
-            ->whereHas('returns')
-            ->get()
+        $statusFilter = $request->get('status', null);
+
+        $ordersQuery = Orders::with('user', 'orderItems.products', 'payment', 'returns', 'histories')
+            ->whereHas('returns');
+
+        if ($statusFilter) {
+            $ordersQuery->where('status', $statusFilter);
+        }
+
+        $orders = $ordersQuery->get()
             ->map(function ($order) {
-            $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
-            return $order;
+                $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
+                return $order;
             });
 
         $paymentAccount = PaymentAccounts::where('is_active', 1)->firstOrFail();
@@ -332,6 +381,7 @@ class AdminController extends Controller
             'status' => $enumValues,
             'orders' => $orders,
             'paymentAccount' => $paymentAccount,
+            'statusFilter' => $statusFilter,
         ]);
     }
 
@@ -431,20 +481,25 @@ class AdminController extends Controller
         }
     }
 
-    public function rejectPayment($id)
+    public function rejectPayment(Request $request, $id)
     {
+        $validated = $request->validate([
+            'rejection_reason' => 'required|string|max:500',
+        ]);
+
         try {
             DB::beginTransaction();
 
             $order = Orders::findOrFail($id);
             $order->status = 'rejected';
+            $order->rejection_reason = $validated['rejection_reason'];
             $order->save();
 
             OrderHistory::create([
                 'order_id' => $order->id,
                 'user_id' => Auth::id(),
                 'action' => 'rejected',
-                'description' => 'Pembayaran ditolak oleh' . Auth::user()->name,
+                'description' => 'Pembayaran ditolak oleh ' . Auth::user()->name . '. Alasan: ' . $validated['rejection_reason'],
             ]);
 
             DB::commit();

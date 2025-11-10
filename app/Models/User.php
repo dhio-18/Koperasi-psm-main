@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Orders;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\ResetPassword;
 
 class User extends Authenticatable
 {
@@ -129,4 +130,14 @@ class User extends Authenticatable
         return $this->hasMany(Carts::class);
     }
 
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPassword($token));
+    }
 }

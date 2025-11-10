@@ -32,6 +32,7 @@ Route::middleware(['guest'])->group(function () {
         ->name('password.request');
 
     Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
+        ->middleware('throttle:3,1') // Rate limiting: max 3 attempts per minute
         ->name('password.email');
 
     Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])

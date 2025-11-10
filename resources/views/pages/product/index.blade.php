@@ -70,45 +70,101 @@
         <!-- Daftar Produk -->
         @if (isset($q) && count($products) == 0)
             <x-produk.empty-search />
-        @else
-            <div
-                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-x-4 gap-y-8 mt-2">
-                @foreach ($products as $product)
-                    <x-produk.produk id="{{ $product['id'] }}" name="{{ $product['name'] }}"
-                        image="{{ $product['images'] }}" price="{{ $product['price'] }}" slug="{{ $product->slug }}" />
-                @endforeach
-            </div>
-        @endif
+        @elseif(isset($category) && count($products) == 0)
+            <!-- Empty Category State -->
+            <div class="flex items-center justify-center min-h-[80vh] px-4 text-center">
+                <div>
+                    <!-- Icon -->
+                    <div class="flex justify-center mb-6">
+                        <div
+                            class="w-24 h-24 bg-gradient-to-br from-orange-100 to-red-50 rounded-full flex items-center justify-center">
+                            <svg class="w-12 h-12 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                            </svg>
+                        </div>
+                    </div>
 
-        <!-- Pagination -->
-        @php($p = $products->appends(request()->except('page')))
-        <div class="my-6 flex justify-center">
-            <nav class="flex items-center space-x-2" aria-label="Pagination">
+                    <!-- Title -->
+                    <h3 class="text-3xl font-bold text-gray-900 mb-3">
+                        Kategori Kosong
+                    </h3>
+
+                    <!-- Description -->
+                    <p class="text-gray-600 mb-2">
+                        Kategori <span class="font-semibold text-gray-900">"{{ $category->name }}"</span> belum memiliki
+                        produk.
+                    </p>
+                    <p class="text-sm text-gray-500 mb-8 max-w-md mx-auto">
+                        Produk akan segera ditambahkan. Silakan coba kategori lain atau kembali nanti.
+                    </p>
+
+                    <!-- Actions -->
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <a href="{{ route('products.index') }}"
+                            class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all duration-200">
+                            Lihat Semua Produk
+                        </a>
+
+                        <a href="{{ route('home') }}"
+                            class="inline-flex items-center justify-center px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:border-green-500 hover:text-green-600 transition-all duration-200">
+                            Kembali ke Beranda
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+@else
+    <div
+        class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-5 gap-x-4 gap-y-8 mt-2">
+        @foreach ($products as $product)
+            <x-produk.produk id="{{ $product['id'] }}" name="{{ $product['name'] }}" image="{{ $product['images'] }}"
+                price="{{ $product['price'] }}" slug="{{ $product->slug }}" />
+        @endforeach
+    </div>
+    @endif
+
+    <!-- Pagination -->
+    @php($p = $products->appends(request()->except('page')))
+    <div class="my-6 flex justify-center">
+        <nav class="flex flex-col items-center gap-3" aria-label="Pagination">
+            <!-- Info Halaman (Di Atas) -->
+            <div class="text-xs sm:text-sm text-gray-600 text-center">
+                Halaman <span class="font-semibold text-gray-900">{{ $p->currentPage() }}</span>
+                dari <span class="font-semibold text-gray-900">{{ $p->lastPage() }}</span>
+            </div>
+
+            <!-- Tombol Navigasi (Di Bawah) -->
+            <div class="flex items-center gap-2">
+                <!-- Tombol Sebelumnya -->
                 @if ($p->onFirstPage())
-                    <span class="px-3 py-1 rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed">Prev</span>
+                    <span
+                        class="px-3 sm:px-4 py-2 text-xs sm:text-sm rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed">
+                        Sebelumnya
+                    </span>
                 @else
                     <a href="{{ $p->previousPageUrl() }}"
-                        class="px-3 py-1 rounded-lg bg-white border text-green-600 hover:bg-green-50">
-                        Prev
+                        class="px-3 sm:px-4 py-2 text-xs sm:text-sm rounded-lg bg-white border border-gray-300 text-green-600 hover:bg-green-50 hover:border-green-500 transition-all duration-200">
+                        Sebelumnya
                     </a>
                 @endif
 
-                @foreach ($p->getUrlRange(1, $p->lastPage()) as $page => $url)
-                    @if ($page == $p->currentPage())
-                        <span class="px-3 py-1 rounded-lg bg-green-600 text-white">{{ $page }}</span>
-                    @else
-                        <a href="{{ $url }}"
-                            class="px-3 py-1 rounded-lg bg-white border text-green-600 hover:bg-green-50">{{ $page }}</a>
-                    @endif
-                @endforeach
-
+                <!-- Tombol Selanjutnya -->
                 @if ($p->hasMorePages())
                     <a href="{{ $p->nextPageUrl() }}"
-                        class="px-3 py-1 rounded-lg bg-white border text-green-600 hover:bg-green-50">Next</a>
+                        class="px-3 sm:px-4 py-2 text-xs sm:text-sm rounded-lg bg-green-600 text-white hover:bg-green-700 transition-all duration-200">
+                        Selanjutnya
+                    </a>
                 @else
-                    <span class="px-3 py-1 rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed">Next</span>
+                    <span
+                        class="px-3 sm:px-4 py-2 text-xs sm:text-sm rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed">
+                        Selanjutnya
+                    </span>
                 @endif
-            </nav>
-        </div>
+            </div>
+        </nav>
+    </div>
     </div>
 @endsection

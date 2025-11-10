@@ -32,9 +32,6 @@
                 <input type="email" name="email" id="email" placeholder="Masukkan email" value="{{ old('email') }}"
                     class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200"
                     required>
-                @error('email')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
             </div>
 
             <!-- Password Field -->
@@ -42,9 +39,6 @@
                 <input type="password" name="password" id="password" placeholder="Password"
                     class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none transition-all duration-200"
                     required>
-                @error('password')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                @enderror
             </div>
 
             <!-- Show Password forgot password -->

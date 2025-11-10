@@ -81,7 +81,7 @@
                                     <!-- Name -->
                                     <div class="col-span-3 md:col-span-3">
                                         <h3 class="font-medium text-gray-900 leading-snug">
-                                            {{ $item->product->name }}
+                                            {!! html_entity_decode($item->product->name) !!}
                                         </h3>
                                         <!-- Harga (Mobile) -->
                                         <div class="mt-1 md:hidden text-sm text-gray-600">

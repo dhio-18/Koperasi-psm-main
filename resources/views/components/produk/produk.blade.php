@@ -14,7 +14,7 @@
     <a href="{{ route('products.show', ['slug' => $slug]) }}" class="block">
         <div class="aspect-[4/5] w-full overflow-hidden rounded-t-xl">
             <img src="{{ Str::startsWith($image, ['http://', 'https://']) ? $image : asset($image) }}"
-                alt="{{ $name }}" loading="lazy" class="h-full w-full object-cover">
+                alt="{!! html_entity_decode($name) !!}" loading="lazy" class="h-full w-full object-cover">
         </div>
     </a>
 
@@ -22,7 +22,7 @@
     <div class="flex-1 p-3 flex flex-col">
         <a href="{{ route('products.show', ['slug' => $slug]) }}" class="block">
             <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 min-h-[2.5rem]">
-                {{ $name }}
+                {!! html_entity_decode($name) !!}
             </h3>
         </a>
 
@@ -61,7 +61,7 @@
                 @csrf
                 <input type="hidden" name="product_id" value="{{ $id }}">
                 <input type="hidden" name="price" value="{{ $price }}">
-                <input type="hidden" name="qty" x-model="qty"> 
+                <input type="hidden" name="qty" x-model="qty">
                 <button type="submit" title="Beli sekarang" aria-label="Beli sekarang"
                     class="inline-flex items-center justify-center h-9 w-9 md:h-8 md:w-8 rounded-md
                                bg-gray-200 hover:bg-gray-300 text-gray-800 transition

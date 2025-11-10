@@ -172,22 +172,28 @@
 
         </div>
 
-        <div x-show="showModalSend" class="fixed inset-0 z-50 overflow-y-auto" x-cloak>
+        <div x-show="showModalSend" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
+            style="backdrop-filter: blur(4px);">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div x-show="showModalSend" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
-                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                    class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" @click="showModalSend = false"></div>
+                <div x-show="showModalSend"
+                    x-transition:enter="transition ease-out duration-400"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 bg-gray-900 bg-opacity-60" @click="showModalSend = false"></div>
 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                <div x-show="showModalSend" x-transition:enter="ease-out duration-300"
-                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                <div x-show="showModalSend"
+                    x-transition:enter="transition ease-out duration-400 delay-75"
+                    x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                    x-transition:leave="ease-in duration-200"
+                    x-transition:leave="transition ease-in duration-300"
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg">
+                    x-transition:leave-end="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
+                    class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transform bg-white shadow-2xl rounded-2xl">
                     <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-green-100 rounded-full">
                         <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
@@ -243,20 +249,26 @@
         </div>
 
         <!-- Detail Modal -->
-        <div x-show="showDetailModal" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0" @keydown.escape.window="closeDetailModal()" @click.self="closeDetailModal()"
-            class="fixed inset-0 bg-black/50 z-[100] backdrop-blur-sm flex items-center justify-center p-4"
-            style="display: none;">
+        <div x-show="showDetailModal"
+            x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @keydown.escape.window="closeDetailModal()"
+            @click.self="closeDetailModal()"
+            class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4"
+            style="display: none; backdrop-filter: blur(6px);">
             <!-- Modal Box -->
-            <div x-show="showDetailModal" x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-90"
-                x-transition:enter-end="opacity-100 transform scale-100"
-                x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 transform scale-100"
-                x-transition:leave-end="opacity-0 transform scale-90"
-                class="bg-white rounded-xl max-w-5xl w-full shadow-2xl overflow-hidden z-[110]">
+            <div x-show="showDetailModal"
+                x-transition:enter="transition ease-out duration-400 delay-75"
+                x-transition:enter-start="opacity-0 scale-90 translate-y-8"
+                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                x-transition:leave-end="opacity-0 scale-90 translate-y-8"
+                class="bg-white rounded-2xl max-w-5xl w-full shadow-2xl overflow-hidden z-[110]">
 
                 <!-- Header -->
                 <div class="bg-green-600 text-white p-6 flex justify-between items-center rounded-t-xl">
@@ -596,12 +608,17 @@
 
 
         <!-- Full Image Modal -->
-        <div x-show="showDetailImageModal" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0" @keydown.escape="showDetailImageModal = false"
-            @click.self="showDetailImageModal = false" class="fixed inset-0 bg-black bg-opacity-75 z-[120]"
-            style="display: none;">
+        <div x-show="showDetailImageModal"
+            x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @keydown.escape="showDetailImageModal = false"
+            @click.self="showDetailImageModal = false"
+            class="fixed inset-0 bg-black bg-opacity-90 z-[120]"
+            style="display: none; backdrop-filter: blur(8px);">
 
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="relative">
@@ -618,24 +635,31 @@
             </div>
         </div>
 
-        <div x-show="showTrackingModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak>
+        <div x-show="showTrackingModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
+            style="backdrop-filter: blur(4px);">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
 
                 <!-- Overlay -->
-                <div x-show="showTrackingModal" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
-                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-                    class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" @click="showTrackingModal = false"></div>
+                <div x-show="showTrackingModal"
+                    x-transition:enter="transition ease-out duration-400"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 bg-gray-900 bg-opacity-60" @click="showTrackingModal = false"></div>
 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                 <!-- Modal -->
-                <div x-show="showTrackingModal" x-transition:enter="ease-out duration-300"
-                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200"
+                <div x-show="showTrackingModal"
+                    x-transition:enter="transition ease-out duration-400 delay-75"
+                    x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="transition ease-in duration-300"
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg">
+                    x-transition:leave-end="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
+                    class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transform bg-white shadow-2xl rounded-2xl">
 
                     <!-- Header -->
                     <div class="flex justify-between items-center mb-4">
@@ -679,15 +703,27 @@
             </div>
         </div>
 
-        <div x-show="showReturnModal" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0" @keydown.escape.window="closeReturnModal()" @click.self="closeReturnModal()"
-            class="fixed inset-0 bg-black/50 z-[100] backdrop-blur-sm flex items-center justify-center p-4"
-            style="display: none;">
+        <div x-show="showReturnModal"
+            x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @keydown.escape.window="closeReturnModal()"
+            @click.self="closeReturnModal()"
+            class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4"
+            style="display: none; backdrop-filter: blur(6px);">
 
             <!-- Modal Box -->
-            <div class="bg-white rounded-xl max-w-3xl w-full shadow-2xl overflow-hidden z-[110]">
+            <div x-show="showReturnModal"
+                x-transition:enter="transition ease-out duration-400 delay-75"
+                x-transition:enter-start="opacity-0 scale-90 translate-y-8"
+                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                x-transition:leave-end="opacity-0 scale-90 translate-y-8"
+                class="bg-white rounded-2xl max-w-3xl w-full shadow-2xl overflow-hidden z-[110]">
                 <!-- Header -->
                 <div class="bg-green-600 text-white p-4 flex justify-between items-center">
                     <h2 class="text-xl font-semibold">Detail Pengembalian</h2>
@@ -835,9 +871,23 @@
                 showTrackingModal: false,
 
                 init() {
+                    // Baca parameter status dari URL
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const statusParam = urlParams.get('status');
+
+                    // Set statusFilter dari parameter URL jika ada
+                    if (statusParam) {
+                        this.statusFilter = statusParam;
+                    }
+
                     const sorted = this.sortOrders(this.orders);
 
-                    this.filteredOrders = sorted.filter(order => order.status == this.statusFilter);
+                    this.filteredOrders = sorted.filter(order => {
+                        if (this.statusFilter === '' || !this.statusFilter) {
+                            return true; // Tampilkan semua jika filter kosong
+                        }
+                        return order.status == this.statusFilter;
+                    });
                 },
 
                 get paginatedOrders() {
@@ -943,33 +993,56 @@
 
                 getStatusClass(status) {
                     switch (status) {
+                        case 'pending':
+                            return 'bg-yellow-100 text-yellow-800 border border-yellow-300';
                         case 'waiting':
-                            return 'bg-yellow-100 text-yellow-800';
-                        case 'sending':
-                            return 'bg-green-100 text-green-800';
-                        case 'completed':
-                            return 'bg-green-100 text-green-800';
-                        case 'rejected':
-                            return 'bg-red-100 text-red-800';
+                            return 'bg-orange-100 text-orange-800 border border-orange-300';
                         case 'verified':
-                            return 'bg-blue-100 text-blue-400';
+                            return 'bg-cyan-100 text-cyan-800 border border-cyan-300';
+                        case 'processing':
+                            return 'bg-blue-100 text-blue-800 border border-blue-300';
+                        case 'sending':
+                            return 'bg-indigo-100 text-indigo-800 border border-indigo-300';
+                        case 'shipped':
+                            return 'bg-purple-100 text-purple-800 border border-purple-300';
+                        case 'completed':
+                            return 'bg-green-100 text-green-800 border border-green-300';
+                        case 'delivered':
+                            return 'bg-emerald-100 text-emerald-800 border border-emerald-300';
+                        case 'cancelled':
+                            return 'bg-red-100 text-red-800 border border-red-300';
+                        case 'rejected':
+                            return 'bg-red-100 text-red-800 border border-red-300';
+                        case 'returned':
+                            return 'bg-pink-100 text-pink-800 border border-pink-300';
                         default:
-                            return 'bg-gray-100 text-gray-800';
+                            return 'bg-gray-100 text-gray-800 border border-gray-300';
                     }
                 },
                 getStatusName(status) {
                     switch (status) {
-
+                        case 'pending':
+                            return 'Menunggu';
+                        case 'waiting':
+                            return 'Menunggu Pembayaran';
+                        case 'verified':
+                            return 'Terverifikasi';
+                        case 'processing':
+                            return 'Diproses';
                         case 'sending':
+                            return 'Sedang Dikirim';
+                        case 'shipped':
                             return 'Dikirim';
                         case 'completed':
                             return 'Selesai';
-                        case 'rejected':
+                        case 'delivered':
+                            return 'Diterima';
+                        case 'cancelled':
                             return 'Dibatalkan';
+                        case 'rejected':
+                            return 'Ditolak';
                         case 'returned':
                             return 'Dikembalikan';
-                        case 'verified':
-                            return 'Terverifikasi';
                         default:
                             return status;
                     }
@@ -977,8 +1050,6 @@
 
                 openReturnModal(curOrder) {
                     this.orderData = curOrder;
-
-                    console.log(this.orderData);
                     this.showReturnModal = true;
                     this.showReturnImageModal = false;
                     document.body.classList.add('overflow-hidden');

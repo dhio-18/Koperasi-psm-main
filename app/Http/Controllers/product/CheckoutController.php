@@ -87,14 +87,23 @@ class CheckoutController extends Controller
     public function checkoutProcess(Request $request)
     {
         $request->validate([
-            'sender_name'   => 'required',
-            'address'       => 'required|integer|exists:user_adresses,id', // sesuaikan jika nama tabel berbeda
+            'sender_name'   => 'required|string|max:255',
+            'address'       => 'required|integer|exists:user_adresses,id',
             'order_items'   => 'required|json',
-            'total_amount'  => 'required',
-            'payment_proof' => 'image|max:2048',
-            // Tambahan: akun pembayaran harus dipilih
-            'payment_account_id' => 'required|integer|exists:payment_accounts,id',
+            'total_amount'  => 'required|numeric|min:0',
+            'payment_proof' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+            // Security Fix: Validasi akun pembayaran harus aktif
+            'payment_account_id' => 'required|integer|exists:payment_accounts,id,is_active,1',
         ]);
+
+        // Additional validation: Ensure payment account is active
+        $paymentAccount = PaymentAccounts::where('id', $request->input('payment_account_id'))
+            ->where('is_active', true)
+            ->first();
+
+        if (!$paymentAccount) {
+            return redirect()->back()->with('error', 'Akun pembayaran yang dipilih tidak tersedia.');
+        }
 
         try {
             // Ambil item dari form (skema kamu saat ini)

@@ -2,17 +2,25 @@
 
 <!-- Modal Overlay -->
 <div x-data="data()">
-    <div x-show="{{ $show }}" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
-        x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-        @click.self="{{ $show }} = false" style="display: none;">
+    <div x-show="{{ $show }}"
+        x-transition:enter="transition ease-out duration-400"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-300"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
+        style="display: none; backdrop-filter: blur(4px);"
+        @click.self="{{ $show }} = false">
         <!-- Modal Content -->
-        <div x-show="{{ $show }}" x-transition:enter="transition ease-out duration-300 transform"
-            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-            x-transition:leave="transition ease-in duration-200 transform"
-            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-            class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4" @click.stop>
+        <div x-show="{{ $show }}"
+            x-transition:enter="transition ease-out duration-400 delay-75"
+            x-transition:enter-start="opacity-0 scale-90 translate-y-8"
+            x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+            x-transition:leave-end="opacity-0 scale-90 translate-y-8"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4" @click.stop>
             <!-- Modal Header -->
             <div class="flex justify-between items-center p-6 border-b border-gray-200">
                 <h2 class="text-lg font-semibold text-gray-900">Tambah Kategori</h2>
@@ -155,8 +163,6 @@
                     if (!this.$refs.imageInput.files.length && !this.imagePreview) {
                         event.preventDefault();
                         this.iconError = 'Icon kategori harus dipilih';
-
-                        console.log('Validation failed: Icon is required');
                         return false;
                     }
 

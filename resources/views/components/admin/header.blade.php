@@ -76,7 +76,7 @@
                 </a>
                 <a href="{{ route('admin.carousel.index') }}"
                     class="px-3 py-2 rounded-lg transition-colors hover:bg-green-700/60 {{ request()->routeIs('admin.carousel.index') ? 'bg-green-700/80' : '' }}">
-                    Carousel
+                    Gambar
                 </a>
                 <a href="{{ route('admin.category') }}"
                     class="px-3 py-2 rounded-lg transition-colors hover:bg-green-700/60 {{ request()->routeIs('admin.category') ? 'bg-green-700/80' : '' }}">
@@ -96,13 +96,17 @@
                 </a>
 
                 @if (Auth::user()->role === 'super_admin')
+                    <a href="{{ route('superadmin.financial-report') }}"
+                        class="px-3 py-2 rounded-lg transition-colors hover:bg-green-700/60 {{ request()->routeIs('superadmin.financial-report') ? 'bg-green-700/80' : '' }}">
+                        Laporan Keuangan
+                    </a>
                     <a href="{{ route('superadmin.manage-users.index') }}"
                         class="px-3 py-2 rounded-lg transition-colors hover:bg-green-700/60 {{ request()->routeIs('superadmin.manage-users.index') ? 'bg-green-700/80' : '' }}">
                         Kelola Admin
                     </a>
                     <a href="{{ route('superadmin.payment-accounts.index') }}"
                         class="px-3 py-2 rounded-lg transition-colors hover:bg-green-700/60 {{ request()->routeIs('superadmin.payment-accounts.index') ? 'bg-green-700/80' : '' }}">
-                        Akun Bank
+                        Kelola Akun Bank
                     </a>
                 @endif
             </div>
@@ -129,7 +133,7 @@
             </a>
             <a href="{{ route('admin.carousel.index') }}"
                 class="block px-3 py-2 rounded-lg text-sm sm:text-base hover:bg-green-700/60 transition-colors {{ request()->routeIs('admin.carousel.index') ? 'bg-green-700/80' : '' }}">
-                Carousel
+                Gambar
             </a>
             <a href="{{ route('admin.category') }}"
                 class="block px-3 py-2 rounded-lg text-sm sm:text-base hover:bg-green-700/60 transition-colors {{ request()->routeIs('admin.category') ? 'bg-green-700/80' : '' }}">
@@ -149,6 +153,10 @@
             </a>
 
             @if (Auth::user()->role === 'super_admin')
+                <a href="{{ route('superadmin.financial-report') }}"
+                    class="block px-3 py-2 rounded-lg text-sm sm:text-base hover:bg-green-700/60 transition-colors {{ request()->routeIs('superadmin.financial-report') ? 'bg-green-700/80' : '' }}">
+                    Laporan Keuangan
+                </a>
                 <a href="{{ route('superadmin.manage-users.index') }}"
                     class="block px-3 py-2 rounded-lg text-sm sm:text-base hover:bg-green-700/60 transition-colors {{ request()->routeIs('superadmin.manage-users.index') ? 'bg-green-700/80' : '' }}">
                     Kelola Admin

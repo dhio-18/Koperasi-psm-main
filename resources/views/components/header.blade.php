@@ -70,12 +70,14 @@
                     <button @click="open = !open"
                         class="inline-flex items-center px-4 py-2 text-gray-700 hover:text-green-600 font-medium transition-colors duration-200">
                         <div
-                            class="me-1 w-8 h-8 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative">
+                            class="me-1 w-8 h-8 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative flex-shrink-0">
                             <img src="{{ asset(Auth::user()->profile_photo_path) }}" alt="Profile Picture"
                                 class="w-full h-full object-cover">
                         </div>
-                        {{ Auth::user()->name }}
-                        <svg class="ml-1 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <span class="hidden sm:inline truncate max-w-[100px] md:max-w-[150px]">
+                            {{ explode(' ', Auth::user()->name)[0] }}
+                        </span>
+                        <svg class="ml-1 w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                 clip-rule="evenodd"></path>

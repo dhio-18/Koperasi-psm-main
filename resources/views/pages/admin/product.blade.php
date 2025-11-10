@@ -15,7 +15,7 @@
         <x-admin.error-validation />
 
         <!-- Search and Filters -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_auto_auto] gap-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_auto_auto_auto_auto] gap-4 mb-6">
 
             <!-- Search Input -->
             <div class="flex-1">
@@ -29,6 +29,25 @@
                     <input type="text" x-model="searchQuery" @input="filterProducts" placeholder="Cari produk..."
                         class="shadow-lg w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg
                  focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-colors" />
+                </div>
+            </div>
+
+            <!-- Status Filter -->
+            <div class="relative w-full md:w-auto">
+                <select id="statusFilter"
+                    onchange="window.location.href='{{ route('admin.products') }}?status=' + this.value"
+                    class="shadow-lg appearance-none bg-white border border-gray-300 rounded-lg
+               px-4 py-3 pr-10 focus:ring-2 focus:ring-green-500 focus:border-green-500
+               outline-none transition-colors min-w-48 w-full md:w-auto">
+                    <option value="active" {{ request('status', 'active') === 'active' ? 'selected' : '' }}>Produk Aktif</option>
+                    <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Produk Non-Aktif</option>
+                    <option value="all" {{ request('status') === 'all' ? 'selected' : '' }}>Semua Produk</option>
+                </select>
+                <!-- caret -->
+                <div class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2">
+                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
                 </div>
             </div>
 
@@ -93,7 +112,8 @@
                             <th class="px-6 py-4 text-left text-sm font-semibold">Nama Produk</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Harga</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Stok</th>
-                            <th class="px-6 py-4 text-left text-sm font-semibold"></th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Status</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
@@ -120,13 +140,48 @@
                                     <div class="text-sm text-gray-900" x-text="product.stock"></div>
                                 </td>
 
+                                <!-- Status Badge -->
+                                <td class="px-6 py-4">
+                                    <span x-show="product.is_active"
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                        Aktif
+                                    </span>
+                                    <span x-show="!product.is_active"
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                        Non-Aktif
+                                    </span>
+                                </td>
+
                                 <!-- Actions -->
                                 <td class="px-6 py-4">
                                     <div class="flex items-center space-x-3">
+                                        <!-- Toggle Status Button (Eye Icon) -->
+                                        <form :action="baseUrl + 'admin/product/' + product.id + '/toggle-status'" method="POST">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                :title="product.is_active ? 'Nonaktifkan Produk' : 'Aktifkan Produk'"
+                                                class="transition-colors p-1 rounded"
+                                                :class="product.is_active ? 'text-green-600 hover:text-green-400' : 'text-gray-400 hover:text-gray-600'">
+                                                <!-- Eye Icon (Active) -->
+                                                <svg x-show="product.is_active" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                                <!-- Eye Off Icon (Inactive) -->
+                                                <svg x-show="!product.is_active" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                                </svg>
+                                            </button>
+                                        </form>
+
                                         <!-- Edit Button -->
                                         <button type="button" @click="openEditModal(product)"
-                                            class="text-green-600 hover:text-green-400 transition-colors p-1 rounded"
-                                            title="Edit Kategori">
+                                            class="text-blue-600 hover:text-blue-400 transition-colors p-1 rounded"
+                                            title="Edit Produk">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
@@ -141,7 +196,7 @@
                                             <button type="submit"
                                                 onclick="return confirm('Yakin ingin menghapus produk ini?');"
                                                 class="text-red-600 hover:text-red-400 transition-colors p-1 rounded"
-                                                title="Hapus Kategori">
+                                                title="Hapus Produk">
                                                 <svg class="w-5 h-5" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -167,18 +222,25 @@
         <x-admin.modal.product.product-modal show="showAddModal" categories="categories" />
 
         <!-- Edit Modal -->
-        <div x-show="showEditModal" x-transition:enter="transition ease-out duration-300"
-            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100"
+        <div x-show="showEditModal"
+            x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-            @click.self="showEditModal = false;" style="display: none;">
+            class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
+            style="display: none; backdrop-filter: blur(4px);"
+            @click.self="showEditModal = false;">
             <!-- Modal Content -->
-            <div x-show="showEditModal" x-transition:enter="transition ease-out duration-300 transform"
-                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
-                x-transition:leave="transition ease-in duration-200 transform"
-                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                class="bg-white rounded-lg shadow-xl w-full max-w-lg" @click.stop>
+            <div x-show="showEditModal"
+                x-transition:enter="transition ease-out duration-400 delay-75"
+                x-transition:enter-start="opacity-0 scale-90 translate-y-8"
+                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                x-transition:leave-end="opacity-0 scale-90 translate-y-8"
+                class="bg-white rounded-2xl shadow-2xl w-full max-w-lg" @click.stop>
                 <!-- Modal Header -->
                 <div
                     class="flex justify-between items-center p-6 border-b border-gray-200 sticky top-0 bg-white rounded-t-lg">
@@ -250,13 +312,12 @@
                             <label for="harga" class="block text-sm font-medium text-gray-700 mb-2">
                                 Harga
                             </label>
-                            <div class="">
-                                <span class="absolute left-3 top-2 text-gray-500">Rp</span>
+                            <div class="relative">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">Rp</span>
                                 <input x-model="editData.price" type="number" id="harga" name="price"
                                     placeholder="0" step="any" min="0" value="{{ old('price') }}"
-                                    class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors duration-200"
+                                    class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors duration-200"
                                     required>
-
                             </div>
 
                             @error('price')
@@ -372,6 +433,7 @@
                 // data
                 categories: @json($categories),
                 products: @json($products),
+                statusFilter: '{{ $statusFilter ?? 'active' }}',
 
                 // filters
                 searchQuery: '',
@@ -403,6 +465,17 @@
                 // pagination
                 get init() {
                     this.filteredProducts = this.sortProducts(this.products);
+
+                    // Restore pagination state from localStorage
+                    const savedPage = localStorage.getItem('product_current_page');
+                    if (savedPage && this.statusFilter === localStorage.getItem('product_status_filter')) {
+                        this.currentPage = parseInt(savedPage);
+                    } else {
+                        this.currentPage = 1;
+                    }
+
+                    // Save current status filter
+                    localStorage.setItem('product_status_filter', this.statusFilter);
 
                     // Check if there are validation errors and open the appropriate modal
                     if (Object.keys(this.validationErrors).length > 0) {
@@ -486,18 +559,21 @@
                 goToPage(page) {
                     if (page >= 1 && page <= this.totalPages) {
                         this.currentPage = page;
+                        localStorage.setItem('product_current_page', page);
                     }
                 },
 
                 previousPage() {
                     if (this.currentPage > 1) {
                         this.currentPage--;
+                        localStorage.setItem('product_current_page', this.currentPage);
                     }
                 },
 
                 nextPage() {
                     if (this.currentPage < this.totalPages) {
                         this.currentPage++;
+                        localStorage.setItem('product_current_page', this.currentPage);
                     }
                 },
 

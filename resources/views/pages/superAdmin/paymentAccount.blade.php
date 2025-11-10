@@ -81,9 +81,23 @@
 
             <!-- Add/Edit Modal -->
             <!-- ✅ tambahan: modal dibuat penuh di mobile agar mudah digunakan -->
-            <div x-show="showModal" x-transition class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-0"
-                style="display:none;">
-                <div x-transition class="bg-white rounded-lg shadow-xl w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full sm:h-auto overflow-y-auto">
+            <div x-show="showModal"
+                x-transition:enter="transition ease-out duration-400"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-2 sm:p-0"
+                style="display:none; backdrop-filter: blur(4px);">
+                <div x-show="showModal"
+                    x-transition:enter="transition ease-out duration-400 delay-75"
+                    x-transition:enter-start="opacity-0 scale-90 translate-y-8"
+                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 scale-90 translate-y-8"
+                    class="bg-white rounded-2xl shadow-2xl w-full max-w-md sm:max-w-lg md:max-w-xl mx-auto h-full sm:h-auto overflow-y-auto">
                     <div class="bg-green-600 text-white px-6 py-4 rounded-t-lg">
                         <h3 class="text-base sm:text-lg font-semibold" x-text="modalTitle"></h3>
                     </div>
@@ -146,9 +160,23 @@
             </div>
 
             <!-- Delete Modal -->
-            <div x-show="showDeleteModal" x-transition
-                class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-2 sm:p-0" style="display:none;">
-                <div x-transition class="bg-white rounded-lg shadow-xl w-full max-w-md mx-auto">
+            <div x-show="showDeleteModal"
+                x-transition:enter="transition ease-out duration-400"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-2 sm:p-0"
+                style="display:none; backdrop-filter: blur(4px);">
+                <div x-show="showDeleteModal"
+                    x-transition:enter="transition ease-out duration-400 delay-75"
+                    x-transition:enter-start="opacity-0 scale-90 translate-y-8"
+                    x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                    x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                    x-transition:leave-end="opacity-0 scale-90 translate-y-8"
+                    class="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-auto">
                     <div class="bg-red-600 text-white px-6 py-4 rounded-t-lg">
                         <h3 class="text-lg font-semibold">Konfirmasi Hapus</h3>
                     </div>

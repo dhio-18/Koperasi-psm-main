@@ -51,7 +51,7 @@
             <div class="space-y-6">
                 <div>
                     <h1 class="text-2xl lg:text-3xl font-bold text-gray-900 leading-tight mb-4">
-                        {{ $product->name }}
+                        {!! html_entity_decode($product->name) !!}
                     </h1>
 
                     <div class="mb-6">

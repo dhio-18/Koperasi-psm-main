@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Models\User;
 
 class LoginRequest extends FormRequest
 {
@@ -55,11 +56,21 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
+        // Check if email exists in database
+        $userExists = User::where('email', $this->string('email'))->exists();
+
         if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
-            RateLimiter::hit($this->throttleKey());
+            RateLimiter::hit($this->throttleKey(), 900); // 15 minutes decay time
+
+            // All errors shown as the same message (login failed)
+            if (!$userExists) {
+                throw ValidationException::withMessages([
+                    'email' => 'Email atau password Anda salah. Silakan coba lagi.',
+                ]);
+            }
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Email atau password Anda salah. Silakan coba lagi.',
             ]);
         }
 
@@ -80,12 +91,10 @@ class LoginRequest extends FormRequest
         event(new Lockout($this));
 
         $seconds = RateLimiter::availableIn($this->throttleKey());
+        $minutes = ceil($seconds / 60);
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => "Akun Anda terkunci karena terlalu banyak percobaan login gagal. Silakan coba lagi dalam $minutes menit.",
         ]);
     }
 

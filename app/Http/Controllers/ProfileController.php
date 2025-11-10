@@ -259,11 +259,33 @@ class ProfileController extends Controller
     {
         $orders = Orders::with([
             'orderItems.products',
-            'returns', // tambahkan ini
+            'returns',  // Load semua returns termasuk yang ditolak
             'shipment',
             'histories',
-        ])->where('user_id', Auth::id())->get()->map(function ($order) {
+        ])
+        ->where('user_id', Auth::id())
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->map(function ($order) {
             $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
+
+            // Pastikan returns di-load dan ter-serialize dengan benar
+            if ($order->returns) {
+                $order->returns = $order->returns->map(function ($return) {
+                    return [
+                        'id' => $return->id,
+                        'reason' => $return->reason,
+                        'comments' => $return->comments,
+                        'images' => $return->images,
+                        'status' => $return->status,
+                        'admin_notes' => $return->admin_notes, // Pastikan ini ter-include
+                        'processed_by' => $return->processed_by,
+                        'processed_at' => $return->processed_at,
+                        'created_at' => $return->created_at,
+                    ];
+                })->toArray();
+            }
+
             return $order;
         });
 

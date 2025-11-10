@@ -37,7 +37,7 @@
                             d="m1 9 4-4-4-4" />
                     </svg>
                     <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                        {{ Str::limit($product->name, 30) }}
+                        {!! html_entity_decode(Str::limit($product->name, 30)) !!}
                     </span>
                 </div>
             </li>

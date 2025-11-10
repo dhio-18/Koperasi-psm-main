@@ -19,53 +19,84 @@
 
                 <!-- Search and Filter Section -->
                 <div class="mb-6 space-y-4">
-                    <!-- Search Bar -->
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                            </svg>
+                    <!-- Search Bar and Sort Section -->
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <!-- Search Bar -->
+                        <div class="relative flex-1">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                            <input type="text" x-model="searchQuery" @input="filterOrders()"
+                                placeholder="Cari pesanan berdasarkan nomor order atau nama produk..."
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors">
                         </div>
-                        <input type="text" x-model="searchQuery" @input="filterOrders()"
-                            placeholder="Cari pesanan berdasarkan nomor order atau nama produk..."
-                            class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors">
+
+                        <!-- Sort Dropdown -->
+                        <div class="relative sm:w-64">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"></path>
+                                </svg>
+                            </div>
+                            <select x-model="sortOrder" @change="filterOrders()"
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors appearance-none bg-white cursor-pointer">
+                                <option value="newest">Terbaru</option>
+                                <option value="oldest">Terlama</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Status Filter Tabs -->
                     <div class="flex flex-wrap gap-2">
-                        <button @click="selectedStatus = 'all'; filterOrders()" :class="selectedStatus === 'all' ? 'bg-green-600 text-white' :
-                                    'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        <button @click="selectedStatus = 'all'; filterOrders()"
+                            :class="selectedStatus === 'all' ? 'bg-green-600 text-white' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-4 py-2 rounded-lg font-medium transition-colors">
                             Semua (<span x-text="orders.length"></span>)
                         </button>
-                        <button @click="selectedStatus = 'waiting'; filterOrders()" :class="selectedStatus === 'waiting' ? 'bg-yellow-600 text-white' :
-                                    'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        <button @click="selectedStatus = 'waiting'; filterOrders()"
+                            :class="selectedStatus === 'waiting' ? 'bg-yellow-600 text-white' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-4 py-2 rounded-lg font-medium transition-colors">
                             Menunggu (<span x-text="getOrdersByStatus('waiting').length"></span>)
                         </button>
-                        <button @click="selectedStatus = 'verified'; filterOrders()" :class="selectedStatus === 'verified' ? 'bg-blue-400 text-white' :
-                                                            'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        <button @click="selectedStatus = 'verified'; filterOrders()"
+                            :class="selectedStatus === 'verified' ? 'bg-blue-400 text-white' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-4 py-2 rounded-lg font-medium transition-colors">
                             Terverifikasi (<span x-text="getOrdersByStatus('verified').length"></span>)
                         </button>
-                        <button @click="selectedStatus = 'sending'; filterOrders()" :class="selectedStatus === 'sending' ? 'bg-blue-600 text-white' :
-                                    'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        <button @click="selectedStatus = 'sending'; filterOrders()"
+                            :class="selectedStatus === 'sending' ? 'bg-blue-600 text-white' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-4 py-2 rounded-lg font-medium transition-colors">
                             Dikirim (<span x-text="getOrdersByStatus('sending').length"></span>)
                         </button>
-                        <button @click="selectedStatus = 'completed'; filterOrders()" :class="selectedStatus === 'completed' ? 'bg-green-600 text-white' :
-                                    'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        <button @click="selectedStatus = 'completed'; filterOrders()"
+                            :class="selectedStatus === 'completed' ? 'bg-green-600 text-white' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-4 py-2 rounded-lg font-medium transition-colors">
                             Selesai (<span x-text="getOrdersByStatus('completed').length"></span>)
                         </button>
-                        <button @click="selectedStatus = 'rejected'; filterOrders()" :class="selectedStatus === 'rejected' ? 'bg-red-600 text-white' :
-                                    'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        <button @click="selectedStatus = 'rejected'; filterOrders()"
+                            :class="selectedStatus === 'rejected' ? 'bg-red-600 text-white' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-4 py-2 rounded-lg font-medium transition-colors">
                             Ditolak (<span x-text="getOrdersByStatus('rejected').length"></span>)
                         </button>
-                        <button @click="selectedStatus = 'returned'; filterOrders()" :class="selectedStatus === 'returned' ? 'bg-orange-600 text-white' :
-                                    'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+                        <button @click="selectedStatus = 'returned'; filterOrders()"
+                            :class="selectedStatus === 'returned' ? 'bg-orange-600 text-white' :
+                                'bg-gray-100 text-gray-600 hover:bg-gray-200'"
                             class="px-4 py-2 rounded-lg font-medium transition-colors">
                             Dikembalikan (<span x-text="getOrdersByStatus('returned').length"></span>)
                         </button>
@@ -83,26 +114,30 @@
                                     <div class="flex flex-col sm:flex-row sm:items-center gap-3">
                                         <div class="flex items-center gap-3">
                                             <h3 class="font-semibold text-gray-900" x-text="order.order_number"></h3>
-                                            <span :class="{
-                                                        'bg-yellow-100 text-yellow-800 border-yellow-200': order
-                                                            .status === 'waiting',
-                                                        'bg-blue-100 text-blue-800 border-blue-200': order
-                                                            .status === 'sending',
-                                                        'bg-green-100 text-green-800 border-green-200': order
-                                                            .status === 'completed',
-                                                        'bg-red-100 text-red-800 border-red-200': order
-                                                            .status === 'rejected',
-                                                        'bg-orange-100 text-orange-800 border-orange-200': order
-                                                            .status === 'returned',
-                                                        'bg-blue-100 text-blue-400 border-blue-200': order
-                                                            .status === 'verified',
-                                                    }" class="px-2 py-1 text-xs font-medium rounded-full border"
+                                            <span
+                                                :class="{
+                                                    'bg-yellow-100 text-yellow-800 border-yellow-300': order.status === 'pending',
+                                                    'bg-orange-100 text-orange-800 border-orange-300': order.status === 'waiting',
+                                                    'bg-cyan-100 text-cyan-800 border-cyan-300': order.status === 'verified',
+                                                    'bg-blue-100 text-blue-800 border-blue-300': order.status === 'processing',
+                                                    'bg-indigo-100 text-indigo-800 border-indigo-300': order.status === 'sending',
+                                                    'bg-purple-100 text-purple-800 border-purple-300': order.status === 'shipped',
+                                                    'bg-green-100 text-green-800 border-green-300': order.status === 'completed',
+                                                    'bg-emerald-100 text-emerald-800 border-emerald-300': order.status === 'delivered',
+                                                    'bg-red-100 text-red-800 border-red-300': order.status === 'cancelled' || order.status === 'rejected',
+                                                    'bg-pink-100 text-pink-800 border-pink-300': order.status === 'returned',
+                                                }"
+                                                class="px-2 py-1 text-xs font-medium rounded-full border"
                                                 x-text="getStatusText(order.status)"></span>
                                         </div>
                                         <div class="text-sm text-gray-500">
                                             <span x-text="order.date"></span>
                                         </div>
-                                        <a x-show="order?.invoice_path" :href="'{{ asset('storage/invoices') }}' + '/' + order?.invoice_path" target="_blank" class="text-xs underline py-1 px-2 rounded-full cursor-pointer bg-green-100 text-black border-green-200">Lihat Invoice</a>
+                                        <a x-show="order?.invoice_path"
+                                            :href="'{{ asset('storage/invoices') }}' + '/' + order?.invoice_path"
+                                            target="_blank"
+                                            class="text-xs underline py-1 px-2 rounded-full cursor-pointer bg-green-100 text-black border-green-200">Lihat
+                                            Invoice</a>
                                     </div>
 
                                     <div class="flex items-center gap-2">
@@ -116,6 +151,24 @@
                                                     d="M19 9l-7 7-7-7"></path>
                                             </svg>
                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Rejection Reason Alert (if exists) -->
+                            <div x-show="order.rejection_reason && order.rejection_reason !== null && order.rejection_reason !== ''"
+                                class="mx-4 mt-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                                <div class="flex items-start gap-3">
+                                    <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                        </path>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-bold text-red-900 mb-1">Pesanan Ditolak</p>
+                                        <p class="text-sm font-medium text-red-800">Alasan:</p>
+                                        <p class="text-sm text-red-700 mt-1" x-text="order.rejection_reason"></p>
                                     </div>
                                 </div>
                             </div>
@@ -134,7 +187,8 @@
                                             </div>
                                         </div>
                                         <div class="text-right">
-                                            <p class="font-semibold text-gray-900" x-text="formatCurrency(item.price)"></p>
+                                            <p class="font-semibold text-gray-900" x-text="formatCurrency(item.price)">
+                                            </p>
                                         </div>
                                     </div>
                                 </template>
@@ -163,18 +217,19 @@
                                                         <div class="p-3 bg-gray-50 rounded-lg space-y-3">
                                                             <div>
                                                                 <p class="font-medium text-gray-800">Alasan:</p>
-                                                                <p
+                                                                <p class="text-gray-700"
                                                                     x-text="(ret.reason === 'defective' ? 'Produk rusak / cacat' : (ret.reason === 'wrong_item' ? 'Produk tidak sesuai pesanan' : (ret.reason === 'other' ? 'Lainnya' : ret.reason)))">
                                                                 </p>
                                                             </div>
                                                             <div>
                                                                 <p class="font-medium text-gray-800">Catatan Pengembalian:
                                                                 </p>
-                                                                <p x-text="(ret.comments)"></p>
+                                                                <p class="text-gray-700" x-text="(ret.comments)"></p>
                                                             </div>
                                                             <template x-if="ret.images && ret.images.length > 0">
                                                                 <div class="flex gap-3 mt-2 flex-wrap">
-                                                                    <template x-for="(img, i) in ret.images" :key="i">
+                                                                    <template x-for="(img, i) in ret.images"
+                                                                        :key="i">
                                                                         <a :href="`${baseUrl}storage/${img}`"
                                                                             target="_blank">
                                                                             <img :src="`${baseUrl}storage/${img}`"
@@ -183,57 +238,31 @@
                                                                     </template>
                                                                 </div>
                                                             </template>
-                                                            <p><span class="font-medium text-gray-800">Status:</span> <span
+                                                            <p class="text-gray-700"><span
+                                                                    class="font-medium text-gray-800">Status:</span> <span
                                                                     x-text="getStatusReturnText(ret.status)"></span></p>
-                                                            <div x-show="ret.admin_notes">
-                                                                <p class="font-medium text-gray-800">Catatan Admin:</p>
-                                                                <p x-text="ret.admin_notes"></p>
-                                                            </div>
+                                                            <template x-if="ret.admin_notes && (ret.status === 'rejected' || ret.status === 'approved')">
+                                                                <div class="mt-3 p-3 bg-gray-50 border-l-4 border-gray-400 rounded-r">
+                                                                    <p class="font-medium text-gray-800 mb-1">
+                                                                        <span x-text="ret.status === 'rejected' ? 'Alasan Penolakan:' : 'Catatan Admin:'"></span>
+                                                                    </p>
+                                                                    <p class="text-gray-700" x-text="ret.admin_notes"></p>
+                                                                </div>
+                                                            </template>
                                                         </div>
                                                     </template>
                                                 </div>
                                             </div>
                                         </template>
-
-                                        <!-- Order Items (detail) -->
-                                        {{-- <div>
-                                            <h4 class="font-medium text-gray-900 mb-2">Detail Pesanan</h4>
-                                            <div class="space-y-3">
-                                                <template x-for="item in order.items" :key="item.id">
-                                                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                                                        <img :src="item.product_image" :alt="item.product_name"
-                                                            class="w-16 h-16 rounded-lg object-cover border border-gray-200">
-                                                        <div class="flex-1">
-                                                            <p class="font-medium text-gray-900" x-text="item.product_name">
-                                                            </p>
-                                                            <p class="text-sm text-gray-500"
-                                                                x-text="`${item.quantity} x Rp ${item.price.toLocaleString('id-ID')}`">
-                                                            </p>
-                                                        </div>
-                                                        <div class="text-right">
-                                                            <p class="font-medium text-gray-900"
-                                                                x-text="`Rp ${(item.quantity * item.price).toLocaleString('id-ID')}`">
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                            </div>
-                                        </div> --}}
+                                        <template x-if="!order.returns || order.returns.length === 0">
+                                            <!-- No returns found - only show if returns is explicitly empty or undefined -->
+                                        </template>
 
                                         <!-- Summary -->
                                         <div class="pt-4">
-
                                             <div class="space-y-2 text-sm">
-                                                {{-- <div class="flex justify-between">
-                                                    <span>Subtotal</span>
-                                                    <span x-text="`Rp ${order.subtotal.toLocaleString('id-ID')}`"></span>
-                                                </div> --}}
-                                                {{-- <div class="flex justify-between">
-                                                    <span>Ongkos Kirim</span>
-                                                    <span
-                                                        x-text="`Rp ${order.shipping_cost.toLocaleString('id-ID')}`"></span>
-                                                </div> --}}
-                                                <div class="flex justify-between font-semibold text-base border-t pt-2">
+                                                <div
+                                                    class="flex justify-between font-semibold text-base text-gray-900 border-t pt-2">
                                                     <span>Total</span>
                                                     <span
                                                         x-text="`Rp ${order.total_amount.toLocaleString('id-ID')}`"></span>
@@ -246,15 +275,21 @@
                                             <h4 class="font-medium text-gray-900 mb-3">Status Pesanan</h4>
 
                                             <div class="space-y-4 border-l-2 border-gray-200 pl-4">
-                                                <template x-for="(history, index) in order.histories" :key="index">
+                                                <template x-for="(history, index) in order.histories"
+                                                    :key="index">
                                                     <div class="relative pb-4">
-                                                        <div class="absolute -left-[23px] w-3 h-3 bg-green-500 rounded-full border border-white"></div>
+                                                        <div
+                                                            class="absolute -left-[23px] w-3 h-3 bg-green-500 rounded-full border border-white">
+                                                        </div>
 
                                                         <div class="flex flex-col gap-1">
-                                                            <p class="text-sm font-semibold text-gray-900 capitalize" x-text="formatAction(history.action)">
+                                                            <p class="text-sm font-semibold text-gray-900 capitalize"
+                                                                x-text="formatAction(history.action)">
                                                             </p>
-                                                            <p class="text-sm text-gray-700" x-text="history.description"></p>
-                                                            <p class="text-xs text-gray-500" x-text="formatDate(history.created_at)">
+                                                            <p class="text-sm text-gray-700" x-text="history.description">
+                                                            </p>
+                                                            <p class="text-xs text-gray-500"
+                                                                x-text="formatDate(history.created_at)">
                                                             </p>
                                                         </div>
                                                     </div>
@@ -262,29 +297,113 @@
                                             </div>
                                         </div>
 
-                                        <div x-show="order.shipment.notes"><p class="text-sm mb-1">Catatan Pengiriman : </p>
-                                        <div class="border p-2 rounded-xl">
-                                            <p class="text-sm text-gray-600" x-text="order.shipment.notes"></p>
-                                        </div></div>
+                                        <!-- Rejection Reason -->
+                                        <div x-show="order.rejection_reason && order.rejection_reason !== null && order.rejection_reason !== ''"
+                                            class="mt-4">
+                                            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+                                                <div class="flex items-start gap-2">
+                                                    <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
+                                                        stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                                    </svg>
+                                                    <div class="flex-1">
+                                                        <p class="text-sm font-semibold text-red-900 mb-1">Alasan Penolakan
+                                                        </p>
+                                                        <p class="text-sm text-red-800" x-text="order.rejection_reason">
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </div>
                             </template>
 
+                            <!-- Alasan Penolakan Pengembalian (Tampil di atas Catatan Pengiriman) -->
+                            <template x-if="order.returns && order.returns.length > 0">
+                                <template x-for="(ret, idx) in order.returns" :key="ret.id ?? idx">
+                                    <div x-show="ret.admin_notes && ret.status === 'rejected'" class="mx-4 mt-4">
+                                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
+                                            <div class="flex items-start gap-3">
+                                                <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                                    </path>
+                                                </svg>
+                                                <div class="flex-1">
+                                                    <p class="text-sm font-bold text-red-900 mb-1">Alasan Penolakan:</p>
+                                                    <p class="text-sm text-red-800" x-text="ret.admin_notes"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <!-- Shipping Notes (Outside Detail) - Tetap tampil untuk sending & completed -->
+                            <div x-show="(order.status === 'sending' || order.status === 'completed') && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== ''"
+                                class="mx-4 mt-4">
+                                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                                    <div class="flex items-start gap-3">
+                                        <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-bold text-blue-900 mb-1">Catatan Pengiriman</p>
+                                            <p class="text-sm text-blue-800" x-text="order.shipment.notes"></p>
+                                            <p class="text-xs text-blue-600 mt-1">
+                                                Pengirim: <span class="font-medium"
+                                                    x-text="order.shipment.carrier"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Actions when sending -->
-                            <div class="flex flex-wrap gap-2 pb-4 pt-2 px-4">
+                            <div class="px-4 pb-4 pt-2">
+                                <!-- Auto-confirm notification -->
                                 <template x-if="order.status === 'sending'">
-                                    <button @click="confirmOrder(order.id)"
-                                        class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors">
-                                        Konfirmasi Pesanan Diterima
-                                    </button>
+                                    <div class="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                        <div class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            </svg>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-blue-900 mb-1">Konfirmasi Otomatis</p>
+                                                <p class="text-xs text-blue-700">
+                                                    Jika tidak dikonfirmasi atau di-retur, pesanan akan otomatis
+                                                    terkonfirmasi dalam waktu
+                                                    <span class="font-semibold"
+                                                        x-text="getAutoConfirmCountdown(order.updated_at)"></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </template>
-                                <template x-if="order.status === 'sending' &&  order.returns.length === 0">
-                                    <button @click="returnOrder(order.id)"
-                                        class="px-4 py-2 text-green-600 border border-green-600 text-sm font-medium rounded-lg transition-colors">
-                                        Ajukan Pengembalian
-                                    </button>
-                                </template>
+
+                                <div class="flex flex-wrap gap-2">
+                                    <template x-if="order.status === 'sending'">
+                                        <button @click="confirmOrder(order.id)"
+                                            class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors">
+                                            Konfirmasi Pesanan Diterima
+                                        </button>
+                                    </template>
+                                    <template x-if="order.status === 'sending' &&  order.returns.length === 0">
+                                        <button @click="returnOrder(order.id)"
+                                            class="px-4 py-2 text-green-600 border border-green-600 text-sm font-medium rounded-lg transition-colors">
+                                            Ajukan Pengembalian
+                                        </button>
+                                    </template>
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -304,26 +423,32 @@
 
 
                 <!-- Confirmation Modal -->
-                <div x-show="showConfirmModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak>
+                <div x-show="showConfirmModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
+                    style="backdrop-filter: blur(4px);">
                     <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                        <div x-show="showConfirmModal" x-transition:enter="ease-out duration-300"
-                            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                            x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
+                        <div x-show="showConfirmModal"
+                            x-transition:enter="transition ease-out duration-400"
+                            x-transition:enter-start="opacity-0"
+                            x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition ease-in duration-300"
+                            x-transition:leave-start="opacity-100"
                             x-transition:leave-end="opacity-0"
-                            class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
+                            class="fixed inset-0 bg-gray-900 bg-opacity-60"
                             @click="showConfirmModal = false"></div>
 
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                        <div x-show="showConfirmModal" x-transition:enter="ease-out duration-300"
-                            x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        <div x-show="showConfirmModal"
+                            x-transition:enter="transition ease-out duration-400"
+                            x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
                             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                            x-transition:leave="ease-in duration-200"
+                            x-transition:leave="transition ease-in duration-300"
                             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                            x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                            class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg">
+                            x-transition:leave-end="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
+                            class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transform bg-white shadow-2xl rounded-2xl">
                             <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-green-100 rounded-full">
-                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M5 13l4 4L19 7">
                                     </path>
@@ -356,24 +481,29 @@
                 </form>
 
 
-                <div x-show="showReturnModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak>
+                <div x-show="showReturnModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
+                    style="backdrop-filter: blur(4px);">
                     <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                        <div x-show="showReturnModal" x-transition:enter="ease-out duration-300"
-                            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                            x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
+                        <div x-show="showReturnModal"
+                            x-transition:enter="transition ease-out duration-400"
+                            x-transition:enter-start="opacity-0"
+                            x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition ease-in duration-300"
+                            x-transition:leave-start="opacity-100"
                             x-transition:leave-end="opacity-0"
-                            class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
+                            class="fixed inset-0 bg-gray-900 bg-opacity-60"
                             @click="showReturnModal = false"></div>
 
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                        <div x-show="showReturnModal" x-transition:enter="ease-out duration-300"
-                            x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                        <div x-show="showReturnModal"
+                            x-transition:enter="transition ease-out duration-400"
+                            x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
                             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                            x-transition:leave="ease-in duration-200"
+                            x-transition:leave="transition ease-in duration-300"
                             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                            x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                            class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg" x-cloak>
+                            x-transition:leave-end="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
+                            class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transform bg-white shadow-2xl rounded-2xl">
                             <form id="form-return" method="POST" enctype="multipart/form-data"
                                 :action="baseUrl + 'user/profile/orders/return/' + selectedOrderId" class="space-y-4">
                                 @csrf
@@ -397,8 +527,7 @@
                                 <div>
                                     <x-input-label for="comments" value="Catatan Pengembalian" />
                                     <textarea id="comments" name="comments" placeholder="Masukkan catatan pengembalian"
-                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500"
-                                        required></textarea>
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500" required></textarea>
                                     @error('comments')
                                         <div class="mt-1 text-red-500 text-sm">{{ $message }}</div>
                                     @enderror
@@ -413,8 +542,8 @@
                                         <!-- Image Preview -->
                                         <!-- Placeholder -->
                                         <div class="text-center">
-                                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
-                                                viewBox="0 0 48 48">
+                                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor"
+                                                fill="none" viewBox="0 0 48 48">
                                                 <path
                                                     d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -484,6 +613,7 @@
 
                 searchQuery: '',
                 selectedStatus: 'all',
+                sortOrder: 'newest', // Default sorting: newest first
                 showConfirmModal: false,
                 showReturnModal: false,
                 selectedOrderId: null,
@@ -494,8 +624,28 @@
 
                 init() {
                     this.filterOrders();
+
+                    // Debug: Log orders structure untuk lihat returns data
+                    console.log('Orders data:', this.orders);
+                    this.orders.forEach(order => {
+                        console.log(`Order ${order.id}:`, {
+                            order_number: order.order_number,
+                            status: order.status,
+                            returns: order.returns,
+                            returns_length: order.returns ? order.returns.length : 0
+                        });
+                    });
+
+                    // Update countdown every minute
+                    setInterval(() => {
+                        this.$nextTick(() => {
+                            // Force Alpine to re-evaluate the countdown
+                            this.orders = [...this.orders];
+                        });
+                    }, 60000); // Update every 60 seconds
                 },
                 filterOrders() {
+                    // Data orders sudah diurutkan dari terbaru ke terlama dari server (created_at DESC)
                     let filtered = this.orders;
 
                     // Filter by status
@@ -513,6 +663,19 @@
                             order.order_items.some(item => item.products.description.toLowerCase().includes(query))
                         );
                     }
+
+                    // Sort by date
+                    filtered = filtered.sort((a, b) => {
+                        const dateA = new Date(a.created_at);
+                        const dateB = new Date(b.created_at);
+
+                        if (this.sortOrder === 'newest') {
+                            return dateB - dateA; // Terbaru ke terlama
+                        } else {
+                            return dateA - dateB; // Terlama ke terbaru
+                        }
+                    });
+
                     this.filteredOrders = filtered;
                 },
 
@@ -526,10 +689,15 @@
 
                 getStatusText(status) {
                     const statusMap = {
-                        'waiting': 'Menunggu',
-                        'sending': 'Dikirim',
+                        'pending': 'Menunggu',
+                        'waiting': 'Menunggu Pembayaran',
+                        'verified': 'Terverifikasi',
+                        'processing': 'Diproses',
+                        'sending': 'Sedang Dikirim',
+                        'shipped': 'Dikirim',
                         'completed': 'Selesai',
-                        'verified': "Terverifikasi",
+                        'delivered': 'Diterima',
+                        'cancelled': 'Dibatalkan',
                         'rejected': 'Ditolak',
                         'returned': 'Dikembalikan',
                     };
@@ -629,6 +797,36 @@
                         rejected: 'Pesanan Ditolak',
                     };
                     return labels[action] || action;
+                },
+
+                // Helper untuk decode HTML entities
+                decodeHtml(html) {
+                    const txt = document.createElement('textarea');
+                    txt.innerHTML = html;
+                    return txt.value;
+                },
+
+                getAutoConfirmCountdown(updatedAt) {
+                    if (!updatedAt) return 'menghitung...';
+
+                    const now = new Date();
+                    const orderDate = new Date(updatedAt);
+                    const cutoffTime = new Date(orderDate.getTime() + (48 * 60 * 60 * 1000)); // 48 hours in milliseconds
+
+                    const diff = cutoffTime - now;
+
+                    if (diff <= 0) {
+                        return 'segera';
+                    }
+
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+
+                    if (hours > 0) {
+                        return `${hours} jam ${minutes} menit`;
+                    } else {
+                        return `${minutes} menit`;
+                    }
                 }
 
             }

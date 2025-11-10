@@ -12,7 +12,8 @@
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
@@ -29,7 +30,7 @@
             Sudah ingat password?
         </span>
         <a href="{{ route('login') }}"
-           class="text-sm text-green-600 hover:text-green-700 font-semibold transition-colors duration-200">
+            class="text-sm text-green-600 hover:text-green-700 font-semibold transition-colors duration-200">
             Kembali ke Halaman Login
         </a>
     </div>

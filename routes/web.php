@@ -47,6 +47,9 @@ Route::middleware(['auth', 'role:super_admin'])
         Route::put('/manage-users/{id}', [ManageUserController::class, 'update'])->name('manage-users.update');
         Route::delete('/manage-users/{id}', [ManageUserController::class, 'destroy'])->name('manage-users.destroy');
 
+        // Financial Report routes (Super Admin Only)
+        Route::get('/financial-report', [\App\Http\Controllers\Admin\FinancialReportController::class, 'index'])->name('financial-report');
+
     });
 
 /**
@@ -68,6 +71,7 @@ Route::middleware(['auth', 'role:admin,super_admin'])
         Route::post('/product', [AdminController::class, 'productStore'])->name('products.store');
         Route::put('/product/{id}', [AdminController::class, 'productUpdate'])->name('products.update');
         Route::delete('/product/{id}', [AdminController::class, 'productDelete'])->name('products.delete');
+        Route::patch('/product/{id}/toggle-status', [AdminController::class, 'productToggleStatus'])->name('products.toggle-status');
 
         Route::get('/order', [AdminController::class, 'order'])->name('orders');
         Route::post('/order/send/{id}', [AdminController::class, 'orderSend'])->name('order.send');
@@ -126,6 +130,9 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 
     // Checkout
     Route::get('/checkout/cart', [CheckoutController::class, 'checkoutCart'])->name('checkout.cart');
+    Route::get('/checkout', function() {
+        return redirect()->route('cart.index');
+    });
     Route::post('/checkout', [CheckoutController::class, 'checkout'])->name('checkout');
     Route::post('/checkout/process', [CheckoutController::class, 'checkoutProcess'])->name('checkout.process');
 });

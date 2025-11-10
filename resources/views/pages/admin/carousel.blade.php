@@ -168,11 +168,11 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        if (data.success) {
-                            console.log('Order updated successfully');
-                        }
+                        // Order updated successfully
                     })
-                    .catch(error => console.error('Error:', error));
+                    .catch(error => {
+                        // Handle error silently
+                    });
                 }
             }
         }
