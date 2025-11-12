@@ -161,4 +161,26 @@
             </div>
         @endif
     </div>
+
+    <script>
+        // Custom validation messages in Indonesian
+        document.addEventListener('invalid', function(e) {
+            if (e.target.tagName.toLowerCase() !== 'input') return;
+
+            const input = e.target;
+            if (input.type === 'email' && input.validity.typeMismatch) {
+                input.setCustomValidity('Silahkan masukkan email yang valid');
+            } else if (input.validity.valueMissing) {
+                input.setCustomValidity('Silahkan isi bidang ini');
+            } else {
+                input.setCustomValidity('');
+            }
+        }, true);
+
+        document.querySelectorAll('input[required]').forEach(input => {
+            input.addEventListener('input', function() {
+                this.setCustomValidity('');
+            });
+        });
+    </script>
 @endsection

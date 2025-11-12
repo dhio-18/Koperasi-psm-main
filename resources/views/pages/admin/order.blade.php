@@ -486,18 +486,29 @@
 
                         <!-- Shipping Address -->
                         <div class="bg-gray-50 rounded-lg p-4">
-                            <h3 class="font-semibold text-gray-900 mb-3 flex items-center">
-                                <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z">
-                                    </path>
-                                </svg>
-                                Alamat Pengiriman
-                            </h3>
+                            <div class="flex items-center justify-between mb-3">
+                                <h3 class="font-semibold text-gray-900 flex items-center">
+                                    <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z">
+                                        </path>
+                                    </svg>
+                                    Alamat Pengiriman
+                                </h3>
+                                <button type="button" @click="copyAddress()"
+                                    class="text-xs px-3 py-1 bg-white border border-gray-300 text-gray-700 rounded hover:bg-gray-100 transition-colors flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
+                                    Salin
+                                </button>
+                            </div>
                             <div class="space-y-2">
                                 <p class="font-medium text-gray-900" x-text="orderData?.customer.name"></p>
                                 <p class="text-gray-700" x-html="orderData?.shipping_address.replace(/\n/g, '<br>')">
@@ -644,25 +655,15 @@
                         Tolak Pembayaran
                     </button>
 
-                    <form :action="baseUrl + 'admin/order/approve/' + orderData?.id" method="POST">
-                        @csrf
-                        <template x-for="(item, i) in orderData?.order_items" :key="i">
-                            <div>
-                                <input type="hidden" :name="`order_items[${i}][id]`" :value="item.id">
-                                <input type="hidden" :name="`order_items[${i}][quantity]`" :value="item.quantity">
-                                <input type="hidden" :name="`order_items[${i}][product_id]`" :value="item.product_id">
-                            </div>
-                        </template>
-                        <button type="submit" :disabled="orderData?.status != 'waiting'"
-                            :class="orderData?.status != 'waiting' ? 'opacity-50 cursor-not-allowed' : ''"
-                            class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
-                                </path>
-                            </svg>
-                            Terima Pembayaran
-                        </button>
-                    </form>
+                    <button type="button" @click="openApproveModal()" :disabled="orderData?.status != 'waiting'"
+                        :class="orderData?.status != 'waiting' ? 'opacity-50 cursor-not-allowed' : ''"
+                        class="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7">
+                            </path>
+                        </svg>
+                        Terima Pembayaran
+                    </button>
                 </div>
             </div>
         </div>
@@ -767,6 +768,62 @@
             </div>
         </div>
 
+        <!-- Approve Payment Modal -->
+        <div x-show="showApproveModal" class="fixed inset-0 z-[110] overflow-y-auto" x-cloak>
+            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+                <div x-show="showApproveModal" x-transition:enter="ease-out duration-300"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75"
+                    @click="cancelApproveModal()"></div>
+
+                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
+
+                <div x-show="showApproveModal" x-transition:enter="ease-out duration-300"
+                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="ease-in duration-200"
+                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg">
+
+                    <div class="flex items-center justify-center w-12 h-12 mx-auto mb-4 bg-green-100 rounded-full">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                    </div>
+
+                    <h3 class="text-lg font-semibold text-gray-900 text-center mb-2">Konfirmasi Terima Pembayaran</h3>
+                    <p class="text-sm text-gray-600 text-center mb-6">
+                        Apakah Anda yakin ingin menerima pembayaran pesanan ini? Pesanan akan berubah status menjadi terverifikasi.
+                    </p>
+
+                    <form :action="baseUrl + 'admin/order/approve/' + orderData?.id" method="POST" class="space-y-4">
+                        @csrf
+                        <template x-for="(item, i) in orderData?.order_items" :key="i">
+                            <div>
+                                <input type="hidden" :name="`order_items[${i}][id]`" :value="item.id">
+                                <input type="hidden" :name="`order_items[${i}][quantity]`" :value="item.quantity">
+                                <input type="hidden" :name="`order_items[${i}][product_id]`" :value="item.product_id">
+                            </div>
+                        </template>
+
+                        <div class="flex gap-3 pt-4">
+                            <button type="button" @click="cancelApproveModal()"
+                                class="flex-1 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
+                                Batal
+                            </button>
+                            <button type="submit"
+                                class="flex-1 px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors">
+                                Ya, Terima Pembayaran
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- Pagination -->
         <div class="mt-auto">
             <!-- Pagination -->
@@ -807,6 +864,7 @@
 
                 showTrackingModal: false,
                 showRejectModal: false,
+                showApproveModal: false,
                 customReasonRequired: false,
 
                 init() {
@@ -1064,6 +1122,20 @@
                     this.showDetailModal = true;
                 },
 
+                openApproveModal() {
+                    // Tutup modal detail
+                    this.showDetailModal = false;
+                    // Buka modal approve
+                    this.showApproveModal = true;
+                },
+
+                cancelApproveModal() {
+                    // Tutup modal approve
+                    this.showApproveModal = false;
+                    // Buka kembali modal detail
+                    this.showDetailModal = true;
+                },
+
                 approvePayment() {
                     if (!confirm('Apakah Anda yakin ingin menerima pembayaran ini?')) {
                         return;
@@ -1074,6 +1146,45 @@
                     if (!confirm('Apakah Anda yakin ingin menolak pembayaran ini?')) {
                         return;
                     }
+                },
+
+                copyAddress() {
+                    if (!this.orderData) {
+                        alert('Data pesanan tidak ditemukan');
+                        return;
+                    }
+
+                    // Format data lengkap (data pelanggan + alamat pengiriman)
+                    // Data disimpan di orderData.user bukan orderData.customer
+                    const name = this.orderData.user?.name || 'Tidak ada nama';
+                    const email = this.orderData.user?.email || 'Tidak ada email';
+                    const phone = this.orderData.user?.phone || 'Tidak ada no. HP';
+                    const address = this.orderData.shipping_address || 'Tidak ada alamat';
+
+                    const fullData = `DATA PELANGGAN:\nNama: ${name}\nEmail: ${email}\nNo. HP: ${phone}\n\nALAMAT PENGIRIMAN:\n${address}`;
+
+                    // Copy ke clipboard menggunakan async/await
+                    navigator.clipboard.writeText(fullData).then(() => {
+                        alert('Data pelanggan dan alamat berhasil disalin ke clipboard!');
+                    }).catch((err) => {
+                        console.error('Gagal menyalin:', err);
+
+                        // Fallback untuk browser lama
+                        try {
+                            const textarea = document.createElement('textarea');
+                            textarea.value = fullData;
+                            textarea.style.position = 'fixed';
+                            textarea.style.opacity = '0';
+                            document.body.appendChild(textarea);
+                            textarea.select();
+                            document.execCommand('copy');
+                            document.body.removeChild(textarea);
+                            alert('Data pelanggan dan alamat berhasil disalin ke clipboard!');
+                        } catch (fallbackErr) {
+                            console.error('Fallback juga gagal:', fallbackErr);
+                            alert('Gagal menyalin data. Silakan coba manual select dan copy.');
+                        }
+                    });
                 },
 
 

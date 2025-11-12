@@ -635,6 +635,34 @@
             </div>
         </div>
 
+        <!-- Return Image Modal -->
+        <div x-show="showReturnImageModal"
+            x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @keydown.escape="closeReturnImageModal()"
+            @click.self="closeReturnImageModal()"
+            class="fixed inset-0 bg-black bg-opacity-90 z-[120]"
+            style="display: none; backdrop-filter: blur(8px);">
+
+            <div class="flex items-center justify-center min-h-screen p-4">
+                <div class="relative">
+                    <img :src="baseUrl + 'storage/' + selectedReturnImage" alt="Gambar Pengembalian"
+                        class="max-w-full max-h-[90vh] rounded-lg">
+                    <button @click="closeReturnImageModal()"
+                        class="absolute top-4 right-4 bg-red-600 bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-30 transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div x-show="showTrackingModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
             style="backdrop-filter: blur(4px);">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
@@ -754,10 +782,11 @@
                                     <template x-if="ret.images && ret.images.length > 0">
                                         <div class="flex gap-3 mt-2 flex-wrap">
                                             <template x-for="(img, i) in ret.images" :key="i">
-                                                <a :href="`${baseUrl}storage/${img}`" target="_blank">
+                                                <button @click="openReturnImageModal(img)" type="button"
+                                                    class="focus:outline-none hover:opacity-80 transition-opacity">
                                                     <img :src="`${baseUrl}storage/${img}`"
-                                                        class="w-16 h-16 rounded-lg object-cover border border-gray-200">
-                                                </a>
+                                                        class="w-16 h-16 rounded-lg object-cover border border-gray-200 cursor-pointer">
+                                                </button>
                                             </template>
                                         </div>
                                     </template>
@@ -860,6 +889,7 @@
 
                 showReturnModal: false,
                 showReturnImageModal: false,
+                selectedReturnImage: null,
 
                 showFormRejected: false,
 
@@ -1060,8 +1090,14 @@
                     document.body.classList.remove('overflow-hidden');
                 },
 
-                openReturnImageModal() {
+                openReturnImageModal(img) {
+                    this.selectedReturnImage = img;
                     this.showReturnImageModal = true;
+                },
+
+                closeReturnImageModal() {
+                    this.showReturnImageModal = false;
+                    this.selectedReturnImage = null;
                 },
 
                 openFormRejected() {

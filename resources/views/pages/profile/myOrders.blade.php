@@ -165,20 +165,38 @@
                                 </div>
                             </div>
 
+                            <!-- Shipping Notes (Outside Detail) - Pindah ke atas setelah Order Header -->
+                            <div x-show="(order.status === 'sending' || order.status === 'completed') && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== ''"
+                                class="mx-4 mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-blue-900 mb-1">Catatan Pengiriman</p>
+                                        <p class="text-xs text-blue-700" x-text="order.shipment.notes"></p>
+                                        <p class="text-xs text-blue-600 mt-1">
+                                            Pengirim: <span class="font-medium" x-text="order.shipment.carrier"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Rejection Reason Alert (if exists) -->
                             <div x-show="order.rejection_reason && order.rejection_reason !== null && order.rejection_reason !== ''"
-                                class="mx-4 mt-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
-                                <div class="flex items-start gap-3">
-                                    <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" fill="none"
+                                class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
                                         stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
                                         </path>
                                     </svg>
                                     <div class="flex-1">
-                                        <p class="text-sm font-bold text-red-900 mb-1">Pesanan Ditolak</p>
-                                        <p class="text-sm font-medium text-red-800">Alasan:</p>
-                                        <p class="text-sm text-red-700 mt-1" x-text="order.rejection_reason"></p>
+                                        <p class="text-sm font-medium text-red-900 mb-1">Pesanan Ditolak</p>
+                                        <p class="text-xs text-red-700" x-text="order.rejection_reason"></p>
                                     </div>
                                 </div>
                             </div>
@@ -202,7 +220,12 @@
                                         </div>
                                     </div>
                                 </template>
-                                <p class="w-full text-right font-bold" x-text="formatCurrency(order.total_amount)"></p>
+                                <div class="border-t border-gray-100 pt-3 mt-3">
+                                    <div class="flex justify-between items-center">
+                                        <span class="font-semibold text-gray-900">Total</span>
+                                        <span class="font-bold text-gray-900" x-text="formatCurrency(order.total_amount)"></span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Order Details (Collapsible) - SEKARANG di dalam loop -->
@@ -240,11 +263,10 @@
                                                                 <div class="flex gap-3 mt-2 flex-wrap">
                                                                     <template x-for="(img, i) in ret.images"
                                                                         :key="i">
-                                                                        <a :href="`${baseUrl}storage/${img}`"
-                                                                            target="_blank">
+                                                                        <button @click="openReturnImageModal(img)" type="button" class="cursor-pointer hover:opacity-90 transition-opacity">
                                                                             <img :src="`${baseUrl}storage/${img}`"
                                                                                 class="w-16 h-16 rounded-lg object-cover border border-gray-200">
-                                                                        </a>
+                                                                        </button>
                                                                     </template>
                                                                 </div>
                                                             </template>
@@ -270,18 +292,6 @@
                                         <template x-if="!order.returns || order.returns.length === 0">
                                             <!-- No returns found - only show if returns is explicitly empty or undefined -->
                                         </template>
-
-                                        <!-- Summary -->
-                                        <div class="pt-4">
-                                            <div class="space-y-2 text-sm">
-                                                <div
-                                                    class="flex justify-between font-semibold text-base text-gray-900 border-t pt-2">
-                                                    <span>Total</span>
-                                                    <span
-                                                        x-text="`Rp ${order.total_amount.toLocaleString('id-ID')}`"></span>
-                                                </div>
-                                            </div>
-                                        </div>
 
                                         <!-- Timeline -->
                                         <div class="mt-6">
@@ -310,27 +320,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Rejection Reason -->
-                                        <div x-show="order.rejection_reason && order.rejection_reason !== null && order.rejection_reason !== ''"
-                                            class="mt-4">
-                                            <div class="bg-red-50 border border-red-200 rounded-lg p-4">
-                                                <div class="flex items-start gap-2">
-                                                    <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
-                                                        stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            stroke-width="2"
-                                                            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                    </svg>
-                                                    <div class="flex-1">
-                                                        <p class="text-sm font-semibold text-red-900 mb-1">Alasan Penolakan
-                                                        </p>
-                                                        <p class="text-sm text-red-800" x-text="order.rejection_reason">
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </template>
@@ -338,47 +327,22 @@
                             <!-- Alasan Penolakan Pengembalian (Tampil di atas Catatan Pengiriman) -->
                             <template x-if="order.returns && order.returns.length > 0">
                                 <template x-for="(ret, idx) in order.returns" :key="ret.id ?? idx">
-                                    <div x-show="ret.admin_notes && ret.status === 'rejected'" class="mx-4 mt-4">
-                                        <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-lg">
-                                            <div class="flex items-start gap-3">
-                                                <svg class="w-6 h-6 text-red-600 flex-shrink-0 mt-0.5" fill="none"
-                                                    stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
-                                                    </path>
-                                                </svg>
-                                                <div class="flex-1">
-                                                    <p class="text-sm font-bold text-red-900 mb-1">Alasan Penolakan:</p>
-                                                    <p class="text-sm text-red-800" x-text="ret.admin_notes"></p>
-                                                </div>
+                                    <div x-show="ret.admin_notes && ret.status === 'rejected'" class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                        <div class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                                </path>
+                                            </svg>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-red-900 mb-1">Alasan Penolakan:</p>
+                                                <p class="text-xs text-red-700" x-text="ret.admin_notes"></p>
                                             </div>
                                         </div>
                                     </div>
                                 </template>
                             </template>
-
-                            <!-- Shipping Notes (Outside Detail) - Tetap tampil untuk sending & completed -->
-                            <div x-show="(order.status === 'sending' || order.status === 'completed') && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== ''"
-                                class="mx-4 mt-4">
-                                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
-                                    <div class="flex items-start gap-3">
-                                        <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-0.5" fill="none"
-                                            stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <div class="flex-1">
-                                            <p class="text-sm font-bold text-blue-900 mb-1">Catatan Pengiriman</p>
-                                            <p class="text-sm text-blue-800" x-text="order.shipment.notes"></p>
-                                            <p class="text-xs text-blue-600 mt-1">
-                                                Pengirim: <span class="font-medium"
-                                                    x-text="order.shipment.carrier"></span>
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- Actions when sending -->
                             <div class="px-4 pb-4 pt-2">
                                 <!-- Auto-confirm notification -->
@@ -603,6 +567,28 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Return Image Modal -->
+                <div x-show="showReturnImageModal"
+                    x-transition:enter="transition ease-out duration-400"
+                    x-transition:enter-start="opacity-0"
+                    x-transition:enter-end="opacity-100"
+                    @keydown.escape="closeReturnImageModal()"
+                    @click.self="closeReturnImageModal()"
+                    class="fixed inset-0 bg-black bg-opacity-90 z-[120]">
+                    <div class="flex items-center justify-center min-h-screen p-4">
+                        <div class="relative">
+                            <img :src="baseUrl + 'storage/' + selectedReturnImage"
+                                class="max-w-full max-h-[90vh] rounded-lg">
+                            <button @click="closeReturnImageModal()"
+                                class="absolute top-4 right-4 bg-red-600 bg-opacity-70 hover:bg-opacity-100 text-white p-2 rounded-full transition-all">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -625,6 +611,8 @@
                 formConfirmActtion: '',
 
                 imagePreview: [],
+                showReturnImageModal: false,
+                selectedReturnImage: null,
 
                 returnData: {
                     reason: '',
@@ -853,6 +841,16 @@
                     } else {
                         return `${minutes} menit`;
                     }
+                },
+
+                openReturnImageModal(img) {
+                    this.selectedReturnImage = img;
+                    this.showReturnImageModal = true;
+                },
+
+                closeReturnImageModal() {
+                    this.showReturnImageModal = false;
+                    this.selectedReturnImage = null;
                 }
 
             }
