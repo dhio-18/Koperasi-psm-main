@@ -116,16 +116,26 @@
                                             <h3 class="font-semibold text-gray-900" x-text="order.order_number"></h3>
                                             <span
                                                 :class="{
-                                                    'bg-yellow-100 text-yellow-800 border-yellow-300': order.status === 'pending',
-                                                    'bg-orange-100 text-orange-800 border-orange-300': order.status === 'waiting',
-                                                    'bg-cyan-100 text-cyan-800 border-cyan-300': order.status === 'verified',
-                                                    'bg-blue-100 text-blue-800 border-blue-300': order.status === 'processing',
-                                                    'bg-indigo-100 text-indigo-800 border-indigo-300': order.status === 'sending',
-                                                    'bg-purple-100 text-purple-800 border-purple-300': order.status === 'shipped',
-                                                    'bg-green-100 text-green-800 border-green-300': order.status === 'completed',
-                                                    'bg-emerald-100 text-emerald-800 border-emerald-300': order.status === 'delivered',
-                                                    'bg-red-100 text-red-800 border-red-300': order.status === 'cancelled' || order.status === 'rejected',
-                                                    'bg-pink-100 text-pink-800 border-pink-300': order.status === 'returned',
+                                                    'bg-yellow-100 text-yellow-800 border-yellow-300': order
+                                                        .status === 'pending',
+                                                    'bg-orange-100 text-orange-800 border-orange-300': order
+                                                        .status === 'waiting',
+                                                    'bg-cyan-100 text-cyan-800 border-cyan-300': order
+                                                        .status === 'verified',
+                                                    'bg-blue-100 text-blue-800 border-blue-300': order
+                                                        .status === 'processing',
+                                                    'bg-indigo-100 text-indigo-800 border-indigo-300': order
+                                                        .status === 'sending',
+                                                    'bg-purple-100 text-purple-800 border-purple-300': order
+                                                        .status === 'shipped',
+                                                    'bg-green-100 text-green-800 border-green-300': order
+                                                        .status === 'completed',
+                                                    'bg-emerald-100 text-emerald-800 border-emerald-300': order
+                                                        .status === 'delivered',
+                                                    'bg-red-100 text-red-800 border-red-300': order
+                                                        .status === 'cancelled' || order.status === 'rejected',
+                                                    'bg-pink-100 text-pink-800 border-pink-300': order
+                                                        .status === 'returned',
                                                 }"
                                                 class="px-2 py-1 text-xs font-medium rounded-full border"
                                                 x-text="getStatusText(order.status)"></span>
@@ -241,10 +251,13 @@
                                                             <p class="text-gray-700"><span
                                                                     class="font-medium text-gray-800">Status:</span> <span
                                                                     x-text="getStatusReturnText(ret.status)"></span></p>
-                                                            <template x-if="ret.admin_notes && (ret.status === 'rejected' || ret.status === 'approved')">
-                                                                <div class="mt-3 p-3 bg-gray-50 border-l-4 border-gray-400 rounded-r">
+                                                            <template
+                                                                x-if="ret.admin_notes && (ret.status === 'rejected' || ret.status === 'approved')">
+                                                                <div
+                                                                    class="mt-3 p-3 bg-gray-50 border-l-4 border-gray-400 rounded-r">
                                                                     <p class="font-medium text-gray-800 mb-1">
-                                                                        <span x-text="ret.status === 'rejected' ? 'Alasan Penolakan:' : 'Catatan Admin:'"></span>
+                                                                        <span
+                                                                            x-text="ret.status === 'rejected' ? 'Alasan Penolakan:' : 'Catatan Admin:'"></span>
                                                                     </p>
                                                                     <p class="text-gray-700" x-text="ret.admin_notes"></p>
                                                                 </div>
@@ -426,20 +439,15 @@
                 <div x-show="showConfirmModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
                     style="backdrop-filter: blur(4px);">
                     <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                        <div x-show="showConfirmModal"
-                            x-transition:enter="transition ease-out duration-400"
-                            x-transition:enter-start="opacity-0"
-                            x-transition:enter-end="opacity-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100"
-                            x-transition:leave-end="opacity-0"
-                            class="fixed inset-0 bg-gray-900 bg-opacity-60"
+                        <div x-show="showConfirmModal" x-transition:enter="transition ease-out duration-400"
+                            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+                            x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900 bg-opacity-60"
                             @click="showConfirmModal = false"></div>
 
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                        <div x-show="showConfirmModal"
-                            x-transition:enter="transition ease-out duration-400"
+                        <div x-show="showConfirmModal" x-transition:enter="transition ease-out duration-400"
                             x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
                             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
                             x-transition:leave="transition ease-in duration-300"
@@ -484,33 +492,29 @@
                 <div x-show="showReturnModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
                     style="backdrop-filter: blur(4px);">
                     <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                        <div x-show="showReturnModal"
-                            x-transition:enter="transition ease-out duration-400"
-                            x-transition:enter-start="opacity-0"
-                            x-transition:enter-end="opacity-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100"
-                            x-transition:leave-end="opacity-0"
-                            class="fixed inset-0 bg-gray-900 bg-opacity-60"
+                        <div x-show="showReturnModal" x-transition:enter="transition ease-out duration-400"
+                            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+                            x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900 bg-opacity-60"
                             @click="showReturnModal = false"></div>
 
                         <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                        <div x-show="showReturnModal"
-                            x-transition:enter="transition ease-out duration-400"
+                        <div x-show="showReturnModal" x-transition:enter="transition ease-out duration-400"
                             x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
                             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
                             x-transition:leave="transition ease-in duration-300"
                             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                             x-transition:leave-end="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
-                            class="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transform bg-white shadow-2xl rounded-2xl">
+                            class="inline-block w-full max-w-md my-8 overflow-hidden text-left  max-h-[90vh] align-middle transform bg-white shadow-2xl rounded-2xl">
                             <form id="form-return" method="POST" enctype="multipart/form-data"
-                                :action="baseUrl + 'user/profile/orders/return/' + selectedOrderId" class="space-y-4">
+                                :action="baseUrl + 'user/profile/orders/return/' + selectedOrderId"
+                                class="space-y-4 overflow-y-auto max-h-[90vh] p-6">
                                 @csrf
                                 <div>
                                     <x-input-label for="reason" value="Pilih Alasan Pengembalian" />
 
-                                    <select id="reason" name="reason"
+                                    <select id="reason" name="reason" x:model="returnData.reason"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors duration-200 appearance-none bg-white"
                                         required>
                                         <option value="" selected disabled>Pilih alasan</option>
@@ -526,7 +530,7 @@
 
                                 <div>
                                     <x-input-label for="comments" value="Catatan Pengembalian" />
-                                    <textarea id="comments" name="comments" placeholder="Masukkan catatan pengembalian"
+                                    <textarea id="comments" name="comments" placeholder="Masukkan catatan pengembalian" x:model="returnData.comments"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500" required></textarea>
                                     @error('comments')
                                         <div class="mt-1 text-red-500 text-sm">{{ $message }}</div>
@@ -590,7 +594,7 @@
                                         class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-200">
                                         Batal
                                     </button>
-                                    <button type="submit"
+                                    <button type="submit" @click="prepareForm()"
                                         class="px-6 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors duration-200">
                                         Kirim
                                     </button>
@@ -621,6 +625,12 @@
                 formConfirmActtion: '',
 
                 imagePreview: [],
+
+                returnData: {
+                    reason: '',
+                    comments: '',
+                    images: []
+                },
 
                 init() {
                     this.filterOrders();
@@ -754,25 +764,41 @@
 
                 handleImageUpload(event) {
                     const files = event.target.files;
-                    if (files && files.length > 0) {
-                        Array.from(files).forEach(file => {
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
-                                this.imagePreview.push(e.target.result);
-                            };
-                            reader.readAsDataURL(file);
-                        });
-                    }
+                    if (!files || files.length === 0) return;
+
+                    Array.from(files).forEach(file => {
+                        const reader = new FileReader();
+                        reader.onload = (e) => this.imagePreview.push(e.target.result);
+                        reader.readAsDataURL(file);
+                    });
+
+                    const dt = new DataTransfer();
+                    this.returnData.images.forEach(f => dt.items.add(f));
+                    Array.from(files).forEach(f => dt.items.add(f));
+
+                    this.$refs.imageInput.files = dt.files;
+                    this.returnData.images = Array.from(dt.files);
                 },
 
                 removeImage(index) {
                     this.imagePreview.splice(index, 1);
-                },
 
+                    const dt = new DataTransfer();
+                    this.returnData.images.forEach((f, i) => {
+                        if (i !== index) dt.items.add(f);
+                    });
+
+                    this.$refs.imageInput.files = dt.files;
+                    this.returnData.images = Array.from(dt.files);
+                },
 
                 resetForm() {
                     this.imagePreview = [];
+                    this.returnData.images = [];
+
                     this.$refs.imageInput.value = '';
+                    const dt = new DataTransfer();
+                    this.$refs.imageInput.files = dt.files;
                 },
 
                 formatDate(dateString) {
@@ -830,6 +856,8 @@
                 }
 
             }
+
+
         }
     </script>
 

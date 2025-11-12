@@ -13,7 +13,7 @@ class PaymentAccounts extends Model
         'account_number',
         'account_holder_name',
         'is_active',
-        'qr_code_path', // <- baru
+        'qr_code_path',
     ];
 
     public function payments()

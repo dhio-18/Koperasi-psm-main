@@ -331,7 +331,7 @@ class ProfileController extends Controller
         $request->validate([
             'reason' => 'required|in:defective,wrong_item,other',
             'comments' => 'nullable|string|max:1000',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+             'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
         try {
