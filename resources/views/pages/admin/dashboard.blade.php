@@ -243,12 +243,12 @@
                         <div class="flex items-center gap-2">
                             @if ($orders->onFirstPage())
                                 <span class="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed font-medium">
-                                    ← Sebelumnya
+                                    Sebelumnya
                                 </span>
                             @else
                                 <a href="{{ $orders->previousPageUrl() }}"
                                     class="px-4 py-2 text-sm rounded-lg bg-white border-2 border-green-500 text-green-600 hover:bg-green-50 transition-all duration-200 font-medium">
-                                    ← Sebelumnya
+                                    Sebelumnya
                                 </a>
                             @endif
 
@@ -261,11 +261,11 @@
                             @if ($orders->hasMorePages())
                                 <a href="{{ $orders->nextPageUrl() }}"
                                     class="px-4 py-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700 transition-all duration-200 font-medium shadow-md">
-                                    Selanjutnya →
+                                    Selanjutnya
                                 </a>
                             @else
                                 <span class="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed font-medium">
-                                    Selanjutnya →
+                                    Selanjutnya
                                 </span>
                             @endif
                         </div>
