@@ -7,6 +7,3 @@ use Illuminate\Support\Facades\Schedule;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
-
-// Schedule auto-confirm orders every hour
-Schedule::command('orders:auto-confirm')->hourly();

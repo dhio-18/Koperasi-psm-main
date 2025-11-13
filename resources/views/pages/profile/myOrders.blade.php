@@ -345,28 +345,6 @@
                             </template>
                             <!-- Actions when sending -->
                             <div class="px-4 pb-4 pt-2">
-                                <!-- Auto-confirm notification -->
-                                <template x-if="order.status === 'sending'">
-                                    <div class="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                                        <div class="flex items-start gap-2">
-                                            <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                            </svg>
-                                            <div class="flex-1">
-                                                <p class="text-sm font-medium text-blue-900 mb-1">Konfirmasi Otomatis</p>
-                                                <p class="text-xs text-blue-700">
-                                                    Jika tidak dikonfirmasi atau di-retur, pesanan akan otomatis
-                                                    terkonfirmasi dalam waktu
-                                                    <span class="font-semibold"
-                                                        x-text="getAutoConfirmCountdown(order.updated_at)"></span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-
                                 <div class="flex flex-wrap gap-2">
                                     <template x-if="order.status === 'sending'">
                                         <button @click="confirmOrder(order.id)"
@@ -818,29 +796,6 @@
                     const txt = document.createElement('textarea');
                     txt.innerHTML = html;
                     return txt.value;
-                },
-
-                getAutoConfirmCountdown(updatedAt) {
-                    if (!updatedAt) return 'menghitung...';
-
-                    const now = new Date();
-                    const orderDate = new Date(updatedAt);
-                    const cutoffTime = new Date(orderDate.getTime() + (8 * 60 * 60 * 1000)); // 8 hours in milliseconds
-
-                    const diff = cutoffTime - now;
-
-                    if (diff <= 0) {
-                        return 'segera';
-                    }
-
-                    const hours = Math.floor(diff / (1000 * 60 * 60));
-                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-
-                    if (hours > 0) {
-                        return `${hours} jam ${minutes} menit`;
-                    } else {
-                        return `${minutes} menit`;
-                    }
                 },
 
                 openReturnImageModal(img) {
