@@ -226,45 +226,42 @@
 
             <!-- Pagination -->
             @if($orders->hasPages())
-                <div class="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <!-- Info -->
-                        <div class="text-sm text-gray-600">
-                            Menampilkan
-                            <span class="font-semibold text-gray-900">{{ $orders->firstItem() ?? 0 }}</span>
-                            sampai
-                            <span class="font-semibold text-gray-900">{{ $orders->lastItem() ?? 0 }}</span>
-                            dari
-                            <span class="font-semibold text-gray-900">{{ $orders->total() }}</span>
-                            pesanan
-                        </div>
-
+                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
+                    <div class="flex items-center justify-center">
                         <!-- Tombol Navigasi -->
                         <div class="flex items-center gap-2">
                             @if ($orders->onFirstPage())
-                                <span class="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed font-medium">
+                                <span class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
+                                 shadow-sm transition-colors
+                                 disabled:text-gray-300 disabled:cursor-not-allowed">
                                     Sebelumnya
                                 </span>
                             @else
                                 <a href="{{ $orders->previousPageUrl() }}"
-                                    class="px-4 py-2 text-sm rounded-lg bg-white border-2 border-green-500 text-green-600 hover:bg-green-50 transition-all duration-200 font-medium">
+                                    class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
+                                 shadow-sm transition-colors
+                                 hover:bg-green-600 hover:text-white">
                                     Sebelumnya
                                 </a>
                             @endif
 
-                            <span class="px-3 py-2 text-sm text-gray-700 font-medium">
-                                <span class="text-green-600 font-bold">{{ $orders->currentPage() }}</span>
+                            <span class="px-1 text-xs sm:text-sm text-gray-700">
+                                <span class="text-green-600 font-semibold">{{ $orders->currentPage() }}</span>
                                 <span class="text-gray-400">/</span>
-                                <span class="font-bold">{{ $orders->lastPage() }}</span>
+                                <span class="font-semibold">{{ $orders->lastPage() }}</span>
                             </span>
 
                             @if ($orders->hasMorePages())
                                 <a href="{{ $orders->nextPageUrl() }}"
-                                    class="px-4 py-2 text-sm rounded-lg bg-green-600 text-white hover:bg-green-700 transition-all duration-200 font-medium shadow-md">
+                                    class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
+                                 shadow-sm transition-colors
+                                 hover:bg-green-600 hover:text-white">
                                     Selanjutnya
                                 </a>
                             @else
-                                <span class="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-400 cursor-not-allowed font-medium">
+                                <span class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
+                                 shadow-sm transition-colors
+                                 disabled:text-gray-300 disabled:cursor-not-allowed">
                                     Selanjutnya
                                 </span>
                             @endif

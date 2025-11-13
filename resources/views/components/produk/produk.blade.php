@@ -27,7 +27,7 @@
         </a>
 
         <div class="mt-1 text-green-700 font-bold">
-            Rp{{ number_format($price, 0, ',', '.') }}
+            Rp {{ number_format($price, 0, ',', '.') }}
         </div>
 
         {{-- Stepper Qty --}}

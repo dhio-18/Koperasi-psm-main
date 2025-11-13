@@ -85,7 +85,7 @@
                                         </h3>
                                         <!-- Harga (Mobile) -->
                                         <div class="mt-1 md:hidden text-sm text-gray-600">
-                                            Rp{{ number_format($item->product->price, 0, ',', '.') }}
+                                            Rp {{ number_format($item->product->price, 0, ',', '.') }}
                                         </div>
                                     </div>
 
@@ -94,7 +94,7 @@
                                         value="{{ $item->product->price }}">
                                     <div class="hidden md:flex md:col-span-2 justify-center">
                                         <span class="text-gray-600">
-                                            Rp{{ number_format($item->product->price, 0, ',', '.') }}
+                                            Rp {{ number_format($item->product->price, 0, ',', '.') }}
                                         </span>
                                     </div>
 
@@ -139,7 +139,7 @@
                                     <div class="col-span-2 md:col-span-1 text-right md:text-right">
                                         <span class="font-semibold text-gray-900 block md:inline"
                                             id="total-{{ $item->id }}">
-                                            Rp{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
+                                            Rp {{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
                                         </span>
                                     </div>
                                 </div>

@@ -256,9 +256,7 @@
                                 <div class="grid grid-cols-3 gap-4 py-3 border-t border-gray-200 first:border-t-0">
                                     <div class="text-gray-700">{!! html_entity_decode($item['name']) !!}</div>
                                     <div class="text-center text-gray-700">{{ $item['quantity'] }}</div>
-                                    <div class="text-right text-gray-700">Rp
-                                        {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}
-                                    </div>
+                                    <div class="text-right text-gray-700">Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</div>
                                 </div>
                             @empty
                                 <div class="text-center py-4 text-gray-500">Tidak ada produk</div>
@@ -278,8 +276,7 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-lg font-medium text-gray-700">Total Pembayaran:</span>
                                 <span class="text-xl font-bold text-gray-900">
-                                    Rp
-                                    {{ number_format(
+                                    Rp {{ number_format(
                                         array_sum(
                                             array_map(function ($item) {
                                                 return $item['price'] * $item['quantity'];
