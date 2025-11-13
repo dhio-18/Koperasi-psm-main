@@ -165,8 +165,45 @@
                                 </div>
                             </div>
 
-                            <!-- Shipping Notes (Outside Detail) - Pindah ke atas setelah Order Header -->
-                            <div x-show="(order.status === 'sending' || order.status === 'completed') && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== ''"
+                            <!-- Alasan Penolakan Retur (Tampilkan di atas - sebelum Catatan Pengiriman) -->
+                            <template x-if="order.returns && order.returns.length > 0">
+                                <template x-for="(ret, idx) in order.returns" :key="ret.id ?? idx">
+                                    <div x-show="ret.admin_notes && ret.status === 'rejected'" class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                        <div class="flex items-start gap-2">
+                                            <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                                </path>
+                                            </svg>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-red-900 mb-1">Alasan Penolakan:</p>
+                                                <p class="text-xs text-red-700" x-text="ret.admin_notes"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+
+                            <!-- Rejection Reason Alert (if order rejected) -->
+                            <div x-show="order.rejection_reason && order.rejection_reason !== null && order.rejection_reason !== ''"
+                                class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
+                                        </path>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-red-900 mb-1">Pesanan Ditolak</p>
+                                        <p class="text-xs text-red-700" x-text="order.rejection_reason"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Shipping Notes (hanya tampil jika TIDAK ada penolakan retur) -->
+                            <div x-show="(order.status === 'sending' || order.status === 'completed') && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== '' && !(order.returns && order.returns.some(r => r.admin_notes && r.status === 'rejected'))"
                                 class="mx-4 mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                                 <div class="flex items-start gap-2">
                                     <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none"
@@ -180,23 +217,6 @@
                                         <p class="text-xs text-blue-600 mt-1">
                                             Pengirim: <span class="font-medium" x-text="order.shipment.carrier"></span>
                                         </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Rejection Reason Alert (if exists) -->
-                            <div x-show="order.rejection_reason && order.rejection_reason !== null && order.rejection_reason !== ''"
-                                class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                                <div class="flex items-start gap-2">
-                                    <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
-                                        stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
-                                        </path>
-                                    </svg>
-                                    <div class="flex-1">
-                                        <p class="text-sm font-medium text-red-900 mb-1">Pesanan Ditolak</p>
-                                        <p class="text-xs text-red-700" x-text="order.rejection_reason"></p>
                                     </div>
                                 </div>
                             </div>
@@ -275,14 +295,11 @@
                                                                     x-text="getStatusReturnText(ret.status)"></span></p>
                                                             <template
                                                                 x-if="ret.admin_notes && (ret.status === 'rejected' || ret.status === 'approved')">
-                                                                <div
-                                                                    class="mt-3 p-3 bg-gray-50 border-l-4 border-gray-400 rounded-r">
-                                                                    <p class="font-medium text-gray-800 mb-1">
-                                                                        <span
-                                                                            x-text="ret.status === 'rejected' ? 'Alasan Penolakan:' : 'Catatan Admin:'"></span>
-                                                                    </p>
-                                                                    <p class="text-gray-700" x-text="ret.admin_notes"></p>
-                                                                </div>
+                                                                <p class="text-gray-700 mt-2">
+                                                                    <span class="font-medium text-gray-800"
+                                                                        x-text="ret.status === 'rejected' ? 'Alasan Penolakan:' : 'Catatan Admin:'"></span>
+                                                                    <span x-text="ret.admin_notes"></span>
+                                                                </p>
                                                             </template>
                                                         </div>
                                                     </template>
@@ -324,25 +341,6 @@
                                 </div>
                             </template>
 
-                            <!-- Alasan Penolakan Pengembalian (Tampil di atas Catatan Pengiriman) -->
-                            <template x-if="order.returns && order.returns.length > 0">
-                                <template x-for="(ret, idx) in order.returns" :key="ret.id ?? idx">
-                                    <div x-show="ret.admin_notes && ret.status === 'rejected'" class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-                                        <div class="flex items-start gap-2">
-                                            <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
-                                                stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z">
-                                                </path>
-                                            </svg>
-                                            <div class="flex-1">
-                                                <p class="text-sm font-medium text-red-900 mb-1">Alasan Penolakan:</p>
-                                                <p class="text-xs text-red-700" x-text="ret.admin_notes"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-                            </template>
                             <!-- Actions when sending -->
                             <div class="px-4 pb-4 pt-2">
                                 <div class="flex flex-wrap gap-2">
