@@ -16,5 +16,13 @@ class PaymentAccountSeeder extends Seeder
             'is_active'           => true,
             'qr_code_path'        => null,
         ]);
+
+        PaymentAccounts::create([
+            'bank_name'           => 'QRIS',
+            'account_number'      => 'QRIS-001',
+            'account_holder_name' => 'PT. Koperasi PSM',
+            'is_active'           => true,
+            'qr_code_path'        => 'paymentqrcontoh/contohqrcode.png',
+        ]);
     }
 }
