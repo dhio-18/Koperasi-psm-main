@@ -67,7 +67,7 @@ class CartController extends Controller
 
                 $existing->update([
                     'quantity' => $newQty,
-                    'price' => (int) $product->price, // simpan harga saat ini
+                    'price' => (int) $product->price,
                 ]);
             } else {
                 // Buat baris baru
@@ -121,7 +121,7 @@ class CartController extends Controller
         $action = $request->input('action');
         $selectedItems = $request->input('selected_items', []);
         $quantities = $request->input('quantities', []);
-        $prices = $request->input('prices', []); // masih dipakai di view? biarkan saja walau kita override harga saat checkout
+        $prices = $request->input('prices', []); 
 
         if (empty($selectedItems)) {
             return redirect()->back()->with('error', 'Tidak ada item yang dipilih.');

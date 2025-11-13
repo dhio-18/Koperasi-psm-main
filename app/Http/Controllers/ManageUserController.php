@@ -44,12 +44,31 @@ class ManageUserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
-        $validated = $request->validate([
+
+        // Validasi dasar
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-        ]);
+        ];
 
-        $user->update($validated);
+        // Jika password diisi, tambahkan validasi password
+        if ($request->filled('password')) {
+            $rules['password'] = 'required|min:6|confirmed';
+        }
+
+        $validated = $request->validate($rules);
+
+        // Update user data
+        $user->name = $validated['name'];
+        $user->email = $validated['email'];
+
+        // Jika password diisi, update password
+        if ($request->filled('password')) {
+            $user->password = bcrypt($validated['password']);
+        }
+
+        $user->save();
+
         return redirect()->route('superadmin.manage-users.index')->with('success', 'User berhasil diperbarui!');
     }
 

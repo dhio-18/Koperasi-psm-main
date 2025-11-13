@@ -8,6 +8,7 @@ use App\Models\Returns;
 use App\Models\Shipments;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -70,7 +71,7 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request): RedirectResponse|JsonResponse
     {
 
         $user = $request->user();
@@ -81,6 +82,11 @@ class ProfileController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        // Jika request adalah AJAX, kembalikan JSON response
+        if ($request->wantsJson()) {
+            return response()->json(['message' => 'Akun berhasil dihapus'], 200);
+        }
 
         return Redirect::to('/');
     }
