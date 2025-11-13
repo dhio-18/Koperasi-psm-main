@@ -190,7 +190,6 @@
                                 <td class="px-6 py-4">
                                     <div class="text-gray-700">
                                         <p class="font-medium">{{ $order->created_at->format('d M Y') }}</p>
-                                        <p class="text-xs text-gray-500">{{ $order->created_at->format('H:i') }} WIB</p>
                                     </div>
                                 </td>
                             </tr>
