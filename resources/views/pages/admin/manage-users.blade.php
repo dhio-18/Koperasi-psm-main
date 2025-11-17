@@ -169,25 +169,6 @@
                             class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-sm">
                     </div>
 
-                    <!-- Password change section untuk edit mode -->
-                    <div x-show="isEdit" class="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-lg">
-                        <p class="text-xs text-blue-700 mb-3">Biarkan kosong jika tidak ingin mengubah password</p>
-                        <div class="space-y-3">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Password Baru</label>
-                                <input type="password" name="password" x-model="form.password"
-                                    placeholder="Masukkan password baru (opsional)"
-                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-1">Konfirmasi Password</label>
-                                <input type="password" x-model="form.password_confirmation"
-                                    placeholder="Konfirmasi password baru"
-                                    class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-sm">
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="flex justify-end gap-2 pt-3 border-t"><!-- pt-4→3 -->
                         <button type="button" @click="closeModal()"
                             class="px-3 py-1.5 border rounded-lg text-gray-600 hover:bg-gray-100 text-sm">Batal</button>
@@ -215,9 +196,7 @@
                     id: null,
                     name: '',
                     email: '',
-                    role: '',
-                    password: '',
-                    password_confirmation: ''
+                    role: ''
                 },
 
                 filteredUsers() {
@@ -250,9 +229,7 @@
                         id: null,
                         name: '',
                         email: '',
-                        role: '',
-                        password: '',
-                        password_confirmation: ''
+                        role: ''
                     };
                     this.showModal = true;
                 },
@@ -263,9 +240,7 @@
                         id,
                         name,
                         email,
-                        role,
-                        password: '',
-                        password_confirmation: ''
+                        role
                     };
                     this.showModal = true;
                 },
