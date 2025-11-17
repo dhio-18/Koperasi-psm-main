@@ -43,6 +43,7 @@ class RegisteredUserController extends Controller
             'phone.max' => 'Nomor handphone maksimal 12 digit',
             'password.required' => 'Password wajib diisi',
             'password.confirmed' => 'Konfirmasi password tidak sesuai',
+            'password.min' => 'Password minimal 8 karakter',
         ]);
 
         $user = User::create([

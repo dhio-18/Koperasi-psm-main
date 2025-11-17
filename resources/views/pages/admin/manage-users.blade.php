@@ -46,15 +46,6 @@
                                 </td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-right">
                                     <div class="flex justify-center gap-2"><!-- space-x-3→gap-2 -->
-                                        <button @click="openEditModal(user.id, user.name, user.email, user.role)"
-                                            class="text-green-600 hover:text-green-500 transition-colors" title="Edit">
-                                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                            </svg>
-                                        </button>
-
                                         <form action="" id="form-confirm" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -132,23 +123,15 @@
             </div>
         </div>
 
-        <!-- Modal Tambah/Edit -->
+        <!-- Modal Tambah Admin -->
         <div x-show="showModal" x-cloak class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
             <div @click.away="closeModal()" class="bg-white w-full max-w-sm rounded-xl shadow-lg p-5">
                 <!-- max-w-md→sm, p-6→5 -->
-                <h2 class="text-base font-semibold mb-3" x-text="isEdit ? 'Edit Pengguna' : 'Tambah Pengguna'"></h2>
+                <h2 class="text-base font-semibold mb-3">Tambah Admin</h2>
                 <!-- lg→base -->
 
-                <form
-                    :action="isEdit
-                        ?
-                        baseUrl + 'superadmin/manage-users/' + form.id :
-                        baseUrl + 'superadmin/manage-users/'"
-                    method="POST">
+                <form action="{{ asset('superadmin/manage-users/') }}" method="POST">
                     @csrf
-                    <template x-if="isEdit">
-                        <input type="hidden" name="_method" value="PUT">
-                    </template>
 
                     <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Nama</label>
@@ -162,9 +145,9 @@
                             class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-sm">
                     </div>
 
-                    <div class="mb-3" x-show="!isEdit">
+                    <div class="mb-3">
                         <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-                        <input type="password" name="password" x-model="form.password" x-bind:required="!isEdit"
+                        <input type="password" name="password" x-model="form.password" required
                             placeholder="Masukkan password"
                             class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-sm">
                     </div>
@@ -173,8 +156,7 @@
                         <button type="button" @click="closeModal()"
                             class="px-3 py-1.5 border rounded-lg text-gray-600 hover:bg-gray-100 text-sm">Batal</button>
                         <button type="submit"
-                            class="px-3.5 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm"
-                            x-text="isEdit ? 'Update' : 'Simpan'"></button>
+                            class="px-3.5 py-1.5 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -187,7 +169,6 @@
             return {
                 baseUrl: '{{ asset('') }}',
                 showModal: false,
-                isEdit: false,
                 showConfirmModal: false,
                 selectUserId: null,
                 search: '',
@@ -230,17 +211,6 @@
                         name: '',
                         email: '',
                         role: ''
-                    };
-                    this.showModal = true;
-                },
-
-                openEditModal(id, name, email, role) {
-                    this.isEdit = true;
-                    this.form = {
-                        id,
-                        name,
-                        email,
-                        role
                     };
                     this.showModal = true;
                 },

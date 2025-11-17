@@ -89,11 +89,4 @@
             </form>
         </div>
     </div>
-
-    <!-- Footer Info -->
-    <!-- <div class="p-4 bg-gray-50/50 border-t border-gray-200">
-        <p class="text-xs text-gray-500 text-center">
-            © {{ date('Y') }} {{ config('app.name', 'Your App Name') }}
-        </p>
-    </div> -->
 </div>
