@@ -1,6 +1,6 @@
 @props(['product' => null, 'category' => null])
 
-<nav class="flex mb-3" aria-label="Breadcrumb"> <!-- jarak antar elemen diperpendek -->
+<nav class="flex mb-3" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <!-- Semua Produk -->
         <li class="inline-flex items-center">

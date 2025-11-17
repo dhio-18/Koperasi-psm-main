@@ -13,80 +13,78 @@
         </div>
 
         <!-- Stats Cards -->
-        <div class="w-full flex justify-center items-center">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                <!-- Total Orders (biru) -->
-                <div
-                    class="w-full bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
-                    <div>
-                        <div class="text-sm text-gray-600">Total Pesanan</div>
-                        <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalOrders }}</div>
-                        <div class="text-blue-600 text-sm mt-1">+{{ $ordersThisWeek }} pesanan minggu ini</div>
-                    </div>
-                    <div class="bg-blue-100 p-3 rounded-full">
-                        <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="6" y="3" width="12" height="18" rx="2" ry="2"></rect>
-                            <path d="M9 7h6M9 11h6M9 15h6"></path>
-                        </svg>
-                    </div>
+            <!-- Total Orders (biru) -->
+            <div
+                class="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
+                <div>
+                    <div class="text-sm text-gray-600">Total Pesanan</div>
+                    <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalOrders }}</div>
+                    <div class="text-blue-600 text-sm mt-1">+{{ $ordersThisWeek }} pesanan minggu ini</div>
                 </div>
-
-                <!-- Barang Belum Terkirim (orange) -->
-                <div
-                    class="w-full bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
-                    <div>
-                        <div class="text-sm text-gray-600">Belum Terkirim</div>
-                        <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalPendingOrders }}</div>
-                        <div class="text-orange-600 text-sm mt-1">Perlu diproses</div>
-                    </div>
-                    <div class="bg-orange-100 p-3 rounded-full">
-                        <svg class="w-6 h-6 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M12 6v6l4 2"></path>
-                        </svg>
-                    </div>
+                <div class="bg-blue-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="6" y="3" width="12" height="18" rx="2" ry="2"></rect>
+                        <path d="M9 7h6M9 11h6M9 15h6"></path>
+                    </svg>
                 </div>
-
-                <!-- Barang Terkirim (kuning) -->
-                <div
-                    class="w-full bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
-                    <div>
-                        <div class="text-sm text-gray-600">Barang Terkirim</div>
-                        <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalCompletedOrders }}</div>
-                        <div class="text-yellow-600 text-sm mt-1">+{{ $completedOrdersThisWeek }} minggu ini</div>
-                    </div>
-                    <div class="bg-yellow-100 p-3 rounded-full">
-                        <svg class="w-6 h-6 text-yellow-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <rect x="3" y="7" width="11" height="8" rx="1"></rect>
-                            <path d="M14 9h4l3 3v3h-7z"></path>
-                            <circle cx="7.5" cy="17" r="1.5"></circle>
-                            <circle cx="17.5" cy="17" r="1.5"></circle>
-                        </svg>
-                    </div>
-                </div>
-
-                <!-- Pengembalian (merah) -->
-                <div
-                    class="w-full bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
-                    <div>
-                        <div class="text-sm text-gray-600">Pengembalian</div>
-                        <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalReturns }}</div>
-                        <div class="text-red-600 text-sm mt-1">Permintaan retur terkini</div>
-                    </div>
-                    <div class="bg-red-100 p-3 rounded-full">
-                        <svg class="w-6 h-6 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                            <path d="M15 20a5 5 0 0 0 0-10H7"></path>
-                            <path d="M9 6L5 10l4 4"></path>
-                        </svg>
-                    </div>
-                </div>
-
             </div>
+
+            <!-- Barang Belum Terkirim (orange) -->
+            <div
+                class="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
+                <div>
+                    <div class="text-sm text-gray-600">Belum Terkirim</div>
+                    <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalPendingOrders }}</div>
+                    <div class="text-orange-600 text-sm mt-1">Perlu diproses</div>
+                </div>
+                <div class="bg-orange-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-orange-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 6v6l4 2"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Barang Terkirim (kuning) -->
+            <div
+                class="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
+                <div>
+                    <div class="text-sm text-gray-600">Barang Terkirim</div>
+                    <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalCompletedOrders }}</div>
+                    <div class="text-yellow-600 text-sm mt-1">+{{ $completedOrdersThisWeek }} minggu ini</div>
+                </div>
+                <div class="bg-yellow-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-yellow-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <rect x="3" y="7" width="11" height="8" rx="1"></rect>
+                        <path d="M14 9h4l3 3v3h-7z"></path>
+                        <circle cx="7.5" cy="17" r="1.5"></circle>
+                        <circle cx="17.5" cy="17" r="1.5"></circle>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Pengembalian (merah) -->
+            <div
+                class="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
+                <div>
+                    <div class="text-sm text-gray-600">Pengembalian</div>
+                    <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalReturns }}</div>
+                    <div class="text-red-600 text-sm mt-1">Permintaan retur terkini</div>
+                </div>
+                <div class="bg-red-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M15 20a5 5 0 0 0 0-10H7"></path>
+                        <path d="M9 6L5 10l4 4"></path>
+                    </svg>
+                </div>
+            </div>
+
         </div>
 
         <!-- Recent Orders -->

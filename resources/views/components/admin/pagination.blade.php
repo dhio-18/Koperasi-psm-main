@@ -107,10 +107,9 @@
             totalItems: items.length,
             itemsPerPage: 3,
             currentPage: 1,
-            maxVisiblePages: window.innerWidth < 640 ? 3 : 5, // 3 untuk mobile, 5 untuk desktop
+            maxVisiblePages: window.innerWidth < 640 ? 3 : 5,
 
             init() {
-                // Update maxVisiblePages saat resize window
                 window.addEventListener('resize', () => {
                     this.maxVisiblePages = window.innerWidth < 640 ? 3 : 5;
                 });
@@ -125,7 +124,6 @@
                 const current = this.currentPage;
                 const max = this.maxVisiblePages;
 
-                // Jika total halaman <= max, tampilkan semua
                 if (total <= max) {
                     return Array.from({
                         length: total
@@ -158,7 +156,8 @@
             },
 
             get shouldShowLastPage() {
-                return this.totalPages > this.maxVisiblePages && !this.visiblePages.includes(this.totalPages);
+                return this.totalPages > this.maxVisiblePages && !this.visiblePages.includes(
+                    this.totalPages);
             },
 
             get shouldShowLeftEllipsis() {
@@ -166,7 +165,8 @@
             },
 
             get shouldShowRightEllipsis() {
-                return this.shouldShowLastPage && this.visiblePages[this.visiblePages.length - 1] < this.totalPages -
+                return this.shouldShowLastPage && this.visiblePages[this.visiblePages.length -
+                        1] < this.totalPages -
                     1;
             },
 

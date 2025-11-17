@@ -2,19 +2,14 @@
 
 <!-- Modal Overlay -->
 <div x-data="data()">
-    <div x-show="{{ $show }}"
-        x-transition:enter="transition ease-out duration-400"
-        x-transition:enter-start="opacity-0"
-        x-transition:enter-end="opacity-100"
-        x-transition:leave="transition ease-in duration-300"
-        x-transition:leave-start="opacity-100"
+    <div x-show="{{ $show }}" x-transition:enter="transition ease-out duration-400"
+        x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+        x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
         x-transition:leave-end="opacity-0"
         class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50"
-        style="display: none; backdrop-filter: blur(4px);"
-        @click.self="{{ $show }} = false">
+        style="display: none; backdrop-filter: blur(4px);" @click.self="{{ $show }} = false">
         <!-- Modal Content -->
-        <div x-show="{{ $show }}"
-            x-transition:enter="transition ease-out duration-400 delay-75"
+        <div x-show="{{ $show }}" x-transition:enter="transition ease-out duration-400 delay-75"
             x-transition:enter-start="opacity-0 scale-90 translate-y-8"
             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
             x-transition:leave="transition ease-in duration-300"
@@ -132,7 +127,7 @@
                         const reader = new FileReader();
                         reader.onload = (e) => {
                             this.imagePreview = e.target.result;
-                            this.iconError = ''; // Clear error when image is selected
+                            this.iconError = '';
                         };
                         reader.readAsDataURL(file);
                     }
@@ -147,7 +142,6 @@
                 resetForm() {
                     this.imagePreview = null;
                     this.iconError = '';
-                    // Reset form properly
                     const form = this.$el.querySelector('form');
                     if (form) {
                         form.reset();
@@ -156,10 +150,7 @@
                 },
 
                 validateForm(event) {
-                    // Reset error
                     this.iconError = '';
-
-                    // Check if icon is selected
                     if (!this.$refs.imageInput.files.length && !this.imagePreview) {
                         event.preventDefault();
                         this.iconError = 'Icon kategori harus dipilih';
