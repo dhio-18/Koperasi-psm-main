@@ -23,6 +23,8 @@ class Orders extends Model
         'user_id',
         'confirmed_at',
         'rejection_reason',
+        'auto_confirmed',
+        'auto_confirmed_at',
     ];
 
     public function user()

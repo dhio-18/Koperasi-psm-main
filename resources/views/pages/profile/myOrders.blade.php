@@ -165,6 +165,38 @@
                                 </div>
                             </div>
 
+                            <!-- Notifikasi Auto-Confirm (Tampilkan HANYA saat status 'sending' dan belum auto-confirm) -->
+                            <div x-show="order.status === 'sending' && !order.auto_confirmed"
+                                class="mx-4 mt-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-amber-900 mb-1">Pemberitahuan Konfirmasi Otomatis</p>
+                                        <p class="text-xs text-amber-700">Pesanan akan secara otomatis dikonfirmasi jika Anda tidak mengkonfirmasi atau melakukan pengembalian sebelum pukul <strong>21:00 WIB</strong>.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notifikasi Sudah Auto-Confirm -->
+                            <div x-show="order.auto_confirmed"
+                                class="mx-4 mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="flex items-start gap-2">
+                                    <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="none"
+                                        stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-green-900 mb-1">Pesanan Terkonfirmasi Otomatis</p>
+                                        <p class="text-xs text-green-700" x-text="'Pesanan dikonfirmasi secara otomatis pada ' + (order.auto_confirmed_at ? formatDate(order.auto_confirmed_at) : 'waktu yang lalu')"></p>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Alasan Penolakan Retur (Tampilkan di atas - sebelum Catatan Pengiriman) -->
                             <template x-if="order.returns && order.returns.length > 0">
                                 <template x-for="(ret, idx) in order.returns" :key="ret.id ?? idx">
@@ -202,8 +234,8 @@
                                 </div>
                             </div>
 
-                            <!-- Shipping Notes (hanya tampil jika TIDAK ada penolakan retur) -->
-                            <div x-show="(order.status === 'sending' || order.status === 'completed') && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== '' && !(order.returns && order.returns.some(r => r.admin_notes && r.status === 'rejected'))"
+                            <!-- Shipping Notes (hanya tampil jika status 'sending' DAN TIDAK ada penolakan retur) -->
+                            <div x-show="order.status === 'sending' && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== '' && !(order.returns && order.returns.some(r => r.admin_notes && r.status === 'rejected'))"
                                 class="mx-4 mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                                 <div class="flex items-start gap-2">
                                     <svg class="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" fill="none"

@@ -106,7 +106,6 @@ Route::middleware(['auth', 'role:customer'])
         // Profile routes
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
         Route::get('/profile/address', [ProfileController::class, 'address'])->name('profile.address');
         Route::post('/profile/address', [ProfileController::class, 'addAddress'])->name('profile.addAddress');

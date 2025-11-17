@@ -69,29 +69,6 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse|JsonResponse
-    {
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        // Jika request adalah AJAX, kembalikan JSON response
-        if ($request->wantsJson()) {
-            return response()->json(['message' => 'Akun berhasil dihapus'], 200);
-        }
-
-        return Redirect::to('/');
-    }
-
-    /**
      * index alamat
      */
 
@@ -291,6 +268,10 @@ class ProfileController extends Controller
                     ];
                 })->toArray();
             }
+
+            // Include auto-confirm fields
+            $order->auto_confirmed = (bool) $order->auto_confirmed;
+            $order->auto_confirmed_at = $order->auto_confirmed_at ? Carbon::parse($order->auto_confirmed_at)->format('d-m-Y H:i') : null;
 
             return $order;
         });

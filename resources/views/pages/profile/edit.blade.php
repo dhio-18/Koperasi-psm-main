@@ -129,78 +129,10 @@
                             @enderror
                         </div>
 
-                        {{-- Delete Account Section --}}
-                        <div class="pt-6 border-t border-gray-200">
-                            <h3 class="text-sm font-medium text-gray-900 mb-3">Zona Berbahaya</h3>
-                            <p class="text-xs text-gray-500 mb-4">Menghapus akun akan menghilangkan semua data Anda secara permanen.</p>
-                            <button type="button" @click="openDeleteModal()"
-                                class="w-full px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                </svg>
-                                <span>Hapus Akun</span>
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             </form>
-        </div>
-
-        {{-- Delete Account Confirmation Modal --}}
-        <div x-show="showDeleteModal" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
-            style="backdrop-filter: blur(4px);">
-            <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div x-show="showDeleteModal" x-transition:enter="transition ease-out duration-400"
-                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900 bg-opacity-60"
-                    @click="closeDeleteModal()"></div>
-
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
-
-                <div x-show="showDeleteModal" x-transition:enter="transition ease-out duration-400"
-                    x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
-                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                    x-transition:leave="transition ease-in duration-300"
-                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                    x-transition:leave-end="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
-                    class="inline-block w-full max-w-md my-8 overflow-hidden text-left align-middle transform bg-white shadow-2xl rounded-2xl p-6 space-y-4">
-
-                    {{-- Icon Danger --}}
-                    <div class="flex justify-center">
-                        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                            <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 9v2m0 4v2m0 6a9 9 0 1018 0 9 9 0 01-18 0z"></path>
-                            </svg>
-                        </div>
-                    </div>
-
-                    {{-- Title --}}
-                    <div class="text-center">
-                        <h3 class="text-lg font-medium text-gray-900">Hapus Akun?</h3>
-                    </div>
-
-                    {{-- Message --}}
-                    <div class="text-center">
-                        <p class="text-sm text-gray-500">
-                            Anda yakin ingin menghapus akun ini? Tindakan ini tidak dapat dibatalkan dan semua data Anda akan dihapus secara permanen.
-                        </p>
-                    </div>
-
-                    {{-- Action Buttons --}}
-                    <div class="flex gap-3 pt-4">
-                        <button type="button" @click="closeDeleteModal()"
-                            class="flex-1 px-4 py-2 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200 transition-colors duration-200">
-                            Tolak
-                        </button>
-                        <button type="button" @click="confirmDeleteAccount()"
-                            class="flex-1 px-4 py-2 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors duration-200">
-                            Terima
-                        </button>
-                    </div>
-                </div>
-            </div>
         </div>
 
     <script>
@@ -261,43 +193,7 @@
 
         function profileManager() {
             return {
-                showDeleteModal: false,
-                isDeleting: false,
-
-                openDeleteModal() {
-                    this.showDeleteModal = true;
-                },
-
-                closeDeleteModal() {
-                    this.showDeleteModal = false;
-                },
-
-                confirmDeleteAccount() {
-                    this.isDeleting = true;
-
-                    fetch('{{ route("user.profile.destroy") }}', {
-                        method: 'DELETE',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (response.ok) {
-                            // Redirect ke home page
-                            window.location.href = '{{ route("home") }}';
-                        } else {
-                            this.isDeleting = false;
-                            alert('Gagal menghapus akun. Silahkan coba lagi.');
-                        }
-                    })
-                    .catch(error => {
-                        this.isDeleting = false;
-                        console.error('Error:', error);
-                        alert('Terjadi kesalahan saat menghapus akun.');
-                    });
-                }
+                // Empty - no delete account functionality
             }
         }
     </script>
