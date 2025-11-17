@@ -10,7 +10,8 @@
         <!-- Logo -->
         <div class="flex justify-center items-center text-center mb-6">
             <a href="{{ route('home') }}">
-                <img src="/logo.svg" alt="logo" width="100" height="100" class="hover:scale-105 transition-transform duration-200">
+                <img src="/logo.svg" alt="logo" width="100" height="100"
+                    class="hover:scale-105 transition-transform duration-200">
             </a>
         </div>
 
@@ -50,7 +51,8 @@
 
                 @if (Route::has('password.request'))
                     <div>
-                        <a href="{{ route('password.request') }}" class="text-green-500 hover:text-green-600">Lupa Password?</a>
+                        <a href="{{ route('password.request') }}" class="text-green-500 hover:text-green-600">Lupa
+                            Password?</a>
                     </div>
                 @endif
             </div>
@@ -93,17 +95,17 @@
         </div>
 
         <!-- Success Message -->
-        @if(session('success'))
+        @if (session('success'))
             <div class="mt-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg">
                 {{ session('success') }}
             </div>
         @endif
 
         <!-- Error Messages -->
-        @if($errors->any())
+        @if ($errors->any())
             <div class="mt-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
                 <ul class="text-sm">
-                    @foreach($errors->all() as $error)
+                    @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
                     @endforeach
                 </ul>

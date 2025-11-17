@@ -175,8 +175,11 @@
                                             d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     <div class="flex-1">
-                                        <p class="text-sm font-medium text-amber-900 mb-1">Pemberitahuan Konfirmasi Otomatis</p>
-                                        <p class="text-xs text-amber-700">Pesanan akan secara otomatis dikonfirmasi jika Anda tidak mengkonfirmasi atau melakukan pengembalian sebelum pukul <strong>21:00 WIB</strong>.</p>
+                                        <p class="text-sm font-medium text-amber-900 mb-1">Pemberitahuan Konfirmasi
+                                            Otomatis</p>
+                                        <p class="text-xs text-amber-700">Pesanan akan secara otomatis dikonfirmasi jika
+                                            Anda tidak mengkonfirmasi atau melakukan pengembalian sebelum pukul
+                                            <strong>21:00 WIB</strong>.</p>
                                     </div>
                                 </div>
                             </div>
@@ -191,16 +194,20 @@
                                             d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     <div class="flex-1">
-                                        <p class="text-sm font-medium text-green-900 mb-1">Pesanan Terkonfirmasi Otomatis</p>
-                                        <p class="text-xs text-green-700" x-text="'Pesanan dikonfirmasi secara otomatis pada ' + (order.auto_confirmed_at ? formatDate(order.auto_confirmed_at) : 'waktu yang lalu')"></p>
+                                        <p class="text-sm font-medium text-green-900 mb-1">Pesanan Terkonfirmasi Otomatis
+                                        </p>
+                                        <p class="text-xs text-green-700"
+                                            x-text="'Pesanan dikonfirmasi secara otomatis pada ' + (order.auto_confirmed_at ? formatDate(order.auto_confirmed_at) : 'waktu yang lalu')">
+                                        </p>
                                     </div>
                                 </div>
                             </div>
 
-                            <!-- Alasan Penolakan Retur (Tampilkan di atas - sebelum Catatan Pengiriman) -->
+                            <!-- Alasan Penolakan Retur -->
                             <template x-if="order.returns && order.returns.length > 0">
                                 <template x-for="(ret, idx) in order.returns" :key="ret.id ?? idx">
-                                    <div x-show="ret.admin_notes && ret.status === 'rejected'" class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+                                    <div x-show="ret.admin_notes && ret.status === 'rejected'"
+                                        class="mx-4 mt-4 p-3 bg-red-50 border border-red-200 rounded-lg">
                                         <div class="flex items-start gap-2">
                                             <svg class="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" fill="none"
                                                 stroke="currentColor" viewBox="0 0 24 24">
@@ -275,7 +282,8 @@
                                 <div class="border-t border-gray-100 pt-3 mt-3">
                                     <div class="flex justify-between items-center">
                                         <span class="font-semibold text-gray-900">Total</span>
-                                        <span class="font-bold text-gray-900" x-text="formatCurrency(order.total_amount)"></span>
+                                        <span class="font-bold text-gray-900"
+                                            x-text="formatCurrency(order.total_amount)"></span>
                                     </div>
                                 </div>
                             </div>
@@ -315,7 +323,9 @@
                                                                 <div class="flex gap-3 mt-2 flex-wrap">
                                                                     <template x-for="(img, i) in ret.images"
                                                                         :key="i">
-                                                                        <button @click="openReturnImageModal(img)" type="button" class="cursor-pointer hover:opacity-90 transition-opacity">
+                                                                        <button @click="openReturnImageModal(img)"
+                                                                            type="button"
+                                                                            class="cursor-pointer hover:opacity-90 transition-opacity">
                                                                             <img :src="`${baseUrl}storage/${img}`"
                                                                                 class="w-16 h-16 rounded-lg object-cover border border-gray-200">
                                                                         </button>
@@ -577,12 +587,9 @@
                 </div>
 
                 <!-- Return Image Modal -->
-                <div x-show="showReturnImageModal"
-                    x-transition:enter="transition ease-out duration-400"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    @keydown.escape="closeReturnImageModal()"
-                    @click.self="closeReturnImageModal()"
+                <div x-show="showReturnImageModal" x-transition:enter="transition ease-out duration-400"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    @keydown.escape="closeReturnImageModal()" @click.self="closeReturnImageModal()"
                     class="fixed inset-0 bg-black bg-opacity-90 z-[120]">
                     <div class="flex items-center justify-center min-h-screen p-4">
                         <div class="relative">
@@ -591,7 +598,8 @@
                             <button @click="closeReturnImageModal()"
                                 class="absolute top-4 right-4 bg-red-600 bg-opacity-70 hover:bg-opacity-100 text-white p-2 rounded-full transition-all">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                             </button>
                         </div>

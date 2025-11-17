@@ -14,7 +14,7 @@
     }">
 
         <!-- Breadcrumb -->
-       <x-breadcrumb :product="$product ?? null" :category="$product->category ?? null" />
+        <x-breadcrumb :product="$product ?? null" :category="$product->category ?? null" />
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 mt-4 sm:mt-6 md:mt-8">
 
@@ -25,7 +25,8 @@
                         <img src="{{ asset($product->images) }}" alt="{{ $product->name }}" class="w-full h-full object-cover">
                     @else
                         <div class="w-full h-full flex items-center justify-center">
-                            <svg class="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 text-gray-600" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2z">
                                 </path>
@@ -50,7 +51,8 @@
             <!-- Product Details Section -->
             <div class="space-y-4 sm:space-y-5 md:space-y-6">
                 <div>
-                    <h1 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-3 sm:mb-4">
+                    <h1
+                        class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-3 sm:mb-4">
                         {!! html_entity_decode($product->name) !!}
                     </h1>
 
@@ -105,7 +107,8 @@
 
                         <input x-model.number="qty" inputmode="numeric" pattern="[0-9]*"
                             @change="if(qty < min) qty = min; if(isFinite(max) && qty > max) qty = max;"
-                            class="w-12 sm:w-14 md:w-16 text-center h-8 sm:h-9 md:h-10 rounded-md border border-gray-300 text-xs sm:text-sm md:text-base" aria-label="Jumlah" />
+                            class="w-12 sm:w-14 md:w-16 text-center h-8 sm:h-9 md:h-10 rounded-md border border-gray-300 text-xs sm:text-sm md:text-base"
+                            aria-label="Jumlah" />
 
                         <button type="button" @click="inc"
                             class="h-8 sm:h-9 md:h-10 w-8 sm:w-9 md:w-10 inline-flex items-center justify-center rounded-md border border-gray-300 text-gray-700 hover:bg-gray-50 text-xs sm:text-sm md:text-base">

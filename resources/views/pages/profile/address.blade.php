@@ -5,8 +5,6 @@
 @endsection
 
 @section('main')
-
-
     <div class="min-h-screen grid grid-cols-1 lg:grid-cols-[auto_1fr] items-start gap-8 px-6 py-14 md:grid">
         <!-- Left Sidebar -->
         <x-profile.sidebar />
@@ -57,7 +55,8 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse($data ?? [] as $index => $address)
                                     <tr class="hover:bg-gray-50">
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $index + 1 }}</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $index + 1 }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                             {{ $address->recipient_name }}
                                             <p class="text-xs text-gray-500">{{ $address->label }}</p>
@@ -87,8 +86,8 @@
                                 @empty
                                     <tr>
                                         <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                                            <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor"
-                                                viewBox="0 0 24 24">
+                                            <svg class="w-12 h-12 mx-auto mb-4 text-gray-300" fill="none"
+                                                stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -105,20 +104,15 @@
                 </div>
 
                 {{-- Modal Overlay --}}
-                <div x-show="isModalOpen"
-                    x-transition:enter="transition ease-out duration-400"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-300"
-                    x-transition:leave-start="opacity-100"
+                <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-400"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
                     class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4"
-                    style="backdrop-filter: blur(4px);"
-                    @click="closeModal()">
+                    style="backdrop-filter: blur(4px);" @click="closeModal()">
 
                     {{-- Modal Content --}}
-                    <div x-show="isModalOpen"
-                        x-transition:enter="transition ease-out duration-400 delay-75"
+                    <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-400 delay-75"
                         x-transition:enter-start="opacity-0 scale-90 translate-y-8"
                         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                         x-transition:leave="transition ease-in duration-300"
@@ -140,7 +134,8 @@
 
                         {{-- Modal Body --}}
                         <form
-                            :action="isEditMode ? '{{ url('user/profile/address') }}/' + editingAddress.id : '{{ route('user.profile.addAddress') }}'"
+                            :action="isEditMode ? '{{ url('user/profile/address') }}/' + editingAddress.id :
+                                '{{ route('user.profile.addAddress') }}'"
                             method="POST" class="p-6">
                             @csrf
 
@@ -266,8 +261,8 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Detail Alamat <span class="text-red-500">*</span>
                                 </label>
-                                <textarea name="address" x-model="formData.address"
-                                    placeholder="Berikan detail nama jalan, patokan, alamat, dsb." rows="4"
+                                <textarea name="address" x-model="formData.address" placeholder="Berikan detail nama jalan, patokan, alamat, dsb."
+                                    rows="4"
                                     class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                                     required></textarea>
                                 @error('address')
@@ -366,7 +361,7 @@
         }
 
         // Close modal on escape key
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 // Trigger close modal if open
                 window.dispatchEvent(new CustomEvent('close-modal'));

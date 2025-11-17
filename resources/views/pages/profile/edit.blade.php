@@ -5,8 +5,8 @@
 @endsection
 
 @section('main')
-
-    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-[auto_1fr] items-start gap-8 px-6 py-14 md:grid" x-data="profileManager()">
+    <div class="min-h-screen grid grid-cols-1 lg:grid-cols-[auto_1fr] items-start gap-8 px-6 py-14 md:grid"
+        x-data="profileManager()">
         <!-- Left Sidebar -->
         <x-profile.sidebar />
 
@@ -25,8 +25,8 @@
                             <div
                                 class="w-40 h-40 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative">
                                 @if (Auth::user()->profile_photo_path)
-                                    <img x-show="!previewUrl" src=" {{ asset(Auth::user()->profile_photo_path) }}" alt="Profile"
-                                        class="w-full h-full object-cover">
+                                    <img x-show="!previewUrl" src=" {{ asset(Auth::user()->profile_photo_path) }}"
+                                        alt="Profile" class="w-full h-full object-cover">
                                 @else
                                     <img x-show="!previewUrl" src="{{ asset('profile/blank.webp') }}" alt="Default Profile"
                                         class="w-full h-full object-cover">
@@ -98,7 +98,8 @@
                         {{-- Nama --}}
                         <div>
                             <x-input-label for="name" value="Nama" />
-                            <input type="text" id="name" name="name" value="{{ old('name', Auth::user()->name) }}"
+                            <input type="text" id="name" name="name"
+                                value="{{ old('name', Auth::user()->name) }}"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500"
                                 required>
                             @error('name')
@@ -110,7 +111,8 @@
                         {{-- Email --}}
                         <div>
                             <x-input-label for="email" value="Email" />
-                            <input type="email" id="email" name="email" value="{{ old('email', Auth::user()->email) }}"
+                            <input type="email" id="email" name="email"
+                                value="{{ old('email', Auth::user()->email) }}"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500"
                                 required>
                             @error('email')
@@ -121,7 +123,8 @@
                         {{-- No Handphone --}}
                         <div>
                             <x-input-label for="phone" value="No Handphone" />
-                            <input type="tel" id="phone" name="phone" value="{{ old('phone', Auth::user()->phone) }}"
+                            <input type="tel" id="phone" name="phone"
+                                value="{{ old('phone', Auth::user()->phone) }}"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500"
                                 required>
                             @error('phone')
@@ -135,67 +138,66 @@
             </form>
         </div>
 
-    <script>
-        function photoPreview() {
-            return {
-                previewUrl: null,
-                isLoading: false,
-                errorMessage: '',
+        <script>
+            function photoPreview() {
+                return {
+                    previewUrl: null,
+                    isLoading: false,
+                    errorMessage: '',
 
-                handleFileChange(event) {
-                    const file = event.target.files[0];
-                    this.errorMessage = '';
+                    handleFileChange(event) {
+                        const file = event.target.files[0];
+                        this.errorMessage = '';
 
-                    if (!file) {
-                        this.resetPreview();
-                        return;
+                        if (!file) {
+                            this.resetPreview();
+                            return;
+                        }
+
+                        // Validasi ukuran file (1MB = 1048576 bytes)
+                        if (file.size > 1048576) {
+                            this.errorMessage = 'Ukuran file terlalu besar. Maksimal 1 MB.';
+                            this.resetPreview();
+                            return;
+                        }
+
+                        // Validasi tipe file
+                        const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                        if (!allowedTypes.includes(file.type)) {
+                            this.errorMessage = 'Tipe file tidak didukung. Gunakan JPEG, JPG, atau PNG.';
+                            this.resetPreview();
+                            return;
+                        }
+
+                        // Tampilkan loading
+                        this.isLoading = true;
+
+                        // Baca file dan tampilkan preview
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.previewUrl = e.target.result;
+                            this.isLoading = false;
+                        };
+                        reader.onerror = () => {
+                            this.errorMessage = 'Gagal membaca file.';
+                            this.isLoading = false;
+                            this.resetPreview();
+                        };
+                        reader.readAsDataURL(file);
+                    },
+
+                    resetPreview() {
+                        this.previewUrl = null;
+                        this.errorMessage = '';
+                        this.$refs.fileInput.value = '';
                     }
-
-                    // Validasi ukuran file (1MB = 1048576 bytes)
-                    if (file.size > 1048576) {
-                        this.errorMessage = 'Ukuran file terlalu besar. Maksimal 1 MB.';
-                        this.resetPreview();
-                        return;
-                    }
-
-                    // Validasi tipe file
-                    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
-                    if (!allowedTypes.includes(file.type)) {
-                        this.errorMessage = 'Tipe file tidak didukung. Gunakan JPEG, JPG, atau PNG.';
-                        this.resetPreview();
-                        return;
-                    }
-
-                    // Tampilkan loading
-                    this.isLoading = true;
-
-                    // Baca file dan tampilkan preview
-                    const reader = new FileReader();
-                    reader.onload = (e) => {
-                        this.previewUrl = e.target.result;
-                        this.isLoading = false;
-                    };
-                    reader.onerror = () => {
-                        this.errorMessage = 'Gagal membaca file.';
-                        this.isLoading = false;
-                        this.resetPreview();
-                    };
-                    reader.readAsDataURL(file);
-                },
-
-                resetPreview() {
-                    this.previewUrl = null;
-                    this.errorMessage = '';
-                    this.$refs.fileInput.value = '';
                 }
             }
-        }
 
-        function profileManager() {
-            return {
-                // Empty - no delete account functionality
+            function profileManager() {
+                return {
+                    // Empty - no delete account functionality
+                }
             }
-        }
-    </script>
-
-@endsection
+        </script>
+    @endsection

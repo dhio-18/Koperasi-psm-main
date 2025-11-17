@@ -340,7 +340,7 @@ class AdminController extends Controller
 
         $statusFilter = $request->get('status', null);
 
-        $ordersQuery = Orders::with('user', 'orderItems.products', 'payment', 'returns','shipment', 'histories')
+        $ordersQuery = Orders::with('user', 'orderItems.products', 'payment', 'returns', 'shipment', 'histories')
             ->whereDoesntHave('returns');
 
         if ($statusFilter) {
@@ -363,7 +363,8 @@ class AdminController extends Controller
         ]);
     }
 
-    public function return (Request $request) {
+    public function return(Request $request)
+    {
         $type = DB::select("SHOW COLUMNS FROM orders WHERE Field = 'status'")[0]->Type;
         preg_match("/^enum\('(.*)'\)$/", $type, $matches);
         $enumValues = explode("','", $matches[1]);
@@ -478,7 +479,7 @@ class AdminController extends Controller
                 'order_id' => $order->id,
                 'user_id' => Auth::id(),
                 'action' => 'shipped',
-                'description' => 'Pesanan dikirim via ' . $validated['carrier'] ,
+                'description' => 'Pesanan dikirim via ' . $validated['carrier'],
             ]);
 
             DB::commit();

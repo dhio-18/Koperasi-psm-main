@@ -15,8 +15,11 @@
                 @if ($errors->any())
                     <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
                         <div class="flex items-start">
-                            <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0 mt-0.5" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd" />
                             </svg>
                             <div class="flex-1">
                                 <h3 class="text-red-800 font-semibold mb-2">Terdapat kesalahan:</h3>
@@ -34,7 +37,9 @@
                     <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
                         <div class="flex items-start">
                             <svg class="w-5 h-5 text-red-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd" />
                             </svg>
                             <p class="text-red-700">{{ session('error') }}</p>
                         </div>
@@ -45,7 +50,9 @@
                     <div class="mb-6 bg-green-50 border-l-4 border-green-500 p-4 rounded-lg">
                         <div class="flex items-start">
                             <svg class="w-5 h-5 text-green-500 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                    clip-rule="evenodd" />
                             </svg>
                             <p class="text-green-700">{{ session('success') }}</p>
                         </div>
@@ -149,21 +156,15 @@
                             <input type="hidden" name="payment_account_id" :value="selectedId">
 
                             <!-- QR Code Modal -->
-                            <div x-show="showQrModal"
-                                x-transition:enter="transition ease-out duration-400"
-                                x-transition:enter-start="opacity-0"
-                                x-transition:enter-end="opacity-100"
-                                x-transition:leave="transition ease-in duration-300"
-                                x-transition:leave-start="opacity-100"
-                                x-transition:leave-end="opacity-0"
-                                @click="showQrModal = false"
+                            <div x-show="showQrModal" x-transition:enter="transition ease-out duration-400"
+                                x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                                x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+                                x-transition:leave-end="opacity-0" @click="showQrModal = false"
                                 @keydown.escape.window="showQrModal = false"
                                 class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
-                                style="display: none; backdrop-filter: blur(8px);"
-                                x-cloak>
+                                style="display: none; backdrop-filter: blur(8px);" x-cloak>
 
-                                <div @click.stop
-                                    x-show="showQrModal"
+                                <div @click.stop x-show="showQrModal"
                                     x-transition:enter="transition ease-out duration-400 delay-100"
                                     x-transition:enter-start="opacity-0 scale-90"
                                     x-transition:enter-end="opacity-100 scale-100"
@@ -175,20 +176,24 @@
                                     <button type="button" @click="showQrModal = false"
                                         class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 bg-white rounded-full p-2 shadow-md">
                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12"></path>
                                         </svg>
                                     </button>
 
                                     <!-- QR Code Image -->
                                     <div class="text-center">
                                         <h3 class="text-lg font-semibold text-gray-900 mb-4">QR Code Pembayaran</h3>
-                                        <img :src="current?.qr" alt="QR Code" class="w-full h-auto max-w-md mx-auto rounded-lg shadow-lg">
+                                        <img :src="current?.qr" alt="QR Code"
+                                            class="w-full h-auto max-w-md mx-auto rounded-lg shadow-lg">
                                         <div class="mt-4 p-3 bg-gray-50 rounded-lg">
                                             <p class="text-sm font-medium text-gray-700" x-text="current?.bank_name"></p>
                                             <p class="text-sm text-gray-600" x-text="current?.account_holder_name"></p>
-                                            <p class="text-sm font-mono text-gray-900" x-text="current?.account_number"></p>
+                                            <p class="text-sm font-mono text-gray-900" x-text="current?.account_number">
+                                            </p>
                                         </div>
-                                        <p class="text-xs text-gray-500 mt-3">Scan QR code ini untuk melakukan pembayaran</p>
+                                        <p class="text-xs text-gray-500 mt-3">Scan QR code ini untuk melakukan pembayaran
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -207,7 +212,8 @@
                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                     </svg>
                                 </div>
-                                <input type="text" id="sender_name" name="sender_name" value="{{ old('sender_name') }}"
+                                <input type="text" id="sender_name" name="sender_name"
+                                    value="{{ old('sender_name') }}"
                                     class="block w-full pl-10 pr-3 py-3 rounded-lg focus:ring-green-500 focus:border-green-500 @error('sender_name') border-red-500 @enderror"
                                     placeholder="Masukkan nama lengkap Anda" required>
                             </div>
@@ -256,7 +262,8 @@
                                 <div class="grid grid-cols-3 gap-4 py-3 border-t border-gray-200 first:border-t-0">
                                     <div class="text-gray-700">{!! html_entity_decode($item['name']) !!}</div>
                                     <div class="text-center text-gray-700">{{ $item['quantity'] }}</div>
-                                    <div class="text-right text-gray-700">Rp {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</div>
+                                    <div class="text-right text-gray-700">Rp
+                                        {{ number_format($item['price'] * $item['quantity'], 0, ',', '.') }}</div>
                                 </div>
                             @empty
                                 <div class="text-center py-4 text-gray-500">Tidak ada produk</div>
@@ -276,7 +283,8 @@
                             <div class="flex justify-between items-center">
                                 <span class="text-lg font-medium text-gray-700">Total Pembayaran:</span>
                                 <span class="text-xl font-bold text-gray-900">
-                                    Rp {{ number_format(
+                                    Rp
+                                    {{ number_format(
                                         array_sum(
                                             array_map(function ($item) {
                                                 return $item['price'] * $item['quantity'];
@@ -304,8 +312,10 @@
                         <div id="upload-area"
                             class="mt-1 flex justify-center px-4 sm:px-6 pt-6 sm:pt-8 pb-6 sm:pb-8 border-2 border-gray-300 border-dashed rounded-lg hover:border-green-400 hover:bg-green-50 active:border-green-500 transition-all duration-200 cursor-pointer bg-white touch-manipulation">
                             <div class="space-y-2 sm:space-y-3 text-center w-full">
-                                <div class="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-400 bg-gray-100 rounded-full flex items-center justify-center">
-                                    <svg class="h-6 w-6 sm:h-8 sm:w-8" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                                <div
+                                    class="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-400 bg-gray-100 rounded-full flex items-center justify-center">
+                                    <svg class="h-6 w-6 sm:h-8 sm:w-8" stroke="currentColor" fill="none"
+                                        viewBox="0 0 48 48">
                                         <path
                                             d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
                                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -321,9 +331,12 @@
                                     <p class="mt-1 text-gray-500 hidden sm:block">atau seret dan lepas file ke sini</p>
                                     <p class="mt-1 text-gray-500 sm:hidden">atau ambil foto langsung</p>
                                 </div>
-                                <div class="flex flex-col sm:flex-row items-center justify-center sm:space-x-2 space-y-1 sm:space-y-0 text-xs text-gray-500 px-2">
-                                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                <div
+                                    class="flex flex-col sm:flex-row items-center justify-center sm:space-x-2 space-y-1 sm:space-y-0 text-xs text-gray-500 px-2">
+                                    <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                     <span class="text-center">Format: JPG, JPEG, PNG</span>
                                     <span class="hidden sm:inline">|</span>
@@ -334,19 +347,26 @@
 
                         <!-- Preview Area -->
                         <div id="preview-area" class="mt-4 hidden">
-                            <div class="bg-gradient-to-br from-green-50 to-white rounded-xl border-2 border-green-200 shadow-sm p-3 sm:p-5">
+                            <div
+                                class="bg-gradient-to-br from-green-50 to-white rounded-xl border-2 border-green-200 shadow-sm p-3 sm:p-5">
                                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4">
                                     <!-- Image Preview -->
                                     <div class="flex-shrink-0 w-full sm:w-auto">
                                         <div class="relative group cursor-pointer" id="preview-image-container">
                                             <img id="preview-image" src="" alt="Preview Bukti Transfer"
                                                 class="w-full sm:w-32 h-auto sm:h-32 max-h-48 sm:max-h-32 object-cover rounded-lg border-2 border-green-300 shadow-md mx-auto transition-transform group-hover:scale-105">
-                                            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all rounded-lg flex items-center justify-center pointer-events-none">
-                                                <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"></path>
+                                            <div
+                                                class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all rounded-lg flex items-center justify-center pointer-events-none">
+                                                <svg class="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7">
+                                                    </path>
                                                 </svg>
                                             </div>
-                                            <p class="text-xs text-center text-gray-500 mt-2 group-hover:text-green-600 transition-colors pointer-events-none">Klik untuk memperbesar</p>
+                                            <p
+                                                class="text-xs text-center text-gray-500 mt-2 group-hover:text-green-600 transition-colors pointer-events-none">
+                                                Klik untuk memperbesar</p>
                                         </div>
                                     </div>
 
@@ -354,12 +374,17 @@
                                     <div class="flex-1 w-full min-w-0">
                                         <div class="flex flex-col sm:flex-row items-center sm:items-start mb-3">
                                             <div class="flex items-center">
-                                                <div class="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-green-500 rounded-full flex items-center justify-center mr-2">
-                                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                <div
+                                                    class="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 bg-green-500 rounded-full flex items-center justify-center mr-2">
+                                                    <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor"
+                                                        viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd"
+                                                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                            clip-rule="evenodd" />
                                                     </svg>
                                                 </div>
-                                                <h3 class="font-semibold text-green-800 text-sm sm:text-base text-center sm:text-left">
+                                                <h3
+                                                    class="font-semibold text-green-800 text-sm sm:text-base text-center sm:text-left">
                                                     Bukti Transfer Berhasil!
                                                 </h3>
                                             </div>
@@ -368,8 +393,12 @@
                                         <div class="space-y-2 text-xs sm:text-sm">
                                             <div class="flex flex-col sm:flex-row sm:items-start">
                                                 <div class="flex items-start mb-1 sm:mb-0">
-                                                    <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                    <svg class="w-4 h-4 text-gray-500 mr-2 mt-0.5 flex-shrink-0"
+                                                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2"
+                                                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                                                        </path>
                                                     </svg>
                                                     <span class="font-medium text-gray-700 mr-2">Nama File:</span>
                                                 </div>
@@ -378,8 +407,11 @@
                                                 </div>
                                             </div>
                                             <div class="flex items-center">
-                                                <svg class="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                <svg class="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                                    </path>
                                                 </svg>
                                                 <span class="font-medium text-gray-700 mr-2">Ukuran:</span>
                                                 <span id="preview-file-size" class="text-gray-600"></span>
@@ -389,16 +421,20 @@
                                         <div class="mt-4 flex flex-col sm:flex-row gap-2">
                                             <button type="button" id="remove-file"
                                                 class="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-white bg-red-500 hover:bg-red-600 active:bg-red-700 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 touch-manipulation">
-                                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                                 </svg>
                                                 <span class="hidden sm:inline">Hapus & Ganti File</span>
                                                 <span class="sm:hidden">Hapus File</span>
                                             </button>
                                             <button type="button" id="change-file"
                                                 class="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-green-700 bg-white border border-green-500 hover:bg-green-50 active:bg-green-100 rounded-lg transition-colors duration-200 shadow-sm hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 touch-manipulation">
-                                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/>
+                                                <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none"
+                                                    stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                                                 </svg>
                                                 Pilih File Lain
                                             </button>
@@ -410,30 +446,42 @@
 
                         <!-- Error Message -->
                         @error('payment_proof')
-                            <div class="mt-2 flex items-start sm:items-center p-2 sm:p-3 text-xs sm:text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                            <div
+                                class="mt-2 flex items-start sm:items-center p-2 sm:p-3 text-xs sm:text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" fill="currentColor"
+                                    viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clip-rule="evenodd" />
                                 </svg>
                                 <span class="leading-relaxed">{{ $message }}</span>
                             </div>
                         @enderror
 
                         <!-- Validation Message Area -->
-                        <div id="upload-error" class="mt-2 hidden items-start sm:items-center p-2 sm:p-3 text-xs sm:text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg">
-                            <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                        <div id="upload-error"
+                            class="mt-2 hidden items-start sm:items-center p-2 sm:p-3 text-xs sm:text-sm text-red-800 bg-red-50 border border-red-200 rounded-lg">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0 mt-0.5 sm:mt-0" fill="currentColor"
+                                viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                    clip-rule="evenodd" />
                             </svg>
                             <span id="upload-error-message" class="leading-relaxed"></span>
                         </div>
                     </div>
 
                     <!-- Payment Proof Image Modal -->
-                    <div id="payment-proof-modal" class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden items-center justify-center p-4" style="backdrop-filter: blur(8px);">
+                    <div id="payment-proof-modal"
+                        class="fixed inset-0 bg-black bg-opacity-80 z-50 hidden items-center justify-center p-4"
+                        style="backdrop-filter: blur(8px);">
                         <div class="relative max-w-4xl max-h-[90vh] w-full">
                             <!-- Close Button -->
-                            <button type="button" id="close-proof-modal-btn" class="absolute -top-12 right-0 text-white hover:text-gray-300 bg-black bg-opacity-50 rounded-full p-2 transition-colors">
+                            <button type="button" id="close-proof-modal-btn"
+                                class="absolute -top-12 right-0 text-white hover:text-gray-300 bg-black bg-opacity-50 rounded-full p-2 transition-colors">
                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
                             </button>
 
@@ -442,7 +490,8 @@
                                 <div class="text-center mb-3">
                                     <h3 class="text-lg font-semibold text-gray-900">Bukti Transfer</h3>
                                 </div>
-                                <img id="modal-proof-image" src="" alt="Bukti Transfer" class="w-full h-auto max-h-[70vh] object-contain rounded-lg">
+                                <img id="modal-proof-image" src="" alt="Bukti Transfer"
+                                    class="w-full h-auto max-h-[70vh] object-contain rounded-lg">
                                 <div class="mt-3 text-center">
                                     <p id="modal-proof-file-name" class="text-sm text-gray-600"></p>
                                     <p id="modal-proof-file-size" class="text-xs text-gray-500"></p>
@@ -553,7 +602,10 @@
                 // Scroll ke element pertama yang error
                 const firstError = document.querySelector('.border-red-500');
                 if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
                 }
 
                 return false;
@@ -575,7 +627,8 @@
             if (submitBtn) {
                 submitBtn.disabled = true;
                 const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<div class="flex items-center justify-center"><svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Mengirim Pesanan...</span></div>';
+                submitBtn.innerHTML =
+                    '<div class="flex items-center justify-center"><svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Mengirim Pesanan...</span></div>';
 
                 // Re-enable button setelah 30 detik jika tidak ada response (timeout)
                 setTimeout(() => {
@@ -713,7 +766,10 @@
                 previewArea.classList.remove('hidden');
 
                 // Scroll to preview
-                previewArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                previewArea.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
             };
             reader.onerror = () => {
                 showError('❌ Gagal membaca file! Silakan coba lagi.');
@@ -850,6 +906,7 @@
 
         /* Mobile touch optimization */
         @media (max-width: 640px) {
+
             /* Larger touch targets for mobile */
             #upload-area {
                 min-height: 160px;
@@ -861,13 +918,14 @@
             }
 
             /* Better spacing for small screens */
-            .space-y-2 > * + * {
+            .space-y-2>*+* {
                 margin-top: 0.75rem;
             }
 
             /* Optimize button touch targets */
             button {
-                min-height: 44px; /* iOS recommended touch target */
+                min-height: 44px;
+                /* iOS recommended touch target */
             }
         }
 

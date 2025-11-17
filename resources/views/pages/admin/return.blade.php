@@ -115,19 +115,22 @@
                                         <button type="button" @click="openDetailModal(order)"
                                             class="text-green-600 hover:text-green-400 transition-colors"
                                             title="Lihat Pesanan">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
-                                                <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round">
+                                                <path
+                                                    d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
                                                 <circle cx="12" cy="12" r="3" />
                                             </svg>
                                         </button>
 
-                                        <button x-show="order.returns && order.returns.length" type="button" @click="openReturnModal(order)"
+                                        <button x-show="order.returns && order.returns.length" type="button"
+                                            @click="openReturnModal(order)"
                                             class="text-green-600 hover:text-green-400 transition-colors"
                                             title="Lihat Pengembalian">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M9 14 4 9l5-5" />
                                                 <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11" />
                                             </svg>
@@ -139,21 +142,24 @@
                                             class="text-green-600 hover:text-green-400 transition-colors"
                                             title="Kirim Ulang">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                stroke-linecap="round" stroke-linejoin="round">
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path
                                                     d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
                                                 <path d="m21.854 2.147-10.94 10.939" />
                                             </svg>
                                         </button>
 
-                                        <button type="button" @click="openModalTracking(order)" class="text-green-600 hover:text-green-400 transition-colors"
+                                        <button type="button" @click="openModalTracking(order)"
+                                            class="text-green-600 hover:text-green-400 transition-colors"
                                             title="Lihat Histori Pengiriman">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
                                                 <path d="M15 18H9" />
-                                                <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
+                                                <path
+                                                    d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
                                                 <circle cx="17" cy="18" r="2" />
                                                 <circle cx="7" cy="18" r="2" />
                                             </svg>
@@ -175,19 +181,15 @@
         <div x-show="showModalSend" class="fixed inset-0 z-50 overflow-y-auto" x-cloak
             style="backdrop-filter: blur(4px);">
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-                <div x-show="showModalSend"
-                    x-transition:enter="transition ease-out duration-400"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-300"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    class="fixed inset-0 bg-gray-900 bg-opacity-60" @click="showModalSend = false"></div>
+                <div x-show="showModalSend" x-transition:enter="transition ease-out duration-400"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900 bg-opacity-60"
+                    @click="showModalSend = false"></div>
 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
-                <div x-show="showModalSend"
-                    x-transition:enter="transition ease-out duration-400 delay-75"
+                <div x-show="showModalSend" x-transition:enter="transition ease-out duration-400 delay-75"
                     x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave="transition ease-in duration-300"
@@ -207,7 +209,8 @@
                         Pastikan produk dalam kondisi baik sebelum mengirimkannya.
                     </p>
 
-                    <form :action="baseUrl + 'admin/order/send/' + selectedOrderId" method="POST" x-cloak class="space-y-2">
+                    <form :action="baseUrl + 'admin/order/send/' + selectedOrderId" method="POST" x-cloak
+                        class="space-y-2">
                         @csrf
                         <div>
                             <x-input-label for="carrier" value="Nama Pengirim" />
@@ -224,8 +227,7 @@
                             <x-input-label for="notes" value="Catatan" />
 
                             <textarea id="notes" name="notes" placeholder="Masukkan Catatan"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500"
-                                required></textarea>
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500" required></textarea>
 
                             @error('notes')
                                 <div class="mt-1 text-red-500 text-sm">{{ $message }}</div>
@@ -249,20 +251,15 @@
         </div>
 
         <!-- Detail Modal -->
-        <div x-show="showDetailModal"
-            x-transition:enter="transition ease-out duration-400"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            @keydown.escape.window="closeDetailModal()"
+        <div x-show="showDetailModal" x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" @keydown.escape.window="closeDetailModal()"
             @click.self="closeDetailModal()"
             class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4"
             style="display: none; backdrop-filter: blur(6px);">
             <!-- Modal Box -->
-            <div x-show="showDetailModal"
-                x-transition:enter="transition ease-out duration-400 delay-75"
+            <div x-show="showDetailModal" x-transition:enter="transition ease-out duration-400 delay-75"
                 x-transition:enter-start="opacity-0 scale-90 translate-y-8"
                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                 x-transition:leave="transition ease-in duration-300"
@@ -278,7 +275,8 @@
                     </div>
                     <button @click="closeDetailModal()" class="text-white hover:text-gray-200 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12">
                             </path>
                         </svg>
                     </button>
@@ -346,7 +344,8 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M6 18L18 6M6 6l12 12" />
                                     </svg>
-                                    <span class="font-medium text-red-800" x-text="getStatusName(orderData?.status)"></span>
+                                    <span class="font-medium text-red-800"
+                                        x-text="getStatusName(orderData?.status)"></span>
                                 </div>
                                 <p class="text-sm text-red-700 mt-1">Pesanan ditolak</p>
                             </div>
@@ -361,7 +360,8 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M6 18L18 6M6 6l12 12" />
                                     </svg>
-                                    <span class="font-medium text-red-800" x-text="getStatusName(orderData?.status)"></span>
+                                    <span class="font-medium text-red-800"
+                                        x-text="getStatusName(orderData?.status)"></span>
                                 </div>
                                 <p class="text-sm text-red-700 mt-1">Pesanan dikembalikan</p>
                             </div>
@@ -450,7 +450,8 @@
                     <!-- Order Items -->
                     <div class="mb-6">
                         <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
-                            <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M16 11V7a4 4 0 00-8 0v4M5 9h14l-1 7H6L5 9z"></path>
                             </svg>
@@ -485,7 +486,8 @@
                     <!-- Payment Proof -->
                     <div class="mb-6">
                         <h3 class="font-semibold text-gray-900 mb-4 flex items-center">
-                            <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-600 mr-2" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -608,16 +610,11 @@
 
 
         <!-- Full Image Modal -->
-        <div x-show="showDetailImageModal"
-            x-transition:enter="transition ease-out duration-400"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            @keydown.escape="showDetailImageModal = false"
-            @click.self="showDetailImageModal = false"
-            class="fixed inset-0 bg-black bg-opacity-90 z-[120]"
+        <div x-show="showDetailImageModal" x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" @keydown.escape="showDetailImageModal = false"
+            @click.self="showDetailImageModal = false" class="fixed inset-0 bg-black bg-opacity-90 z-[120]"
             style="display: none; backdrop-filter: blur(8px);">
 
             <div class="flex items-center justify-center min-h-screen p-4">
@@ -627,7 +624,8 @@
                     <button @click="showDetailImageModal = false"
                         class="absolute top-4 right-4 bg-red-600 bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-30 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12">
                             </path>
                         </svg>
                     </button>
@@ -636,16 +634,11 @@
         </div>
 
         <!-- Return Image Modal -->
-        <div x-show="showReturnImageModal"
-            x-transition:enter="transition ease-out duration-400"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            @keydown.escape="closeReturnImageModal()"
-            @click.self="closeReturnImageModal()"
-            class="fixed inset-0 bg-black bg-opacity-90 z-[120]"
+        <div x-show="showReturnImageModal" x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" @keydown.escape="closeReturnImageModal()"
+            @click.self="closeReturnImageModal()" class="fixed inset-0 bg-black bg-opacity-90 z-[120]"
             style="display: none; backdrop-filter: blur(8px);">
 
             <div class="flex items-center justify-center min-h-screen p-4">
@@ -655,7 +648,8 @@
                     <button @click="closeReturnImageModal()"
                         class="absolute top-4 right-4 bg-red-600 bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-30 transition-colors">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12">
                             </path>
                         </svg>
                     </button>
@@ -668,20 +662,16 @@
             <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
 
                 <!-- Overlay -->
-                <div x-show="showTrackingModal"
-                    x-transition:enter="transition ease-out duration-400"
-                    x-transition:enter-start="opacity-0"
-                    x-transition:enter-end="opacity-100"
-                    x-transition:leave="transition ease-in duration-300"
-                    x-transition:leave-start="opacity-100"
-                    x-transition:leave-end="opacity-0"
-                    class="fixed inset-0 bg-gray-900 bg-opacity-60" @click="showTrackingModal = false"></div>
+                <div x-show="showTrackingModal" x-transition:enter="transition ease-out duration-400"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+                    x-transition:leave-end="opacity-0" class="fixed inset-0 bg-gray-900 bg-opacity-60"
+                    @click="showTrackingModal = false"></div>
 
                 <span class="hidden sm:inline-block sm:align-middle sm:h-screen">&#8203;</span>
 
                 <!-- Modal -->
-                <div x-show="showTrackingModal"
-                    x-transition:enter="transition ease-out duration-400 delay-75"
+                <div x-show="showTrackingModal" x-transition:enter="transition ease-out duration-400 delay-75"
                     x-transition:enter-start="opacity-0 translate-y-8 sm:translate-y-0 sm:scale-90"
                     x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave="transition ease-in duration-300"
@@ -705,12 +695,14 @@
                         <template x-for="(history, index) in orderData.histories" :key="index">
                             <div class="mb-6 ml-2">
                                 <!-- Dot -->
-                                <div class="absolute w-3 h-3 bg-green-500 rounded-full -left-1.5 border border-white"></div>
+                                <div class="absolute w-3 h-3 bg-green-500 rounded-full -left-1.5 border border-white">
+                                </div>
 
                                 <!-- Content -->
                                 <p class="text-sm font-semibold text-gray-800" x-text="formatAction(history.action)"></p>
                                 <p class="text-sm text-gray-600" x-text="history.description"></p>
-                                <p class="text-xs text-gray-400 mt-1" x-text="new Date(history.created_at).toLocaleString()">
+                                <p class="text-xs text-gray-400 mt-1"
+                                    x-text="new Date(history.created_at).toLocaleString()">
                                 </p>
                             </div>
                         </template>
@@ -731,21 +723,16 @@
             </div>
         </div>
 
-        <div x-show="showReturnModal"
-            x-transition:enter="transition ease-out duration-400"
-            x-transition:enter-start="opacity-0"
-            x-transition:enter-end="opacity-100"
-            x-transition:leave="transition ease-in duration-300"
-            x-transition:leave-start="opacity-100"
-            x-transition:leave-end="opacity-0"
-            @keydown.escape.window="closeReturnModal()"
+        <div x-show="showReturnModal" x-transition:enter="transition ease-out duration-400"
+            x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0" @keydown.escape.window="closeReturnModal()"
             @click.self="closeReturnModal()"
             class="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4"
             style="display: none; backdrop-filter: blur(6px);">
 
             <!-- Modal Box -->
-            <div x-show="showReturnModal"
-                x-transition:enter="transition ease-out duration-400 delay-75"
+            <div x-show="showReturnModal" x-transition:enter="transition ease-out duration-400 delay-75"
                 x-transition:enter-start="opacity-0 scale-90 translate-y-8"
                 x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                 x-transition:leave="transition ease-in duration-300"
@@ -800,14 +787,14 @@
                 </div>
 
                 <div class="bg-gray-50 p-4">
-                    <form x-show="showFormRejected" :action="baseUrl + 'admin/return/rejected/' + orderData.returns[0]?.id"
-                        method="POST" class="mt-4">
+                    <form x-show="showFormRejected"
+                        :action="baseUrl + 'admin/return/rejected/' + orderData.returns[0]?.id" method="POST"
+                        class="mt-4">
                         @csrf
                         <div>
                             <x-input-label for="admin_notes" value="Alasan menolak pengembalian" />
                             <textarea id="admin_notes" name="admin_notes" placeholder="Masukkan catatan pengembalian"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500"
-                                required></textarea>
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500" required></textarea>
                             @error('admin_notes')
                                 <div class="mt-1 text-red-500 text-sm">{{ $message }}</div>
                             @enderror

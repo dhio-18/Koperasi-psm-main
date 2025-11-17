@@ -28,13 +28,15 @@
         <!-- Upload Form -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Tambah Gambar Baru</h2>
-            <form action="{{ route('admin.carousel.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <form action="{{ route('admin.carousel.store') }}" method="POST" enctype="multipart/form-data"
+                class="space-y-4">
                 @csrf
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Gambar</label>
                     <input type="file" name="image" accept="image/*" required
                         class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500">
-                    <p class="text-sm text-gray-500 mt-1">Format: JPG, PNG, WEBP. Maksimal 2MB. Resolusi rekomendasi: 1920x800px</p>
+                    <p class="text-sm text-gray-500 mt-1">Format: JPG, PNG, WEBP. Maksimal 2MB. Resolusi rekomendasi:
+                        1920x800px</p>
                     @error('image')
                         <p class="text-sm text-red-600 mt-1">{{ $message }}</p>
                     @enderror
@@ -61,12 +63,12 @@
             @else
                 <div id="carousel-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     @foreach ($carousels as $carousel)
-                        <div data-id="{{ $carousel->id }}" class="carousel-item bg-gray-50 rounded-lg p-4 border border-gray-200">
+                        <div data-id="{{ $carousel->id }}"
+                            class="carousel-item bg-gray-50 rounded-lg p-4 border border-gray-200">
                             <!-- Image Preview -->
                             <div class="relative aspect-video mb-3 rounded-lg overflow-hidden bg-gray-200">
-                                <img src="{{ asset('storage/' . $carousel->image_path) }}"
-                                     alt="Carousel Image"
-                                     class="w-full h-full object-cover">
+                                <img src="{{ asset('storage/' . $carousel->image_path) }}" alt="Carousel Image"
+                                    class="w-full h-full object-cover">
 
                                 <!-- Status Badge -->
                                 <div class="absolute top-2 right-2">
@@ -79,7 +81,8 @@
 
                                 <!-- Drag Handle -->
                                 <div class="drag-handle absolute top-2 left-2 cursor-move bg-white/80 p-2 rounded-lg">
-                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M4 6h16M4 12h16M4 18h16" />
                                     </svg>
@@ -88,25 +91,29 @@
 
                             <!-- Order & Actions -->
                             <div class="flex items-center justify-between">
-                                <span class="text-sm text-gray-600">Urutan: <span class="font-semibold">{{ $carousel->order }}</span></span>
+                                <span class="text-sm text-gray-600">Urutan: <span
+                                        class="font-semibold">{{ $carousel->order }}</span></span>
 
                                 <div class="flex gap-2">
                                     <!-- Toggle Active -->
-                                    <form action="{{ route('admin.carousel.toggle', $carousel->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('admin.carousel.toggle', $carousel->id) }}" method="POST"
+                                        class="inline">
                                         @csrf
                                         @method('PATCH')
                                         <button type="submit"
                                             class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
                                             title="{{ $carousel->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
                                             @if ($carousel->is_active)
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                                 </svg>
                                             @else
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor"
+                                                    viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                         d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
                                                 </svg>
@@ -159,20 +166,22 @@
                     const orders = Array.from(items).map(item => item.dataset.id);
 
                     fetch('{{ route('admin.carousel.update-order') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({ orders: orders })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Order updated successfully
-                    })
-                    .catch(error => {
-                        // Handle error silently
-                    });
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                orders: orders
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            // Order updated successfully
+                        })
+                        .catch(error => {
+                            // Handle error silently
+                        });
                 }
             }
         }
