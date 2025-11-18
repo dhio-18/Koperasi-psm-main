@@ -27,7 +27,7 @@
                 <table class="w-full">
                     <thead class="bg-green-50 sticky top-0 z-10">
                         <tr class="text-gray-900 text-xs md:text-sm">
-                            <th class="px-4 md:px-6 py-3 text-left font-medium uppercase tracking-wider">#</th>
+                            <th class="px-4 md:px-6 py-3 text-left font-medium uppercase tracking-wider">No</th>
                             <!-- py-4→3 -->
                             <th class="px-4 md:px-6 py-3 text-left font-medium uppercase tracking-wider">Nama</th>
                             <th class="px-4 md:px-6 py-3 text-left font-medium uppercase tracking-wider">Email</th>
