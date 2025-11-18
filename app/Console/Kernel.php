@@ -9,7 +9,7 @@ class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
-     * 
+     *
      * Note: In Laravel 12+, schedules are defined in routes/console.php
      * using the Schedule facade, not here in the Kernel.
      */
