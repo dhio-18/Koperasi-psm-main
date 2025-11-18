@@ -38,7 +38,6 @@ class AdminController extends Controller
             ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->sum('total_amount');
 
-        // Hanya hitung retur yang PENDING (belum diproses)
         $totalReturns = Returns::where('status', 'pending')->count();
 
         $totalCompletedOrders = Orders::where('status', 'completed')->count();
@@ -46,20 +45,15 @@ class AdminController extends Controller
             ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->count();
 
-        // Barang Belum Terkirim (pending, waiting, verified, processing)
         $totalPendingOrders = Orders::whereIn('status', ['pending', 'waiting', 'verified', 'processing'])
             ->count();
 
-        // Filter status dari request
         $statusFilter = $request->get('status', 'all');
 
-        // Query pesanan dengan filter dan load relasi returns
-        // Hanya tampilkan pesanan dengan status 'waiting' ATAU pesanan yang memiliki returns dengan status PENDING SAJA
         $ordersQuery = Orders::with('returns')
             ->where(function ($query) {
                 $query->where('status', 'waiting')
                     ->orWhereHas('returns', function ($subQuery) {
-                        // Hanya tampilkan jika ada retur dengan status 'pending' (belum di-approve atau reject)
                         $subQuery->where('status', 'pending');
                     });
             });
