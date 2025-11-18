@@ -283,7 +283,7 @@
                                 <p class="text-sm font-semibold text-gray-800" x-text="formatAction(history.action)"></p>
                                 <p class="text-sm text-gray-600" x-text="history.description"></p>
                                 <p class="text-xs text-gray-400 mt-1"
-                                    x-text="new Date(history.created_at).toLocaleString()">
+                                    x-text="formatDate(history.created_at)">
                                 </p>
                             </div>
                         </template>
@@ -1164,6 +1164,18 @@
                     if (!confirm('Apakah Anda yakin ingin menolak pembayaran ini?')) {
                         return;
                     }
+                },
+
+                formatDate(dateString) {
+                    if (!dateString) return '-';
+                    const date = new Date(dateString);
+                    return date.toLocaleString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
                 },
 
                 copyAddress() {
