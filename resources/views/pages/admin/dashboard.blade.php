@@ -93,7 +93,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 class="text-lg font-semibold text-gray-900">Daftar Pesanan</h2>
-                        <p class="text-sm text-gray-500 mt-1">Kelola dan pantau semua pesanan</p>
+                        <p class="text-sm text-gray-500 mt-1">Kelola dan pantau semua pesanan yang belum di konfirmasi dan dikembalikan</p>
                     </div>
 
                     <!-- Filter Buttons -->
@@ -114,29 +114,13 @@
                             </svg>
                             Menunggu Konfirmasi
                         </a>
-                        <a href="{{ route('admin.dashboard', ['status' => 'verified']) }}"
-                            class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 {{ $statusFilter === 'verified' ? 'bg-cyan-600 text-white shadow-md' : 'bg-cyan-50 text-cyan-700 hover:bg-cyan-100 border border-cyan-200' }}">
-                            <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            Terverifikasi
-                        </a>
-                        <a href="{{ route('admin.dashboard', ['status' => 'sending']) }}"
-                            class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 {{ $statusFilter === 'sending' ? 'bg-indigo-600 text-white shadow-md' : 'bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200' }}">
-                            <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                            </svg>
-                            Sedang Dikirim
-                        </a>
                         <a href="{{ route('admin.dashboard', ['status' => 'return']) }}"
                             class="px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 {{ $statusFilter === 'return' ? 'bg-pink-600 text-white shadow-md' : 'bg-pink-50 text-pink-700 hover:bg-pink-100 border border-pink-200' }}">
                             <svg class="inline w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
                             </svg>
-                            Retur
+                            dikembalikan
                         </a>
                     </div>
                 </div>
@@ -217,12 +201,10 @@
                                             <p class="text-sm text-gray-500 mt-1">
                                                 @if ($statusFilter === 'waiting')
                                                     Tidak ada pesanan yang menunggu konfirmasi
-                                                @elseif($statusFilter === 'verified')
-                                                    Tidak ada pesanan yang terverifikasi
-                                                @elseif($statusFilter === 'sending')
-                                                    Tidak ada pesanan yang sedang dikirim
+                                                @elseif($statusFilter === 'return')
+                                                    Tidak ada pesanan yang dikembalikan
                                                 @else
-                                                    Belum ada pesanan yang dibuat
+                                                    Tidak ada pesanan yang menunggu atau dikembalikan
                                                 @endif
                                             </p>
                                         </div>

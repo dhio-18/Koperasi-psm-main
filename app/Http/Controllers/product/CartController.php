@@ -209,7 +209,8 @@ class CartController extends Controller
             session([
                 'address' => $address,
                 'orderItems' => $orderItems,
-                'cartItemIds' => $selectedItems
+                'cartItemIds' => $selectedItems,
+                'from_cart' => true  // Marker untuk checkout dari keranjang
             ]);
 
             return redirect()->route('checkout.cart');

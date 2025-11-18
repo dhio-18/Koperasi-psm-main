@@ -11,6 +11,21 @@ use App\Models\Orders;
 use Laravel\Sanctum\HasApiTokens;
 use App\Notifications\ResetPassword;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string|null $phone
+ * @property string|null $profile_photo_path
+ * @property string $role
+ * @property bool $is_active
+ * @property string|null $google_id
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ */
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */

@@ -38,7 +38,8 @@ class AdminController extends Controller
             ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
             ->sum('total_amount');
 
-        $totalReturns = Returns::count();
+        // Hanya hitung retur yang PENDING (belum diproses)
+        $totalReturns = Returns::where('status', 'pending')->count();
 
         $totalCompletedOrders = Orders::where('status', 'completed')->count();
         $completedOrdersThisWeek = Orders::where('status', 'completed')
@@ -53,17 +54,25 @@ class AdminController extends Controller
         $statusFilter = $request->get('status', 'all');
 
         // Query pesanan dengan filter dan load relasi returns
-        $ordersQuery = Orders::with('returns')->whereNot('status', 'rejected');
+        // Hanya tampilkan pesanan dengan status 'waiting' ATAU pesanan yang memiliki returns dengan status PENDING SAJA
+        $ordersQuery = Orders::with('returns')
+            ->where(function ($query) {
+                $query->where('status', 'waiting')
+                    ->orWhereHas('returns', function ($subQuery) {
+                        // Hanya tampilkan jika ada retur dengan status 'pending' (belum di-approve atau reject)
+                        $subQuery->where('status', 'pending');
+                    });
+            });
 
         if ($statusFilter !== 'all') {
             if ($statusFilter === 'return') {
-                // Filter untuk pesanan yang memiliki retur
+                // Filter untuk pesanan yang memiliki retur PENDING
                 $ordersQuery->whereHas('returns', function ($query) {
-                    $query->whereNotNull('id');
+                    $query->where('status', 'pending');
                 });
-            } else {
-                // Filter untuk status pesanan lainnya
-                $ordersQuery->where('status', $statusFilter);
+            } elseif ($statusFilter === 'waiting') {
+                // Filter untuk pesanan menunggu konfirmasi
+                $ordersQuery->where('status', 'waiting');
             }
         }
 

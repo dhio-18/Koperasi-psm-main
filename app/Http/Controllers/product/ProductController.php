@@ -24,7 +24,7 @@ class ProductController extends Controller
 
     public function indexCategory($categorySlug)
     {
-        // ✅ Ambil kategori berdasarkan slug agar breadcrumb tampil benar
+        // Ambil kategori berdasarkan slug agar breadcrumb tampil benar
         $sort = request()->query('sort', 'newest');
 
         $category = Categories::select('id', 'name', 'slug', 'is_active')
@@ -36,12 +36,12 @@ class ProductController extends Controller
             ->where('category_id', $category->id)
             ->with('category:id,name,slug');
 
-        // ✅ Terapkan urutan
+        // Terapkan urutan
         $this->applySort($query, $sort);
 
         $products = $query->paginate(10)->withQueryString();
 
-        // ✅ Kirim variabel $category ke view
+        // Kirim variabel $category ke view
         return view('pages.product.index', compact('products', 'category'));
     }
 

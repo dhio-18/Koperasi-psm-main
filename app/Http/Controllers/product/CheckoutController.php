@@ -186,10 +186,17 @@ class CheckoutController extends Controller
 
             DB::commit();
 
-            // Bersihkan session terkait cart
-            session()->forget(['address', 'orderItems', 'cartItemIds']);
+            // Cek apakah checkout dari keranjang atau tombol petir
+            $fromCart = session('from_cart');
+            
+            // Bersihkan semua session terkait cart dan checkout
+            session()->forget(['address', 'orderItems', 'cartItemIds', 'from_cart']);
 
-            return redirect()->route('home')->with('success', 'Checkout berhasil diproses!');
+            if ($fromCart) {
+                return redirect()->route('cart.index')->with('success', 'Checkout berhasil diproses!');
+            }
+            
+            return redirect()->route('products.index')->with('success', 'Checkout berhasil diproses!');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());

@@ -197,7 +197,7 @@
                                         <p class="text-sm font-medium text-green-900 mb-1">Pesanan Terkonfirmasi Otomatis
                                         </p>
                                         <p class="text-xs text-green-700"
-                                            x-text="'Pesanan dikonfirmasi secara otomatis pada ' + (order.auto_confirmed_at ? formatDate(order.auto_confirmed_at) : 'waktu yang lalu')">
+                                            x-text="'Pesanan dikonfirmasi secara otomatis'">
                                         </p>
                                     </div>
                                 </div>
@@ -637,6 +637,13 @@
                 },
 
                 init() {
+                    // Sort orders by created_at DESC (terbaru ke terlama) saat init
+                    this.orders.sort((a, b) => {
+                        const dateA = new Date(a.created_at);
+                        const dateB = new Date(b.created_at);
+                        return dateB - dateA; // Terbaru ke terlama
+                    });
+
                     this.filterOrders();
 
                     // Debug: Log orders structure untuk lihat returns data
