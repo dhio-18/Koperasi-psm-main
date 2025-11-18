@@ -9,22 +9,13 @@ class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
+     * 
+     * Note: In Laravel 12+, schedules are defined in routes/console.php
+     * using the Schedule facade, not here in the Kernel.
      */
     protected function schedule(Schedule $schedule): void
     {
-        // Auto-confirm orders setiap jam 21:00 WIB
-        $schedule->command('orders:auto-confirm')
-            ->dailyAt('21:00')  // Jam 21:00
-            ->timezone('Asia/Jakarta')  // Timezone WIB
-            ->name('auto-confirm-orders')
-            ->description('Auto-confirm orders yang belum dikonfirmasi setelah jam 21:00 WIB');
-
-        // Optional: Jalankan setiap 30 menit juga untuk backup (jika scheduler background tidak berjalan)
-        $schedule->command('orders:auto-confirm')
-            ->everyThirtyMinutes()
-            ->timezone('Asia/Jakarta')
-            ->name('auto-confirm-orders-every-30-min')
-            ->description('Fallback: Auto-confirm orders setiap 30 menit');
+        // Schedules are now defined in routes/console.php
     }
 
     /**

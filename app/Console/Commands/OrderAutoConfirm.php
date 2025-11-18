@@ -61,7 +61,7 @@ class OrderAutoConfirm extends Command
 
             if ($autoConfirmOrders->isEmpty()) {
                 $this->info("Tidak ada pesanan yang perlu di-auto-confirm.");
-                return Command::SUCCESS;
+                return 0;
             }
 
             // Update pesanan
@@ -94,11 +94,11 @@ class OrderAutoConfirm extends Command
             }
 
             $this->info("\nTotal pesanan yang di-auto-confirm: $count");
-            return Command::SUCCESS;
+            return 0;
 
         } catch (\Exception $e) {
             $this->error("Error: " . $e->getMessage());
-            return Command::FAILURE;
+            return 1;
         }
     }
 }

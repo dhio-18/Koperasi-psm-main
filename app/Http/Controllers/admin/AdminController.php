@@ -60,12 +60,10 @@ class AdminController extends Controller
 
         if ($statusFilter !== 'all') {
             if ($statusFilter === 'return') {
-                // Filter untuk pesanan yang memiliki retur PENDING
                 $ordersQuery->whereHas('returns', function ($query) {
                     $query->where('status', 'pending');
                 });
             } elseif ($statusFilter === 'waiting') {
-                // Filter untuk pesanan menunggu konfirmasi
                 $ordersQuery->where('status', 'waiting');
             }
         }

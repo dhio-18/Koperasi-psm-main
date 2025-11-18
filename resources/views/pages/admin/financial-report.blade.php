@@ -125,40 +125,23 @@
                             {{-- Previous Button --}}
                             @if ($orderDetails->onFirstPage())
                                 <span class="px-3 py-2 text-sm bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed">
-                                    ← Previous
+                                    Previous
                                 </span>
                             @else
                                 <a href="{{ $orderDetails->previousPageUrl() }}"
                                     class="px-3 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                    ← Previous
+                                    Previous
                                 </a>
                             @endif
-
-                            {{-- Page Numbers --}}
-                            <div class="flex items-center gap-1">
-                                @foreach ($orderDetails->getUrlRange(1, $orderDetails->lastPage()) as $page => $url)
-                                    @if ($page == $orderDetails->currentPage())
-                                        <span class="px-3 py-2 text-sm bg-green-600 text-white rounded-lg font-semibold">
-                                            {{ $page }}
-                                        </span>
-                                    @else
-                                        <a href="{{ $url }}"
-                                            class="px-3 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                            {{ $page }}
-                                        </a>
-                                    @endif
-                                @endforeach
-                            </div>
-
                             {{-- Next Button --}}
                             @if ($orderDetails->hasMorePages())
                                 <a href="{{ $orderDetails->nextPageUrl() }}"
                                     class="px-3 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
-                                    Next →
+                                    Next
                                 </a>
                             @else
                                 <span class="px-3 py-2 text-sm bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed">
-                                    Next →
+                                    Next
                                 </span>
                             @endif
                         </div>
