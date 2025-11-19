@@ -14,9 +14,3 @@ Schedule::command('orders:auto-confirm')
     ->timezone('Asia/Jakarta')
     ->name('auto-confirm-orders')
     ->description('Auto-confirm orders yang belum dikonfirmasi setelah jam 21:00 WIB');
-
-// TESTING: Jalankan setiap menit untuk test (comment ini setelah test)
-// Schedule::command('orders:auto-confirm', ['--force'])
-//     ->everyMinute()
-//     ->name('auto-confirm-orders-every-minute')
-//     ->description('TEST: Auto-confirm orders setiap menit');
