@@ -20,22 +20,22 @@ class CarouselImageSeeder extends Seeder
 
         $carouselImages = [
             [
-                'image_path' => 'images/slider1.jpg',
+                'image_path' => 'imagess/slider1.jpg',
                 'order' => 1,
                 'is_active' => true,
             ],
             [
-                'image_path' => 'images/slider2.jpg',
+                'image_path' => 'imagess/slider2.jpg',
                 'order' => 2,
                 'is_active' => true,
             ],
             [
-                'image_path' => 'images/slider3.jpg',
+                'image_path' => 'imagess/slider3.jpg',
                 'order' => 3,
                 'is_active' => true,
             ],
             [
-                'image_path' => 'images/slider4.jpg',
+                'image_path' => 'imagess/slider4.jpg',
                 'order' => 4,
                 'is_active' => true,
             ],
