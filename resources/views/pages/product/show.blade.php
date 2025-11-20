@@ -45,6 +45,14 @@
                         <span class="font-medium">Stok Tersedia:</span>
                         <span class="font-semibold text-gray-900">{{ $product->stock }}</span>
                     </p>
+                    @if($product->expired_date)
+                    <p class="text-xs sm:text-sm text-gray-600 mt-1">
+                        <span class="font-medium">Kadaluarsa:</span>
+                        <span class="font-semibold {{ \Carbon\Carbon::parse($product->expired_date)->isPast() ? 'text-red-600' : 'text-gray-900' }}">
+                            {{ \Carbon\Carbon::parse($product->expired_date)->format('d M Y') }}
+                        </span>
+                    </p>
+                    @endif
                 </div>
             </div>
 
@@ -93,6 +101,14 @@
                         <span class="font-medium">Stok Tersedia:</span>
                         <span class="font-semibold text-gray-900">{{ $product->stock }}</span>
                     </p>
+                    @if($product->expired_date)
+                    <p class="text-sm md:text-base text-gray-600">
+                        <span class="font-medium">Kadaluarsa:</span>
+                        <span class="font-semibold {{ \Carbon\Carbon::parse($product->expired_date)->isPast() ? 'text-red-600' : 'text-gray-900' }}">
+                            {{ \Carbon\Carbon::parse($product->expired_date)->format('d M Y') }}
+                        </span>
+                    </p>
+                    @endif
                 </div>
 
                 <!-- Qty + Action Buttons -->

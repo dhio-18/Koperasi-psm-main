@@ -112,6 +112,20 @@
                         @enderror
                     </div>
 
+                    {{-- Tanggal Kadaluarsa (Optional) --}}
+                    <div class="mb-4">
+                        <label for="expired_date_add" class="block text-sm font-medium text-gray-700 mb-2">
+                            Tanggal Kadaluarsa <span class="text-gray-400 text-xs">(Opsional)</span>
+                        </label>
+                        <input type="date" id="expired_date_add" name="expired_date"
+                            value="{{ old('expired_date') }}"
+                            min="{{ date('Y-m-d') }}"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors duration-200">
+                        @error('expired_date')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     {{-- Deskripsi --}}
                     <div class="mb-4">
                         <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">

@@ -114,6 +114,7 @@
                             <th class="px-6 py-4 text-left text-sm font-semibold">Nama Produk</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Harga</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Stok</th>
+                            <th class="px-6 py-4 text-left text-sm font-semibold">Kadaluarsa</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Status</th>
                             <th class="px-6 py-4 text-left text-sm font-semibold">Aksi</th>
                         </tr>
@@ -140,6 +141,19 @@
                                 <!-- Stock -->
                                 <td class="px-6 py-4">
                                     <div class="text-sm text-gray-900" x-text="product.stock"></div>
+                                </td>
+
+                                <!-- Expired Date -->
+                                <td class="px-6 py-4">
+                                    <template x-if="product.expired_date">
+                                        <div class="text-sm"
+                                             :class="new Date(product.expired_date) < new Date() ? 'text-red-600 font-semibold' : 'text-gray-900'"
+                                             x-text="formatDate(product.expired_date)">
+                                        </div>
+                                    </template>
+                                    <template x-if="!product.expired_date">
+                                        <div class="text-sm text-gray-400">-</div>
+                                    </template>
                                 </td>
 
                                 <!-- Status Badge -->
@@ -344,6 +358,21 @@
                             @enderror
                         </div>
 
+                        <!-- Tanggal Expired (Optional) -->
+                        <div class="mb-4">
+                            <label for="expired_date" class="block text-sm font-medium text-gray-700 mb-2">
+                                Tanggal Kadaluarsa <span class="text-gray-400 text-xs">(Opsional)</span>
+                            </label>
+                            <input x-model="editData.expired_date" type="date" id="expired_date" name="expired_date"
+                                value="{{ old('expired_date') }}"
+                                min="{{ date('Y-m-d') }}"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors duration-200">
+
+                            @error('expired_date')
+                                <div class="text-red-600 text-sm mt-1">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <!-- Deskripsi -->
                         <div class="mb-4">
                             <label for="deskripsi" class="block text-sm font-medium text-gray-700 mb-2">
@@ -458,6 +487,7 @@
                     category_id: '',
                     price: '',
                     stock: '',
+                    expired_date: '',
                     description: '',
                     currentImage: null,
                     imagePreview: null,
@@ -592,6 +622,19 @@
                     });
                 },
 
+                formatDate(dateString) {
+                    if (!dateString) return '-';
+
+                    const date = new Date(dateString);
+                    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+
+                    const day = date.getDate();
+                    const month = months[date.getMonth()];
+                    const year = date.getFullYear();
+
+                    return `${day} ${month} ${year}`;
+                },
+
                 getStatusClass(status) {
                     if (status == "Aktif") {
                         return 'bg-green-100 text-green-800';
@@ -613,6 +656,7 @@
                     this.editData.category_id = product.category.id;
                     this.editData.price = product.price;
                     this.editData.stock = product.stock;
+                    this.editData.expired_date = product.expired_date || '';
                     this.editData.description = product.description;
                     this.editData.currentImage = product.images;
                     this.editData.imagePreview = null;

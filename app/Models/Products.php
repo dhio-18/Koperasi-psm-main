@@ -24,8 +24,19 @@ class Products extends Model
         'description',
         'price',
         'stock',
+        'expired_date',
         'is_active',
         'weight'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'expired_date' => 'date',
+        'is_active' => 'boolean',
     ];
 
     // Relationships

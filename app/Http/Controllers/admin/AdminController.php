@@ -48,11 +48,14 @@ class AdminController extends Controller
         $totalPendingOrders = Orders::whereIn('status', ['pending', 'waiting', 'verified', 'processing'])
             ->count();
 
+        $totalVerifiedOrders = Orders::where('status', 'verified')->count();
+
         $statusFilter = $request->get('status', 'all');
 
         $ordersQuery = Orders::with('returns')
             ->where(function ($query) {
                 $query->where('status', 'waiting')
+                    ->orWhere('status', 'verified')
                     ->orWhereHas('returns', function ($subQuery) {
                         $subQuery->where('status', 'pending');
                     });
@@ -65,6 +68,8 @@ class AdminController extends Controller
                 });
             } elseif ($statusFilter === 'waiting') {
                 $ordersQuery->where('status', 'waiting');
+            } elseif ($statusFilter === 'verified') {
+                $ordersQuery->where('status', 'verified');
             }
         }
 
@@ -79,6 +84,7 @@ class AdminController extends Controller
             'totalCompletedOrders' => $totalCompletedOrders,
             'completedOrdersThisWeek' => $completedOrdersThisWeek,
             'totalPendingOrders' => $totalPendingOrders,
+            'totalVerifiedOrders' => $totalVerifiedOrders,
             'orders' => $orders,
             'statusFilter' => $statusFilter,
         ]);
@@ -250,6 +256,7 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'expired_date' => 'nullable|date|after_or_equal:today',
             'description' => 'nullable|string',
             'images' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -266,6 +273,7 @@ class AdminController extends Controller
                 'category_id' => $validated['category_id'],
                 'price' => $validated['price'],
                 'stock' => $validated['stock'],
+                'expired_date' => $validated['expired_date'] ?? null,
                 'description' => $validated['description'] ?? null,
                 'images' => $image_path,
             ]);
@@ -285,6 +293,7 @@ class AdminController extends Controller
             'category_id' => 'required|exists:categories,id',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'expired_date' => 'nullable|date|after_or_equal:today',
             'description' => 'nullable|string',
             'images' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
@@ -298,6 +307,7 @@ class AdminController extends Controller
                 'category_id' => $validated['category_id'],
                 'price' => $validated['price'],
                 'stock' => $validated['stock'],
+                'expired_date' => $validated['expired_date'] ?? null,
                 'description' => $validated['description'] ?? null,
             ];
 
