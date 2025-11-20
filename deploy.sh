@@ -47,9 +47,11 @@ tar -czf "${BACKUP_FILE}" \
     --exclude='node_modules' \
     --exclude='vendor' \
     --exclude='storage/logs' \
+    --exclude='storage/backups' \
     --exclude='storage/framework/cache' \
     --exclude='storage/framework/sessions' \
     --exclude='.git' \
+    --exclude='.github' \
     .
 log_success "Backup created: ${BACKUP_FILE}"
 
