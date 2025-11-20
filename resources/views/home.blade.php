@@ -43,7 +43,7 @@
             <div class="order-1 md:order-2" x-data="{
                 images: [
                     @foreach ($carouselImages as $carousel)
-                            '{{ asset('storage/' . $carousel->image_path) }}', @endforeach
+                            '{{ asset($carousel->image_path) }}', @endforeach
                 ],
                 active: 0,
                 next() { this.active = (this.active + 1) % this.images.length },
