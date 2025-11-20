@@ -162,7 +162,7 @@ jobs:
 
       - name: Run deployment script on server
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "bash ${{ secrets.REMOTE_DIR }}/deploy.sh"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.REMOTE_DIR }} && bash deploy.sh"
 
       - name: Run health check
         run: |
