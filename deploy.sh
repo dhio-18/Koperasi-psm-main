@@ -105,7 +105,6 @@ fi
 # 7. Clear old session and cache files
 log_info "Clearing cache..."
 php artisan cache:clear
-php artisan session:clear
 log_success "Cache cleared"
 
 # 8. Set proper permissions
