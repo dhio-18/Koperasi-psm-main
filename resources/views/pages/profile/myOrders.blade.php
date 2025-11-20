@@ -241,7 +241,7 @@
                                 </div>
                             </div>
 
-                            <!-- Shipping Notes (hanya tampil jika status 'sending' DAN TIDAK ada penolakan retur) -->
+                            <!-- Shipping Notes ,,,(hanya tampil jika status 'sending' DAN TIDAK ada penolakan retur) -->
                             <div x-show="order.status === 'sending' && order.shipment && order.shipment.notes && order.shipment.notes !== null && order.shipment.notes !== '' && !(order.returns && order.returns.some(r => r.admin_notes && r.status === 'rejected'))"
                                 class="mx-4 mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                                 <div class="flex items-start gap-2">
