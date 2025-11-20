@@ -80,12 +80,19 @@ php artisan route:cache
 php artisan view:cache
 log_success "Application optimized"
 
-# 6. Build frontend assets (if needed)
+# 6. Build frontend assets with Vite
 if [ -f "package.json" ]; then
-    log_info "Building frontend assets..."
+    log_info "Building frontend assets with Vite..."
     npm ci --omit=dev
     npm run build
-    log_success "Frontend assets built"
+    if [ $? -eq 0 ]; then
+        log_success "Frontend assets built successfully"
+    else
+        log_error "Vite build failed!"
+        exit 1
+    fi
+else
+    log_warning "package.json not found, skipping asset build"
 fi
 
 # 7. Clear old session and cache files
