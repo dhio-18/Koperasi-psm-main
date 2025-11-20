@@ -645,7 +645,7 @@
 
 
                 /**
-                 *  Edit modal handlers
+                 *  Edit modal handlers.
                  */
 
                 openEditModal(product) {
