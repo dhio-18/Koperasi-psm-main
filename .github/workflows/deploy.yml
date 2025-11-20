@@ -112,27 +112,30 @@ jobs:
 
           # Setup SSH directory
           mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          # Write private key safely (preserving newlines)
+          cat > ~/.ssh/id_rsa << 'SSHKEY'
+          ${{ secrets.SSH_PRIVATE_KEY }}
+          SSHKEY
+
+          # Fix permissions
+          chmod 600 ~/.ssh/id_rsa
 
           # Add server to known_hosts
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
 
-          # Add private key
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          chmod 700 ~/.ssh
-
           # Test SSH connection
           echo "Testing SSH connection..."
-          ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '✓ SSH connection successful'"
-
-          if [ $? -eq 0 ]; then
+          if ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '✓ SSH connection successful'"; then
             echo "✓ SSH setup completed"
           else
             echo "❌ SSH connection failed!"
-            echo "Please check:"
-            echo "  1. SSH_HOST is correct"
-            echo "  2. SSH_USER exists on VPS"
-            echo "  3. Public key is in ~/.ssh/authorized_keys"
+            echo "Debugging info:"
+            echo "SSH_HOST: ${{ secrets.SSH_HOST }}"
+            echo "SSH_USER: ${{ secrets.SSH_USER }}"
+            echo "Private key permissions:"
+            ls -la ~/.ssh/id_rsa
             exit 1
           fi
 
@@ -168,7 +171,7 @@ jobs:
         continue-on-error: true
 
       - name: Notify deployment status (Slack)
-        if: always()
+        if: always() && secrets.SLACK_WEBHOOK_URL != ''
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
