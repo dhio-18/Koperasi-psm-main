@@ -177,10 +177,8 @@
                         })
                         .then(response => response.json())
                         .then(data => {
-                            // Order updated successfully
                         })
                         .catch(error => {
-                            // Handle error silently
                         });
                 }
             }

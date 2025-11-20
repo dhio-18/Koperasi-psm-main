@@ -1172,8 +1172,6 @@
                         return;
                     }
 
-                    // Format data lengkap (data pelanggan + alamat pengiriman)
-                    // Data disimpan di orderData.user bukan orderData.customer
                     const name = this.orderData.user?.name || 'Tidak ada nama';
                     const email = this.orderData.user?.email || 'Tidak ada email';
                     const phone = this.orderData.user?.phone || 'Tidak ada no. HP';
@@ -1182,13 +1180,11 @@
                     const fullData =
                         `DATA PELANGGAN:\nNama: ${name}\nEmail: ${email}\nNo. HP: ${phone}\n\nALAMAT PENGIRIMAN:\n${address}`;
 
-                    // Copy ke clipboard menggunakan async/await
                     navigator.clipboard.writeText(fullData).then(() => {
                         alert('Data pelanggan dan alamat berhasil disalin ke clipboard!');
                     }).catch((err) => {
                         console.error('Gagal menyalin:', err);
 
-                        // Fallback untuk browser lama
                         try {
                             const textarea = document.createElement('textarea');
                             textarea.value = fullData;

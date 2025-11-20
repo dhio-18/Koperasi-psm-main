@@ -5,16 +5,16 @@
 @endsection
 
 @section('main')
-    <div x-data="userPage()" class="min-h-screen px-4 py-6"><!-- px-6→4, py-10→6 -->
+    <div x-data="userPage()" class="min-h-screen px-4 py-6">
 
         <!-- Header (dipadatkan) -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2"><!-- mb-6→4, gap-3→2 -->
-            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Manajemen Admin</h1><!-- 2xl→xl di mobile -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
+            <h1 class="text-xl md:text-2xl font-bold text-gray-800">Manajemen Admin</h1>
             <div class="flex items-center gap-2">
                 <input type="text" placeholder="Cari nama atau email..." x-model="search"
-                    class="border rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-green-500 w-56 md:w-64" /><!-- py-2→1.5, text-sm -->
+                    class="border rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-green-500 w-56 md:w-64" />
                 <button @click="openAddModal()"
-                    class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-1.5 rounded-lg text-sm font-medium"><!-- px-4→3.5, py-2→1.5 -->
+                    class="bg-green-600 hover:bg-green-700 text-white px-3.5 py-1.5 rounded-lg text-sm font-medium">
                     + Tambah Admin
                 </button>
             </div>
@@ -39,13 +39,13 @@
                         <template x-for="(user, index) in filteredUsers()" :key="user.id">
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-gray-900 font-medium"
-                                    x-text="index + 1"></td><!-- py-4→3 -->
+                                    x-text="index + 1"></td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-gray-900" x-text="user.name"></td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-gray-900" x-text="user.email"></td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap capitalize text-gray-700" x-text="user.role">
                                 </td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-right">
-                                    <div class="flex justify-center gap-2"><!-- space-x-3→gap-2 -->
+                                    <div class="flex justify-center gap-2">
                                         <form action="" id="form-confirm" method="POST">
                                             @csrf
                                             @method('DELETE')
@@ -90,7 +90,6 @@
                     x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
                     x-transition:leave-end="opacity-0 translate-y-3 sm:translate-y-0 sm:scale-95"
                     class="inline-block w-full max-w-sm p-5 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-lg">
-                    <!-- max-w-md→sm, p-6→5 -->
                     <div
                         class="flex items-center justify-center w-10 h-10 mx-auto mb-3 bg-red-100 rounded-full text-red-500">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
@@ -104,7 +103,6 @@
                     </div>
 
                     <h3 class="text-base font-semibold text-gray-900 text-center mb-1.5">Hapus Akun Admin</h3>
-                    <!-- text-lg→base -->
                     <p class="text-sm text-gray-600 text-center mb-4">Apakah Anda yakin untuk menghapus admin ini? Klik
                         batal jika
                         tidak ingin menghapus.</p>
@@ -125,11 +123,8 @@
 
         <!-- Modal Tambah Admin -->
         <div x-show="showModal" x-cloak class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-            <div @click.away="closeModal()" class="bg-white w-full max-w-sm rounded-xl shadow-lg p-5">
-                <!-- max-w-md→sm, p-6→5 -->
+            <div @click.away="closeModal()" class="bg-white w-full max-w-sm rounded-xl shadow-lg p-5">>
                 <h2 class="text-base font-semibold mb-3">Tambah Admin</h2>
-                <!-- lg→base -->
-
                 <form action="{{ asset('superadmin/manage-users/') }}" method="POST">
                     @csrf
 
@@ -152,7 +147,7 @@
                             class="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 text-sm">
                     </div>
 
-                    <div class="flex justify-end gap-2 pt-3 border-t"><!-- pt-4→3 -->
+                    <div class="flex justify-end gap-2 pt-3 border-t">
                         <button type="button" @click="closeModal()"
                             class="px-3 py-1.5 border rounded-lg text-gray-600 hover:bg-gray-100 text-sm">Batal</button>
                         <button type="submit"

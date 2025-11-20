@@ -225,7 +225,6 @@
                 init() {
                     const ctx = document.getElementById('revenueChart').getContext('2d');
 
-                    // Create gradient (Green theme)
                     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
                     gradient.addColorStop(0, 'rgba(16, 185, 129, 0.8)');
                     gradient.addColorStop(1, 'rgba(16, 185, 129, 0.3)');

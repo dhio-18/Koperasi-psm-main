@@ -254,12 +254,10 @@
 
                 searchQuery: '',
 
-                // Pagination states
                 currentPage: 1,
                 itemsPerPage: 5,
-                filteredCategories: [], // This will hold the filtered categories
+                filteredCategories: [],
 
-                // Modal States
                 showAddModal: false,
                 showEditModal: false,
                 validationErrors: @json($errors->toArray()),
@@ -274,9 +272,7 @@
                 init() {
                     this.filteredCategories = this.categories;
 
-                    // Check if there are validation errors and open the appropriate modal
                     if (Object.keys(this.validationErrors).length > 0) {
-                        // Check session or old input to determine which modal to open
                         @if (session('_method') === 'PUT')
                             this.showEditModal = true;
                         @else
@@ -350,7 +346,6 @@
                 },
 
 
-                // Modal Handler
                 openAddModal() {
                     this.showEditModal = false;
                     this.showAddModal = true;
@@ -361,7 +356,6 @@
                  * Edit Modal Handlers
                  */
                 openEditModal(category) {
-                    // populate editData
                     this.editData.id = category.id;
                     this.editData.name = category.name;
                     this.editData.currentImage = category.image;
@@ -394,11 +388,8 @@
                 },
 
                 validateEditForm(event) {
-                    // Reset error
                     this.editData.iconError = '';
 
-                    // For edit, we don't require a new icon if there's already a current image
-                    // Only validate if both currentImage and new image are missing
                     if (!this.editData.currentImage && !this.$refs.imageInput.files.length && !this.editData.imagePreview) {
                         event.preventDefault();
                         this.editData.iconError = 'Icon kategori harus dipilih';
