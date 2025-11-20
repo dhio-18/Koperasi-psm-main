@@ -128,7 +128,7 @@ log_header "5. Environment Configuration"
 log_check "Checking .env.production..."
 if [ -f ".env.production" ]; then
     log_pass ".env.production exists"
-    
+
     # Check required variables
     REQUIRED_VARS=("APP_NAME" "APP_ENV" "APP_URL" "DB_HOST" "DB_DATABASE" "DB_USERNAME")
     for var in "${REQUIRED_VARS[@]}"; do
@@ -138,7 +138,7 @@ if [ -f ".env.production" ]; then
             log_warn ".env.production missing $var"
         fi
     done
-    
+
     # Warn if secrets in file
     if grep -q "password\|PASSWORD\|secret\|SECRET\|key\|KEY" .env.production; then
         if ! grep -q "CHANGE_ME\|YOUR_\|PLACEHOLDER"; then
@@ -161,7 +161,7 @@ log_header "6. Git Configuration"
 log_check "Checking Git repository..."
 if git rev-parse --git-dir > /dev/null 2>&1; then
     log_pass "Git repository initialized"
-    
+
     # Check for sensitive files
     if git ls-files | grep -E "deploy_key|\.env$|\.env\.production\.local" > /dev/null; then
         log_fail "Sensitive files found in Git (DANGER!)"
@@ -219,7 +219,7 @@ log_header "10. GitHub Actions Workflows"
 log_check "Checking workflows..."
 if [ -f ".github/workflows/deploy.yml" ]; then
     log_pass "deploy.yml workflow exists"
-    
+
     # Basic YAML validation
     if command -v python3 &> /dev/null; then
         if python3 -c "import yaml; yaml.safe_load(open('.github/workflows/deploy.yml'))" 2>/dev/null; then
