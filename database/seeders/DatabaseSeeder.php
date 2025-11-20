@@ -12,13 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Urutan penting: User > Category > Product > PaymentAccount > Carousel
+        // Urutan penting: User > Category > Product > PaymentAccount
         $this->call([
             UserSeeder::class,
             CategorySeeder::class,
             ProductSeeder::class,
             PaymentAccountSeeder::class,
-            CarouselImageSeeder::class,
         ]);
     }
 }
