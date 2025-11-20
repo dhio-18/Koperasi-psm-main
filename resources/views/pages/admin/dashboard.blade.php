@@ -93,7 +93,7 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 class="text-lg font-semibold text-gray-900">Daftar Pesanan</h2>
-                        <p class="text-sm text-gray-500 mt-1">Kelola dan pantau semua pesanan yang belum di konfirmasi dan dikembalikan</p>
+                        <p class="text-sm text-gray-500 mt-1">Kelola dan pantau semua pesanan yang belum di konfirmasi, diverifikasi dan dikembalikan</p>
                     </div>
 
                     <!-- Filter Buttons -->
