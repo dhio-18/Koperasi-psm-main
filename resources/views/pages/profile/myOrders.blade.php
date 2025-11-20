@@ -179,7 +179,7 @@
                                             Otomatis</p>
                                         <p class="text-xs text-amber-700">Pesanan akan secara otomatis dikonfirmasi jika
                                             Anda tidak mengkonfirmasi atau melakukan pengembalian sebelum pukul
-                                            <strong>21:00 WIB</strong>.</p>
+                                            <strong>17:00 WIB</strong>.</p>
                                     </div>
                                 </div>
                             </div>

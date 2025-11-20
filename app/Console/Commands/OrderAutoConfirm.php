@@ -21,7 +21,7 @@ class OrderAutoConfirm extends Command
      *
      * @var string
      */
-    protected $description = 'Otomatis konfirmasi pesanan yang belum dikonfirmasi setelah jam 21.00 WIB';
+    protected $description = 'Otomatis konfirmasi pesanan yang belum dikonfirmasi setelah jam 17.00 WIB';
 
     /**
      * Execute the console command.
@@ -44,14 +44,14 @@ class OrderAutoConfirm extends Command
             // 1. Status 'sending' (sedang dikirim)
             // 2. Belum di-auto-confirm (auto_confirmed = false)
             // 3. Order masuk dalam hari yang sama
-            // Auto-confirm akan dijalankan setiap hari jam 21:00 WIB untuk semua order hari itu
+            // Auto-confirm akan dijalankan setiap hari jam 17:00 WIB untuk semua order hari itu
 
             $query = Orders::query()
                 ->where('status', 'sending')
                 ->where('auto_confirmed', false);
 
             // Kondisi: Pesanan dibuat pada hari yang sama
-            // Ini memastikan order yang masuk tanggal 17 (pukul 7 pagi sampai 8 malam) akan di-auto-confirm pada 21:00 tanggal 17
+            // Ini memastikan order yang masuk (pukul 7 pagi sampai 5 sore) akan di-auto-confirm pada 17:00
             // Flag --force akan mengabaikan kondisi ini untuk testing
             if (!$isForce) {
                 $query->whereDate('created_at', $now->toDateString());
@@ -79,7 +79,7 @@ class OrderAutoConfirm extends Command
                     \App\Models\OrderHistory::create([
                         'order_id' => $order->id,
                         'action' => 'order_auto_confirmed',
-                        'description' => 'Pesanan otomatis dikonfirmasi karena belum dikonfirmasi hingga jam 21:00 WIB',
+                        'description' => 'Pesanan otomatis dikonfirmasi karena belum dikonfirmasi hingga jam 17:00 WIB',
                         'created_at' => $now,
                     ]);
 
