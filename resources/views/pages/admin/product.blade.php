@@ -541,7 +541,7 @@
                     }
 
                     this.filteredProducts = this.sortProducts(filtered);
-                    this.currentPage = 1; // Reset to first page after filtering
+                    this.currentPage = 1;
                 },
 
                 get paginatedProducts() {
@@ -612,10 +612,8 @@
                 },
 
                 formatCurrency(price) {
-                    // Convert to number if it's a string
                     const numPrice = typeof price === 'string' ? parseFloat(price) : price;
 
-                    // Format with Indonesian locale (dots as thousands separator)
                     return 'Rp ' + numPrice.toLocaleString('id-ID', {
                         minimumFractionDigits: 0,
                         maximumFractionDigits: 0
