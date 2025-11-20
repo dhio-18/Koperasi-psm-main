@@ -6,7 +6,7 @@
 
 @section('main')
     <div x-data="carouselManagement()" class="container mx-auto px-4 pt-8 flex flex-col min-h-screen">
-        <!-- Header -->
+        <!-- Header.. -->
         <div class="mb-6">
             <h1 class="text-3xl font-bold text-gray-900">Kelola Gambar Carousel</h1>
             <p class="text-gray-600 mt-2">Upload dan atur gambar carousel untuk halaman utama</p>
