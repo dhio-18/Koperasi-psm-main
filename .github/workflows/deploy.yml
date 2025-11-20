@@ -109,18 +109,32 @@ jobs:
             echo "  - REMOTE_DIR"
             exit 1
           fi
-
+          
           # Setup SSH directory
           mkdir -p ~/.ssh
-
+          
           # Add server to known_hosts
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
-
+          
           # Add private key
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-
-          echo "✓ SSH setup completed"
+          chmod 700 ~/.ssh
+          
+          # Test SSH connection
+          echo "Testing SSH connection..."
+          ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=5 ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '✓ SSH connection successful'"
+          
+          if [ $? -eq 0 ]; then
+            echo "✓ SSH setup completed"
+          else
+            echo "❌ SSH connection failed!"
+            echo "Please check:"
+            echo "  1. SSH_HOST is correct"
+            echo "  2. SSH_USER exists on VPS"
+            echo "  3. Public key is in ~/.ssh/authorized_keys"
+            exit 1
+          fi
 
       - name: Deploy to server
         env:
@@ -129,6 +143,7 @@ jobs:
           REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         run: |
           rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
             --exclude='.env' \
             --exclude='.env.local' \
             --exclude='.env.production' \
@@ -161,5 +176,5 @@ jobs:
             Deployment to Production: ${{ job.status }}
             Commit: ${{ github.event.head_commit.message }}
             Author: ${{ github.event.head_commit.author.name }}
-          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
         continue-on-error: true
