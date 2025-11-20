@@ -87,10 +87,13 @@ log_success "Application optimized"
 # 6. Build frontend assets with Vite
 if [ -f "package.json" ]; then
     log_info "Building frontend assets with Vite..."
-    npm ci --omit=dev
+    npm ci
     npm run build
     if [ $? -eq 0 ]; then
         log_success "Frontend assets built successfully"
+        # Clean up node_modules after build to save space
+        log_info "Cleaning up node_modules..."
+        rm -rf node_modules
     else
         log_error "Vite build failed!"
         exit 1
