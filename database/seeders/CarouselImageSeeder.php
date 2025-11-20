@@ -13,7 +13,7 @@ class CarouselImageSeeder extends Seeder
      */
     public function run(): void
     {
-        // Cek apakah sudah ada data untuk menghindari duplikasi
+        // Cek apakah sudah ada data untuk menghindari duplikasi...
         if (CarouselImage::count() > 0) {
             $this->command->info('Carousel images already exist. Skipping...');
             return;
