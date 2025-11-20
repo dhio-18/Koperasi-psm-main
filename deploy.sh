@@ -3,6 +3,8 @@
 # Koperasi PSM - Production Deployment Script
 # This script should be run on the production server
 
+export PATH=$PATH:/usr/bin:/usr/local/bin:$(pwd)/node_modules/.bin
+
 set -e  # Exit on error
 
 # Colors for output
