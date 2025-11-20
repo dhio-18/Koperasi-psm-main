@@ -167,7 +167,7 @@ jobs:
       - name: Run health check
         run: |
           sleep 10
-          curl -f https://koperasi-psm.com/health || curl -f https://koperasi-psm.com/api/v1/health || echo "Health check endpoint not found (optional)"
+          curl -f https://koperasipsm.web.id/health || curl -f https://koperasipsm.web.id/api/v1/health || echo "Health check endpoint not found (optional)"
         continue-on-error: true
 
       # - name: Notify deployment status (Slack)
