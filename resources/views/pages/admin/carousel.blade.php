@@ -25,7 +25,7 @@
             </div>
         @endif
 
-        <!-- Upload Form -->
+        <!-- Upload.. Form -->
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
             <h2 class="text-xl font-semibold text-gray-900 mb-4">Tambah Gambar Baru</h2>
             <form action="{{ route('admin.carousel.store') }}" method="POST" enctype="multipart/form-data"
