@@ -12,7 +12,7 @@
             <p class="text-gray-600 mt-2">Upload dan atur gambar carousel untuk halaman utama</p>
         </div>
 
-        <!-- Alert Messages... -->
+        <!-- Alert Messages........ -->
         @if (session('success'))
             <div class="mb-4 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
                 {{ session('success') }}
