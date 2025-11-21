@@ -132,15 +132,23 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         run: |
-         rsync -avz \
-            -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
+          rsync -avz \
+            -e "ssh -o StrictHostKeyChecking=accept-new" \
+            --no-perms \
+            --no-group \
+            --no-owner \
             --exclude='.env' \
             --exclude='.env.local' \
             --exclude='.env.production' \
             --exclude='.env.*.php' \
             --exclude='node_modules' \
             --exclude='vendor' \
-            --exclude='storage' \
+            --exclude='storage/app/*' \
+            --exclude='storage/logs/*' \
+            --exclude='storage/framework/cache/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='bootstrap/cache/*.php' \
             --exclude='.git' \
             --exclude='.github' \
             . ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}
