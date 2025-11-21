@@ -75,10 +75,7 @@
                                     <h3 class="text-red-800 font-semibold mb-1">⏰ Waktu Checkout Telah Berakhir</h3>
                                     <p class="text-sm text-red-700">
                                         Maaf, checkout hanya dapat dilakukan <strong>sebelum jam 17:00 WIB</strong>.
-                                        Silakan coba lagi besok mulai jam 00:00 WIB.
-                                    </p>
-                                    <p class="text-xs text-red-600 mt-2">
-                                        Checkout akan dibuka kembali {{ $remainingTime }}
+                                        Silakan coba lagi besok mulai jam 07:00 WIB.
                                     </p>
                                 </div>
                             </div>

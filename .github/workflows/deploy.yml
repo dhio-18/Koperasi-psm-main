@@ -29,6 +29,7 @@ jobs:
             exit 1
           fi
           echo "✓ All required secrets are configured"
+
       - name: Checkout code
         uses: actions/checkout@v4
         with:
@@ -53,6 +54,7 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
       - name: Install PHP dependencies
         run: composer install --no-dev --prefer-dist --no-interaction --no-progress
 
@@ -77,6 +79,7 @@ jobs:
             cp .env.example .env
             echo "⚠ .env.production not found, using .env.example"
           fi
+
       - name: Generate application key
         run: php artisan key:generate --env=production || true
 
@@ -90,6 +93,7 @@ jobs:
             exit 0
           fi
           echo "✓ Database credentials found"
+
       - name: Setup SSH
         run: |
           # Check if required secrets are set
@@ -126,6 +130,7 @@ jobs:
             ls -la ~/.ssh/id_rsa
             exit 1
           fi
+
       - name: Deploy to server
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
@@ -146,23 +151,20 @@ jobs:
             --exclude='.git' \
             --exclude='.github' \
             . ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}
+
       - name: Run deployment script on server
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.REMOTE_DIR }} && bash deploy.sh"
+
+      - name: Setup Cron Job for auto-confirm orders
+        run: |
+          # Menambahkan cron job untuk menjalankan perintah auto-confirm setiap hari jam 17:00 WIB
+          echo "0 17 * * * cd ${REMOTE_DIR} && php artisan orders:auto-confirm >> ${REMOTE_DIR}/storage/logs/cron.log 2>&1" | sudo tee -a /etc/cron.d/auto-confirm-orders
+          # Restart cron service untuk menerapkan perubahan
+          sudo service cron restart
+
       - name: Run health check
         run: |
           sleep 10
           curl -f https://koperasipsm.web.id/health || curl -f https://koperasipsm.web.id/api/v1/health || echo "Health check endpoint not found (optional)"
         continue-on-error: true
-
-      # - name: Notify deployment status (Slack)
-      #   if: always() && secrets.SLACK_WEBHOOK_URL != ''
-      #   uses: 8398a7/action-slack@v3
-      #   with:
-      #     status: ${{ job.status }}
-      #     text: |
-      #       Deployment to Production: ${{ job.status }}
-      #       Commit: ${{ github.event.head_commit.message }}
-      #       Author: ${{ github.event.head_commit.author.name }}
-      #     webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #   continue-on-error: true
