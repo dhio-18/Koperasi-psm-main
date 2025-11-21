@@ -43,25 +43,49 @@ class ProfileController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'phone' => 'required|numeric',
-            'profile_photo' => 'nullable|image|mimes:jpeg,jpg,png|max:1024', // 1MB
+            'profile_photo' => 'nullable|image|mimes:jpeg,jpg,png|max:1024',
         ]);
 
         try {
             DB::beginTransaction();
 
-            // Update foto jika ada
-            $fileUploadService = new FileUploadService();
-            $validated['profile_photo_path'] = $fileUploadService->upload($request, 'profile_photo', 'profile', $user->profile_photo_path);
+            // Siapkan data untuk update
+            $dataToUpdate = [
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+            ];
 
-            // Simpan data
-            $user->update($validated);
+            // Proses upload foto jika ada
+            if ($request->hasFile('profile_photo')) {
+                $fileUploadService = new FileUploadService();
+
+                // Upload dan dapatkan path relatif (contoh: 'profile/xxxxx.jpg')
+                $photoPath = $fileUploadService->upload(
+                    $request,
+                    'profile_photo',
+                    'profile',
+                    $user->profile_photo_path
+                );
+
+                // Tambahkan ke data update
+                $dataToUpdate['profile_photo_path'] = $photoPath;
+
+                // Debug log (opsional, bisa dihapus setelah fix)
+                \Log::info('Photo uploaded - Path: ' . $photoPath);
+            }
+
+            // Update user
+            $user->update($dataToUpdate);
 
             DB::commit();
 
             return redirect()->back()->with('success', 'Profil berhasil diperbarui.');
-
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::error('Profile update error: ' . $e->getMessage());
+            \Log::error('Stack trace: ' . $e->getTraceAsString());
+
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
                 ->withInput();
@@ -90,14 +114,14 @@ class ProfileController extends Controller
             'phone' => 'required|string|max:15',
             'address' => 'required|string|max:1000',
             'house_number' => [
-            'nullable',
-            'string',
-            'max:10',
-            function ($attribute, $value, $fail) use ($request) {
-                if (stripos($request->label, 'kantor') === false && empty($value)) {
-                $fail('Nomor rumah/gedung wajib diisi untuk alamat kantor');
-                }
-            },
+                'nullable',
+                'string',
+                'max:10',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (stripos($request->label, 'kantor') === false && empty($value)) {
+                        $fail('Nomor rumah/gedung wajib diisi untuk alamat kantor');
+                    }
+                },
             ],
         ], [
             'label.required' => 'Label alamat wajib diisi',
@@ -148,7 +172,6 @@ class ProfileController extends Controller
             DB::commit();
 
             return redirect()->back()->with('success', 'Alamat berhasil ditambahkan.');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
@@ -206,7 +229,6 @@ class ProfileController extends Controller
             DB::commit();
 
             return redirect()->back()->with('success', 'Alamat berhasil diperbarui!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
@@ -229,7 +251,6 @@ class ProfileController extends Controller
             DB::commit();
             return redirect()->back()
                 ->with('success', 'Alamat berhasil dihapus!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
@@ -246,35 +267,35 @@ class ProfileController extends Controller
             'shipment',
             'histories',
         ])
-        ->where('user_id', Auth::id())
-        ->orderBy('created_at', 'desc')
-        ->get()
-        ->map(function ($order) {
-            $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
+            ->where('user_id', Auth::id())
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($order) {
+                $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
 
-            // Pastikan returns di-load dan ter-serialize dengan benar
-            if ($order->returns) {
-                $order->returns = $order->returns->map(function ($return) {
-                    return [
-                        'id' => $return->id,
-                        'reason' => $return->reason,
-                        'comments' => $return->comments,
-                        'images' => $return->images,
-                        'status' => $return->status,
-                        'admin_notes' => $return->admin_notes, // Pastikan ini ter-include
-                        'processed_by' => $return->processed_by,
-                        'processed_at' => $return->processed_at,
-                        'created_at' => $return->created_at,
-                    ];
-                })->toArray();
-            }
+                // Pastikan returns di-load dan ter-serialize dengan benar
+                if ($order->returns) {
+                    $order->returns = $order->returns->map(function ($return) {
+                        return [
+                            'id' => $return->id,
+                            'reason' => $return->reason,
+                            'comments' => $return->comments,
+                            'images' => $return->images,
+                            'status' => $return->status,
+                            'admin_notes' => $return->admin_notes, // Pastikan ini ter-include
+                            'processed_by' => $return->processed_by,
+                            'processed_at' => $return->processed_at,
+                            'created_at' => $return->created_at,
+                        ];
+                    })->toArray();
+                }
 
-            // Include auto-confirm fields
-            $order->auto_confirmed = (bool) $order->auto_confirmed;
-            $order->auto_confirmed_at = $order->auto_confirmed_at ? Carbon::parse($order->auto_confirmed_at)->format('d-m-Y H:i') : null;
+                // Include auto-confirm fields
+                $order->auto_confirmed = (bool) $order->auto_confirmed;
+                $order->auto_confirmed_at = $order->auto_confirmed_at ? Carbon::parse($order->auto_confirmed_at)->format('d-m-Y H:i') : null;
 
-            return $order;
-        });
+                return $order;
+            });
 
         return view('pages.profile.myOrders', compact('orders'));
     }
@@ -305,7 +326,6 @@ class ProfileController extends Controller
             DB::commit();
             return redirect()->back()
                 ->with('success', 'Pesanan berhasil diselesaikan!');
-
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()
@@ -318,7 +338,7 @@ class ProfileController extends Controller
         $request->validate([
             'reason' => 'required|in:defective,wrong_item,other',
             'comments' => 'nullable|string|max:1000',
-             'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
+            'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
         try {

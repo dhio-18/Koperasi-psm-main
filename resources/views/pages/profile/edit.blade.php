@@ -25,8 +25,8 @@
                             <div
                                 class="w-40 h-40 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative">
                                 @if (Auth::user()->profile_photo_path)
-                                    <img x-show="!previewUrl" src=" {{ asset(Auth::user()->profile_photo_path) }}"
-                                        alt="Profile" class="w-full h-full object-cover">
+                                    <img x-show="!previewUrl" src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}"
+                                    alt="Profile" class="w-full h-full object-cover">
                                 @else
                                     <img x-show="!previewUrl" src="{{ asset('profile/blank.webp') }}" alt="Default Profile"
                                         class="w-full h-full object-cover">

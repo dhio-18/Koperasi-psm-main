@@ -5,31 +5,35 @@ namespace App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class FileUploadservice
+class FileUploadService
 {
     /**
-     * Upload file dinamis.
-     *
+     * Upload file dan return path relatif
+     * 
      * @param Request $request
-     * @param string $field nama input file di form
-     * @param string $folder nama folder penyimpanan di storage
-     * @param string|null $oldFile path lama (optional, untuk dihapus)
-     * @return string|null path baru atau null jika tidak ada file
+     * @param string $fieldName - nama field input file
+     * @param string $folder - folder tujuan dalam storage/app/public/
+     * @param string|null $oldPath - path file lama yang akan dihapus
+     * @return string|null - return path relatif (contoh: 'profile/xxxxx.jpg')
      */
-
-    public function upload(Request $request, string $field, string $folder, string $oldFile = null)
+    public function upload($request, $fieldName, $folder, $oldPath = null)
     {
-        if ($request->hasFile($field)) {
-            // Hapus file lama jika ada
-            if ($oldFile && Storage::exists($oldFile)) {
-                Storage::delete($oldFile);
-            }
-
-            // simpan file baru
-            $path = $request->file($field)->store($folder, 'public');
-            return 'storage/' . $path;
+        // Jika tidak ada file yang diupload, return path lama
+        if (!$request->hasFile($fieldName)) {
+            return $oldPath;
         }
 
-        return $oldFile; // kembalikan path lama jika tidak ada file baru
+        // Hapus file lama jika ada
+        if ($oldPath && Storage::disk('public')->exists($oldPath)) {
+            Storage::disk('public')->delete($oldPath);
+        }
+        
+        // Upload file baru ke storage/app/public/{folder}
+        $file = $request->file($fieldName);
+        $path = $file->store($folder, 'public');
+        
+        // Return path relatif saja, BUKAN full URL
+        // Contoh return: 'profile/xxxxx.jpg'
+        return $path;
     }
 }
