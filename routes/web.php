@@ -89,11 +89,11 @@ Route::middleware(['auth', 'role:admin,super_admin'])
         Route::get('/shipping', [AdminController::class, 'shipping'])->name('shippings');
 
         // Carousel management routes
-        Route::get('/carousel', [\App\Http\Controllers\Admin\CarouselController::class, 'index'])->name('carousel.index');
-        Route::post('/carousel', [\App\Http\Controllers\Admin\CarouselController::class, 'store'])->name('carousel.store');
-        Route::patch('/carousel/{id}/toggle', [\App\Http\Controllers\Admin\CarouselController::class, 'toggleActive'])->name('carousel.toggle');
-        Route::post('/carousel/update-order', [\App\Http\Controllers\Admin\CarouselController::class, 'updateOrder'])->name('carousel.update-order');
-        Route::delete('/carousel/{id}', [\App\Http\Controllers\Admin\CarouselController::class, 'destroy'])->name('carousel.destroy');
+        Route::get('/carousel', [\App\Http\Controllers\admin\CarouselController::class, 'index'])->name('carousel.index');
+        Route::post('/carousel', [\App\Http\Controllers\admin\CarouselController::class, 'store'])->name('carousel.store');
+        Route::patch('/carousel/{id}/toggle', [\App\Http\Controllers\admin\CarouselController::class, 'toggleActive'])->name('carousel.toggle');
+        Route::post('/carousel/update-order', [\App\Http\Controllers\admin\CarouselController::class, 'updateOrder'])->name('carousel.update-order');
+        Route::delete('/carousel/{id}', [\App\Http\Controllers\admin\CarouselController::class, 'destroy'])->name('carousel.destroy');
     });
 
 
