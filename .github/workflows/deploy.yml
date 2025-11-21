@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
@@ -90,7 +90,7 @@ jobs:
         run: |
           echo "Checking database configuration..."
           if [ -z "${{ secrets.DB_HOST }}" ] || [ -z "${{ secrets.DB_DATABASE }}" ]; then
-            echo "⚠️  Database credentials not fully configured in GitHub Secrets"
+            echo "⚠  Database credentials not fully configured in GitHub Secrets"
             echo "Required secrets: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
             echo "Skipping database operations in workflow"
             exit 0
@@ -145,7 +145,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         run: |
-          rsync -avz \
+         rsync -avz \
             -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
             --exclude='.env' \
             --exclude='.env.local' \
