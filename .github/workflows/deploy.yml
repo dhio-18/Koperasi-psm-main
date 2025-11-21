@@ -15,22 +15,17 @@ jobs:
         run: |
           echo "Checking required GitHub Secrets..."
           MISSING_SECRETS=()
-
           [ -z "${{ secrets.SSH_HOST }}" ] && MISSING_SECRETS+=("SSH_HOST")
           [ -z "${{ secrets.SSH_USER }}" ] && MISSING_SECRETS+=("SSH_USER")
           [ -z "${{ secrets.REMOTE_DIR }}" ] && MISSING_SECRETS+=("REMOTE_DIR")
           [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ] && MISSING_SECRETS+=("SSH_PRIVATE_KEY")
-
           if [ ${#MISSING_SECRETS[@]} -gt 0 ]; then
             echo "❌ Missing required secrets:"
             for secret in "${MISSING_SECRETS[@]}"; do
               echo "  - $secret"
             done
-            echo ""
-            echo "Please add these secrets to: Settings → Secrets and variables → Actions"
             exit 1
           fi
-
           echo "✓ All required secrets are configured"
 
       - name: Checkout code
@@ -54,12 +49,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
       - name: Install PHP dependencies
-        run: composer install --no-dev --prefer-dist --no-interaction --no-progress
+        run: composer install --no-dev --prefer-dist --no-interaction --no-progress --optimize-autoloader
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -73,71 +68,15 @@ jobs:
       - name: Build assets
         run: npm run build
 
-      - name: Create .env file from production template
-        run: |
-          if [ -f .env.production ]; then
-            cp .env.production .env
-            echo "✓ .env file created from .env.production"
-          else
-            cp .env.example .env
-            echo "⚠ .env.production not found, using .env.example"
-          fi
-
-      - name: Generate application key
-        run: php artisan key:generate --env=production || true
-
-      - name: Verify database credentials
-        run: |
-          echo "Checking database configuration..."
-          if [ -z "${{ secrets.DB_HOST }}" ] || [ -z "${{ secrets.DB_DATABASE }}" ]; then
-            echo "⚠  Database credentials not fully configured in GitHub Secrets"
-            echo "Required secrets: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
-            echo "Skipping database operations in workflow"
-            exit 0
-          fi
-          echo "✓ Database credentials found"
-
       - name: Setup SSH
         run: |
-          # Check if required secrets are set
-          if [ -z "${{ secrets.SSH_HOST }}" ] || [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
-            echo "❌ ERROR: SSH_HOST or SSH_PRIVATE_KEY not configured!"
-            echo "Required secrets:"
-            echo "  - SSH_HOST (your VPS IP or domain)"
-            echo "  - SSH_PRIVATE_KEY (your private SSH key)"
-            echo "  - SSH_USER"
-            echo "  - REMOTE_DIR"
-            exit 1
-          fi
-
-          # Setup SSH directory
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-
-          # Write private key safely (preserving newlines)
           cat > ~/.ssh/id_rsa << 'SSHKEY'
           ${{ secrets.SSH_PRIVATE_KEY }}
           SSHKEY
-
-          # Fix permissions
           chmod 600 ~/.ssh/id_rsa
-
-          # Add server to known_hosts
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
-
-          # Test SSH connection
-          echo "Testing SSH connection..."
-          if ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '✓ SSH connection successful'"; then
-            echo "✓ SSH setup completed"
-          else
-            echo "❌ SSH connection failed!"
-            echo "Debugging info:"
-            echo "SSH_HOST: ${{ secrets.SSH_HOST }}"
-            echo "SSH_USER: ${{ secrets.SSH_USER }}"
-            echo "Private key permissions:"
-            ls -la ~/.ssh/id_rsa
-            exit 1
-          fi
 
       - name: Deploy to server
         env:
@@ -145,37 +84,61 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         run: |
-         rsync -avz \
-            -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
+          rsync -avz \
+            -e "ssh -o StrictHostKeyChecking=accept-new" \
             --exclude='.env' \
             --exclude='.env.local' \
             --exclude='.env.production' \
             --exclude='.env.*.php' \
             --exclude='node_modules' \
             --exclude='vendor' \
-            --exclude='storage' \
+            --exclude='storage/app/*' \
+            --exclude='storage/logs/*' \
+            --exclude='storage/framework/cache/*' \
+            --exclude='storage/framework/sessions/*' \
+            --exclude='storage/framework/views/*' \
+            --exclude='bootstrap/cache/*' \
             --exclude='.git' \
             --exclude='.github' \
+            --delete-excluded \
             . ${SSH_USER}@${SSH_HOST}:${REMOTE_DIR}
 
       - name: Run deployment script on server
         run: |
-          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.REMOTE_DIR }} && bash deploy.sh"
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'ENDSSH'
+            cd ${{ secrets.REMOTE_DIR }}
+            
+            # Fix permissions sebelum deployment
+            sudo chown -R www-data:www-data storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+            
+            # Install dependencies
+            composer install --no-dev --optimize-autoloader --no-interaction
+            
+            # Clear dan rebuild cache
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan view:clear
+            php artisan route:clear
+            
+            # Optimize untuk production
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            
+            # Fix permissions lagi setelah cache rebuild
+            sudo chown -R www-data:www-data storage bootstrap/cache
+            sudo chmod -R 775 storage bootstrap/cache
+            
+            # Restart services
+            sudo systemctl restart php8.2-fpm
+            sudo systemctl reload nginx
+            
+            echo "✓ Deployment completed successfully"
+          ENDSSH
 
       - name: Run health check
         run: |
           sleep 10
-          curl -f https://koperasipsm.web.id/health || curl -f https://koperasipsm.web.id/api/v1/health || echo "Health check endpoint not found (optional)"
+          curl -f https://koperasipsm.web.id/ || echo "⚠ Health check failed"
         continue-on-error: true
-
-      # - name: Notify deployment status (Slack)
-      #   if: always() && secrets.SLACK_WEBHOOK_URL != ''
-      #   uses: 8398a7/action-slack@v3
-      #   with:
-      #     status: ${{ job.status }}
-      #     text: |
-      #       Deployment to Production: ${{ job.status }}
-      #       Commit: ${{ github.event.head_commit.message }}
-      #       Author: ${{ github.event.head_commit.author.name }}
-      #     webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #   continue-on-error: true
