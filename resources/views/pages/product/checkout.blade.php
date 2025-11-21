@@ -326,7 +326,7 @@
                                         class="relative cursor-pointer rounded-md font-semibold text-green-600 hover:text-green-500 active:text-green-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-green-500 transition-colors">
                                         <span class="text-sm sm:text-base">Klik untuk pilih file</span>
                                         <input id="payment_proof" name="payment_proof" type="file" class="sr-only"
-                                            accept="image/jpeg,image/jpg,image/png" capture="environment" required>
+                                            accept="image/jpeg,image/jpg,image/png" required>
                                     </label>
                                     <p class="mt-1 text-gray-500 hidden sm:block">atau seret dan lepas file ke sini</p>
                                     <p class="mt-1 text-gray-500 sm:hidden">atau ambil foto langsung</p>
