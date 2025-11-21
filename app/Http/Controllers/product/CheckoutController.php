@@ -11,7 +11,7 @@ use App\Models\Payments;
 use App\Models\Products;
 use App\Models\UserAdresses;
 use App\Models\PaymentAccounts;
-use App\Services\FileUploadservice;
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
