@@ -62,8 +62,46 @@
                 <form action="{{ route('checkout.process') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
+                    <!-- Checkout Time Warning -->
+                    @if (!$checkoutAllowed)
+                        <div class="mb-6 bg-red-50 border-l-4 border-red-500 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0 mt-0.5" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <div class="flex-1">
+                                    <h3 class="text-red-800 font-semibold mb-1">⏰ Waktu Checkout Telah Berakhir</h3>
+                                    <p class="text-sm text-red-700">
+                                        Maaf, checkout hanya dapat dilakukan <strong>sebelum jam 17:00 WIB</strong>.
+                                        Silakan coba lagi besok mulai jam 00:00 WIB.
+                                    </p>
+                                    <p class="text-xs text-red-600 mt-2">
+                                        Checkout akan dibuka kembali {{ $remainingTime }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <div class="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-lg">
+                            <div class="flex items-start">
+                                <svg class="w-5 h-5 text-blue-500 mr-3 flex-shrink-0 mt-0.5" fill="none"
+                                    stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <div class="flex-1">
+                                    <h3 class="text-blue-800 font-semibold mb-1">ℹ️ Info Waktu Checkout</h3>
+                                    <p class="text-sm text-blue-700">
+                                        Checkout dapat dilakukan hingga <strong>jam 17:00 WIB</strong> setiap hari.
+                                        Sisa waktu: <strong id="countdown-timer" class="font-mono"></strong>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
                     <div class="mb-8">
-
                         <!-- Persiapan data akun untuk Alpine -->
                         @php
                             $accounts = collect($paymentAccounts ?? [])
@@ -102,7 +140,8 @@
                                     <option value="">-- Pilih akun --</option>
                                     <template x-for="acc in accounts" :key="acc.id">
                                         <option :value="acc.id"
-                                            x-text="`${acc.bank_name} — ${acc.account_holder_name}`"></option>
+                                            x-text="`${acc.bank_name} — ${acc.account_holder_name}`">
+                                        </option>
                                     </template>
                                 </select>
                                 @error('payment_account_id')
@@ -158,9 +197,9 @@
                             <!-- QR Code Modal -->
                             <div x-show="showQrModal" x-transition:enter="transition ease-out duration-400"
                                 x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
-                                x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
-                                x-transition:leave-end="opacity-0" @click="showQrModal = false"
-                                @keydown.escape.window="showQrModal = false"
+                                x-transition:leave="transition ease-in duration-300"
+                                x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                                @click="showQrModal = false" @keydown.escape.window="showQrModal = false"
                                 class="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4"
                                 style="display: none; backdrop-filter: blur(8px);" x-cloak>
 
@@ -502,10 +541,23 @@
 
                     <!-- Submit Button -->
                     <div class="mt-6 sm:mt-8">
-                        <button type="submit"
-                            class="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm sm:text-base shadow-md hover:shadow-lg touch-manipulation">
-                            Kirim Pesanan
-                        </button>
+                        @if ($checkoutAllowed)
+                            <button type="submit"
+                                class="w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 text-sm sm:text-base shadow-md hover:shadow-lg touch-manipulation">
+                                Kirim Pesanan
+                            </button>
+                        @else
+                            <button type="button" disabled
+                                class="w-full bg-gray-400 text-white font-semibold py-3 sm:py-4 px-4 sm:px-6 rounded-lg cursor-not-allowed text-sm sm:text-base shadow-md opacity-60">
+                                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z">
+                                    </path>
+                                </svg>
+                                Checkout Ditutup (Setelah Jam 17:00 WIB)
+                            </button>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -851,6 +903,60 @@
             paymentProofModal.classList.remove('flex');
             document.body.style.overflow = '';
         }
+
+        // Countdown Timer untuk Checkout
+        @if ($checkoutAllowed)
+            (function() {
+                const countdownEl = document.getElementById('countdown-timer');
+                if (!countdownEl) return;
+
+                // Cutoff time: 17:00 WIB today
+                const cutoffTime = new Date();
+                cutoffTime.setHours(17, 0, 0, 0);
+
+                function updateCountdown() {
+                    const now = new Date();
+                    const diff = cutoffTime - now;
+
+                    if (diff <= 0) {
+                        countdownEl.textContent = 'Waktu checkout telah berakhir';
+                        countdownEl.classList.add('text-red-600', 'font-bold');
+
+                        // Disable form dan redirect
+                        const form = document.querySelector('form');
+                        const submitBtn = form ? .querySelector('button[type="submit"]');
+                        if (submitBtn) {
+                            submitBtn.disabled = true;
+                            submitBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
+                            submitBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
+                            submitBtn.innerHTML =
+                                '<svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg> Checkout Ditutup';
+                        }
+
+                        // Show alert
+                        alert('⏰ Waktu checkout telah berakhir (jam 17:00 WIB). Halaman akan dimuat ulang.');
+                        window.location.reload();
+                        return;
+                    }
+
+                    const hours = Math.floor(diff / (1000 * 60 * 60));
+                    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                    countdownEl.textContent = `${hours}j ${minutes}m ${seconds}d`;
+
+                    // Warning jika kurang dari 30 menit
+                    if (diff < 30 * 60 * 1000) {
+                        countdownEl.classList.add('text-red-600', 'font-bold', 'animate-pulse');
+                    } else if (diff < 60 * 60 * 1000) {
+                        countdownEl.classList.add('text-orange-600', 'font-bold');
+                    }
+                }
+
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            })();
+        @endif
 
         // Event listeners for Payment Proof Modal
         document.addEventListener('DOMContentLoaded', function() {
