@@ -123,7 +123,7 @@ class CheckoutController extends Controller
             }, $orderItems));
 
             // Upload bukti transfer
-            $FileServices = new FileUploadservice();
+            $FileServices = new FileUploadService();
             $payment_proof = $FileServices->upload($request, 'payment_proof', 'payments');
 
             // Ambil alamat
