@@ -54,7 +54,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-composer-
 
@@ -86,16 +86,64 @@ jobs:
       - name: Generate application key
         run: php artisan key:generate --env=production || true
 
+      - name: Verify database credentials
+        run: |
+          echo "Checking database configuration..."
+          if [ -z "${{ secrets.DB_HOST }}" ] || [ -z "${{ secrets.DB_DATABASE }}" ]; then
+            echo "⚠  Database credentials not fully configured in GitHub Secrets"
+            echo "Required secrets: DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME, DB_PASSWORD"
+            echo "Skipping database operations in workflow"
+            exit 0
+          fi
+          echo "✓ Database credentials found"
+
       - name: Setup SSH
         run: |
+          # Check if required secrets are set
+          if [ -z "${{ secrets.SSH_HOST }}" ] || [ -z "${{ secrets.SSH_PRIVATE_KEY }}" ]; then
+            echo "❌ ERROR: SSH_HOST or SSH_PRIVATE_KEY not configured!"
+            echo "Required secrets:"
+            echo "  - SSH_HOST (your VPS IP or domain)"
+            echo "  - SSH_PRIVATE_KEY (your private SSH key)"
+            echo "  - SSH_USER"
+            echo "  - REMOTE_DIR"
+            exit 1
+          fi
+
+          # Setup SSH directory
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+
+          # Write private key safely (preserving newlines)
+          cat > ~/.ssh/id_rsa << 'SSHKEY'
+          ${{ secrets.SSH_PRIVATE_KEY }}
+          SSHKEY
+
+          # Fix permissions
           chmod 600 ~/.ssh/id_rsa
+
+          # Add server to known_hosts
           ssh-keyscan -H "${{ secrets.SSH_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
-          ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '✓ SSH connection successful'"
+
+          # Test SSH connection
+          echo "Testing SSH connection..."
+          if ssh -o BatchMode=yes -o ConnectTimeout=5 -o StrictHostKeyChecking=accept-new ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo '✓ SSH connection successful'"; then
+            echo "✓ SSH setup completed"
+          else
+            echo "❌ SSH connection failed!"
+            echo "Debugging info:"
+            echo "SSH_HOST: ${{ secrets.SSH_HOST }}"
+            echo "SSH_USER: ${{ secrets.SSH_USER }}"
+            echo "Private key permissions:"
+            ls -la ~/.ssh/id_rsa
+            exit 1
+          fi
 
       - name: Deploy to server
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         run: |
           rsync -avz \
             -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
@@ -117,5 +165,17 @@ jobs:
       - name: Run health check
         run: |
           sleep 10
-          curl -f https://koperasipsm.web.id/health || echo "Health check failed"
+          curl -f https://koperasipsm.web.id/health || curl -f https://koperasipsm.web.id/api/v1/health || echo "Health check endpoint not found (optional)"
         continue-on-error: true
+
+      # - name: Notify deployment status (Slack)
+      #   if: always() && secrets.SLACK_WEBHOOK_URL != ''
+      #   uses: 8398a7/action-slack@v3
+      #   with:
+      #     status: ${{ job.status }}
+      #     text: |
+      #       Deployment to Production: ${{ job.status }}
+      #       Commit: ${{ github.event.head_commit.message }}
+      #       Author: ${{ github.event.head_commit.author.name }}
+      #     webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #   continue-on-error: true
