@@ -109,8 +109,8 @@ log_success "Cache cleared"
 
 # 8. Set proper permissions
 log_info "Setting permissions..."
-chmod -R 755 storage bootstrap/cache
-chmod -R 775 storage bootstrap/cache
+sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chmod -R 775 storage bootstrap/cache
 find storage bootstrap/cache -type f -exec chmod 664 {} \;
 log_success "Permissions set"
 
