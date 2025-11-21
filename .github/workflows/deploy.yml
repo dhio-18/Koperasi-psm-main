@@ -145,7 +145,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         run: |
-          rsync -avz \
+         sudo rsync -avz \
             -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
             --exclude='.env' \
             --exclude='.env.local' \
