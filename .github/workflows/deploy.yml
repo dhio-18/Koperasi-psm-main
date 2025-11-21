@@ -146,7 +146,7 @@ jobs:
           REMOTE_DIR: ${{ secrets.REMOTE_DIR }}
         run: |
          sudo rsync -avz \
-            -e "ssh -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=accept-new -o UserKnownHostsFile=/dev/null" \
             --exclude='.env' \
             --exclude='.env.local' \
             --exclude='.env.production' \
