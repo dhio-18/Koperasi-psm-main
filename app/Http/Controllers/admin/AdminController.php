@@ -564,7 +564,6 @@ class AdminController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menolak pengembalian: ' . $e->getMessage());
         }
-
     }
 
     public function returnApproved(Request $request, $id)
@@ -578,10 +577,11 @@ class AdminController extends Controller
             $return->processed_at = Carbon::now();
             $return->save();
 
-            $order = Orders::findOrFail($return->order_id);
+            $order = Orders::with('orderItems')->findOrFail($return->order_id);
             $order->status = 'returned';
             $order->save();
 
+            // Kembalikan stok produk
             foreach ($order->orderItems as $item) {
                 $product = Products::find($item->product_id);
                 if ($product) {
@@ -594,13 +594,14 @@ class AdminController extends Controller
                 'order_id' => $order->id,
                 'user_id' => Auth::id(),
                 'action' => 'returned',
-                'description' => 'Pengembalian Pesanan Anda diterima oleh ' . Auth::user()->name,
+                'description' => 'Pengembalian disetujui oleh ' . Auth::user()->name . '. Stok produk telah dikembalikan.',
             ]);
 
             DB::commit();
-            return redirect()->back()->with('success', 'Pengembalian berhasil disetujui.');
+            return redirect()->back()->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
         } catch (\Exception $e) {
             DB::rollBack();
+            \Log::error('Return approval error: ' . $e->getMessage());
             return redirect()->back()->with('error', 'Gagal menyetujui pengembalian: ' . $e->getMessage());
         }
     }

@@ -334,51 +334,66 @@ class ProfileController extends Controller
     }
 
     public function returnOrder(Request $request, $id)
-    {
-        $request->validate([
-            'reason' => 'required|in:defective,wrong_item,other',
-            'comments' => 'nullable|string|max:1000',
-            'images.*' => 'image|mimes:jpeg,png,jpg|max:5120',
+{
+    $request->validate([
+        'reason' => 'required|in:defective,wrong_item,other',
+        'comments' => 'nullable|string|max:1000',
+        'images.*' => 'image|mimes:jpeg,png,jpg|max:5120', // max 5MB per image
+    ], [
+        'reason.required' => 'Alasan pengembalian harus dipilih',
+        'reason.in' => 'Alasan pengembalian tidak valid',
+        'comments.max' => 'Catatan maksimal 1000 karakter',
+        'images.*.image' => 'File harus berupa gambar',
+        'images.*.mimes' => 'Format gambar harus jpeg, png, atau jpg',
+        'images.*.max' => 'Ukuran gambar maksimal 5MB',
+    ]);
+
+    try {
+        DB::beginTransaction();
+
+        $order = Orders::where('user_id', Auth::id())->findOrFail($id);
+
+        // Upload multiple images menggunakan FileUploadService
+        $uploadedImages = [];
+        if ($request->hasFile('images')) {
+            $fileUploadService = new FileUploadService();
+            $uploadedImages = $fileUploadService->uploadMultiple($request, 'images', 'returns');
+        }
+
+        // Create return record dengan images sebagai JSON
+        Returns::create([
+            'reason' => $request->reason,
+            'comments' => $request->comments,
+            'images' => $uploadedImages, // Laravel otomatis encode ke JSON
+            'status' => 'pending',
+            'order_id' => $order->id,
+            'user_id' => Auth::id(),
         ]);
 
-        try {
-            DB::beginTransaction();
+        // Create order history
+        OrderHistory::create([
+            'order_id' => $order->id,
+            'user_id' => Auth::id(),
+            'action' => 'returned',
+            'description' => 'Pengajuan pengembalian oleh ' . Auth::user()->name,
+        ]);
 
-            $order = Orders::where('user_id', Auth::id())->findOrFail($id);
+        // Update order status
+        $order->update(['status' => 'returned']);
 
-            // Upload multiple images
-            $uploadedImages = [];
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $file) {
-                    $path = $file->store('returns', 'public');
-                    $uploadedImages[] = $path;
-                }
-            }
+        DB::commit();
 
-            Returns::create([
-                'reason' => $request->reason,
-                'comments' => $request->comments,
-                'images' => $uploadedImages,
-                'status' => 'pending',
-                'order_id' => $order->id,
-                'user_id' => Auth::id(),
-            ]);
-
-            OrderHistory::create([
-                'order_id' => $order->id,
-                'user_id' => Auth::id(),
-                'action' => 'returned',
-                'description' => 'Pesanan telah dikembalikan oleh ' . Auth::user()->name,
-            ]);
-
-            $order->update(['status' => 'returned']);
-
-            DB::commit();
-
-            return redirect()->back()->with('success', 'Pengembalian berhasil dikirim!');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
+        return redirect()->back()->with('success', 'Pengembalian berhasil dikirim!');
+    } catch (\Exception $e) {
+        DB::rollBack();
+        
+        // Log error untuk debugging
+        \Log::error('Return order error: ' . $e->getMessage());
+        \Log::error('Stack trace: ' . $e->getTraceAsString());
+        
+        return redirect()->back()
+            ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
+            ->withInput();
     }
+}
 }
