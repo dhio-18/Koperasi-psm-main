@@ -50,7 +50,7 @@ Route::middleware(['auth', 'role:super_admin'])
         Route::delete('/manage-users/{id}', [ManageUserController::class, 'destroy'])->name('manage-users.destroy');
 
         // Financial Report routes (Super Admin Only)
-        Route::get('/financial-report', [\App\Http\Controllers\Admin\FinancialReportController::class, 'index'])->name('financial-report');
+        Route::get('/financial-report', [\App\Http\Controllers\admin\FinancialReportController::class, 'index'])->name('financial-report');
 
     });
 

@@ -42,8 +42,10 @@
             <!-- Carousel Modern & Sleek -->
             <div class="order-1 md:order-2" x-data="{
                 images: [
-                    @foreach ($carouselImages as $carousel)
-                            '{{ asset('storage/' . $carousel->image_path) }}', @endforeach
+                    '{{ asset('carousel/slider1.jpg') }}',
+                    '{{ asset('carousel/slider2.jpg') }}',
+                    '{{ asset('carousel/slider3.jpg') }}',
+                    '{{ asset('carousel/slider4.jpg') }}',
                 ],
                 active: 0,
                 next() { this.active = (this.active + 1) % this.images.length },
@@ -105,7 +107,10 @@
                 <!-- Grid Kategori dengan hover effect -->
                 <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-10 gap-3 md:gap-4">
                     @foreach ($categories as $item)
-                        <x-kategori name="{{ $item['name'] }}" image="{{ $item['image'] }}" slug="{{ $item['slug'] }}" />
+                        <x-kategori 
+                        name="{!! html_entity_decode($item['name']) !!}" 
+                        image="{{ $item['image'] }}" 
+                        slug="{{ $item['slug'] }}" />
                     @endforeach
                 </div>
             </div>
