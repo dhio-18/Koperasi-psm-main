@@ -22,7 +22,7 @@
                         class="inline-flex items-center px-3 md:px-4 py-2 text-gray-700 hover:text-green-600 font-medium transition-colors text-sm md:text-base">
                         <div
                             class="me-1 w-8 h-8 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative">
-                            <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="Profile Picture"
+                            <img src="{{ asset('profile/blank.webp') }}" alt="Profile Picture"
                                 class="w-full h-full object-cover">
                         </div>
                         {{ Auth::user()->name }}

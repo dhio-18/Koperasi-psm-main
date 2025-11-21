@@ -502,7 +502,7 @@
 
                                 <!-- Image -->
                                 <div class="order-1 md:order-none text-center">
-                                    <img :src="baseUrl + orderData?.payment.payment_proof" alt="Bukti Transfer"
+                                    <img :src="baseUrl + 'storage/' + orderData?.payment.payment_proof" alt="Bukti Transfer"
                                         @click="openDetailImageModal()"
                                         class="mx-auto w-40 h-56 sm:w-48 sm:h-64 md:w-48 md:h-64 object-cover rounded-lg border-2 border-gray-200 cursor-pointer hover:border-green-400 transition-colors" />
                                     <!-- Tombol lihat penuh khusus mobile -->
@@ -619,7 +619,7 @@
 
             <div class="flex items-center justify-center min-h-screen p-4">
                 <div class="relative">
-                    <img :src="baseUrl + orderData?.payment.payment_proof" alt="Bukti Transfer"
+                    <img :src="baseUrl + 'storage/' + orderData?.payment.payment_proof" alt="Bukti Transfer"
                         class="max-w-full max-h-[90vh] rounded-lg">
                     <button @click="showDetailImageModal = false"
                         class="absolute top-4 right-4 bg-red-600 bg-opacity-70 text-white p-2 rounded-full hover:bg-opacity-30 transition-colors">
