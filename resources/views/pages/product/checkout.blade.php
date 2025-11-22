@@ -566,7 +566,6 @@
             accounts
         }) {
             return {
-
                 accounts: accounts || [],
                 selectedId: '',
                 current: null,
@@ -584,10 +583,10 @@
             }
         }
     </script>
+
     <script>
         /**
          * Form validation dengan detail error message
-         *
          */
         document.querySelector('form').addEventListener('submit', function(e) {
             let isValid = true;
@@ -624,11 +623,19 @@
                 if (address) address.classList.remove('border-red-500');
             }
 
-            // Validasi Bukti Transfer
+            // Validasi Bukti Transfer dengan Debugging
             const paymentProof = document.querySelector('[name="payment_proof"]');
+            console.log('=== DEBUG PAYMENT PROOF ===');
+            console.log('Input element:', paymentProof);
+            console.log('Files object:', paymentProof ? paymentProof.files : 'null');
+            console.log('Files length:', paymentProof && paymentProof.files ? paymentProof.files.length : 0);
+            console.log('First file:', paymentProof && paymentProof.files && paymentProof.files.length > 0 ?
+                paymentProof.files[0] : 'none');
+
             if (!paymentProof || !paymentProof.files || paymentProof.files.length === 0) {
                 isValid = false;
                 errorMessages.push('- Upload bukti transfer');
+                console.log('❌ Validation failed: No file detected');
                 const uploadArea = document.getElementById('upload-area');
                 if (uploadArea) {
                     uploadArea.classList.add('border-red-500');
@@ -636,19 +643,21 @@
                         uploadArea.classList.remove('border-red-500');
                     }, 3000);
                 }
+            } else {
+                const file = paymentProof.files[0];
+                console.log('✅ File detected:', {
+                    name: file.name,
+                    size: file.size,
+                    type: file.type
+                });
             }
 
             if (!isValid) {
                 e.preventDefault();
-
-                // Log untuk debugging
                 console.log('Form validation failed:', errorMessages);
-
-                // Tampilkan alert dengan detail error
                 let alertMessage = '⚠️ Mohon lengkapi data berikut:\n\n' + errorMessages.join('\n');
                 alert(alertMessage);
 
-                // Scroll ke element pertama yang error
                 const firstError = document.querySelector('.border-red-500');
                 if (firstError) {
                     firstError.scrollIntoView({
@@ -656,22 +665,29 @@
                         block: 'center'
                     });
                 }
-
                 return false;
             }
 
-            // Log data yang akan dikirim
+            // Log FormData sebelum submit
             const formData = new FormData(e.target);
-            console.log('Form data yang akan dikirim:');
+            console.log('=== FORM DATA YANG AKAN DIKIRIM ===');
             for (let [key, value] of formData.entries()) {
                 if (key === 'payment_proof') {
-                    console.log(key + ':', value.name, '(', value.size, 'bytes)');
+                    if (value instanceof File) {
+                        console.log(key + ':', {
+                            name: value.name,
+                            size: value.size + ' bytes',
+                            type: value.type
+                        });
+                    } else {
+                        console.log(key + ':', 'BUKAN FILE!', value);
+                    }
                 } else {
                     console.log(key + ':', value);
                 }
             }
 
-            // Jika valid, tampilkan loading indicator
+            // Tampilkan loading indicator
             const submitBtn = e.target.querySelector('button[type="submit"]');
             if (submitBtn) {
                 submitBtn.disabled = true;
@@ -679,21 +695,19 @@
                 submitBtn.innerHTML =
                     '<div class="flex items-center justify-center"><svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg><span>Mengirim Pesanan...</span></div>';
 
-                // Re-enable button setelah 30 detik jika tidak ada response (timeout)
                 setTimeout(() => {
                     submitBtn.disabled = false;
                     submitBtn.innerHTML = originalText;
                 }, 30000);
             }
 
-            console.log('Form submitted successfully!');
+            console.log('✅ Form submitted successfully!');
             return true;
         });
 
         /**
          * Copy rekening number
          */
-
         function copyRekening() {
             const rekening = document.getElementById("rekeningNumber").innerText;
             navigator.clipboard.writeText(rekening).then(() => {
@@ -705,9 +719,7 @@
 
         /**
          * Preview address
-         *
          */
-
         function previewAddress() {
             const select = document.getElementById('address');
             const preview = document.getElementById('addressPreview');
@@ -726,7 +738,6 @@
 
         /**
          * Handler image upload dengan validasi lengkap
-         *
          */
         const fileInput = document.getElementById('payment_proof');
         const uploadArea = document.getElementById('upload-area');
@@ -739,12 +750,18 @@
         const uploadError = document.getElementById('upload-error');
         const uploadErrorMessage = document.getElementById('upload-error-message');
 
+        // Variable global untuk menyimpan file
+        let currentFile = null;
+
         // Handle file selection
         fileInput.addEventListener('change', handleFileSelect);
 
-        // Handle click on upload area
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
+        // Handle click on upload area - HANYA untuk area kosong, bukan label
+        uploadArea.addEventListener('click', (e) => {
+            // Jangan trigger jika klik langsung di label
+            if (!e.target.closest('label')) {
+                fileInput.click();
+            }
         });
 
         // Handle drag & drop
@@ -763,7 +780,6 @@
 
             const files = e.dataTransfer.files;
             if (files.length > 0) {
-                // Manually set files to input
                 const dataTransfer = new DataTransfer();
                 dataTransfer.items.add(files[0]);
                 fileInput.files = dataTransfer.files;
@@ -771,59 +787,92 @@
             }
         });
 
-        // Handle file selection dengan validasi
+        /**
+         * Handle file selection dengan validasi
+         */
         function handleFileSelect() {
             const file = fileInput.files[0];
-            if (!file) return;
+            if (!file) {
+                console.log('⚠️ No file selected');
+                return;
+            }
 
-            // Hide previous error
+            currentFile = file;
+            console.log('📁 File selected:', {
+                name: file.name,
+                size: file.size,
+                type: file.type
+            });
+
             hideError();
 
-            // Validasi file type - hanya JPG, JPEG, PNG
+            // Validasi file type
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
             if (!allowedTypes.includes(file.type.toLowerCase())) {
                 showError('❌ Format file tidak didukung! Hanya JPG, JPEG, dan PNG yang diperbolehkan.');
                 fileInput.value = '';
+                currentFile = null;
                 return;
             }
 
             // Validasi file size - maksimal 2MB
-            const maxSize = 2 * 1024 * 1024; // 2MB in bytes
+            const maxSize = 2 * 1024 * 1024;
             if (file.size > maxSize) {
                 showError('❌ Ukuran file terlalu besar! Maksimal 2MB. File Anda: ' + formatFileSize(file.size));
                 fileInput.value = '';
+                currentFile = null;
                 return;
             }
 
             // Validasi file size minimal - minimal 10KB
-            const minSize = 10 * 1024; // 10KB
+            const minSize = 10 * 1024;
             if (file.size < minSize) {
                 showError('⚠️ Ukuran file terlalu kecil! Pastikan gambar bukti transfer jelas dan dapat dibaca.');
                 fileInput.value = '';
+                currentFile = null;
                 return;
             }
 
             // Show preview
             const reader = new FileReader();
             reader.onload = (e) => {
-                previewImage.src = e.target.result;
+                const dataUrl = e.target.result;
+
+                previewImage.src = dataUrl;
                 previewFileName.textContent = file.name;
                 previewFileSize.textContent = formatFileSize(file.size);
 
-                // Smooth transition
                 uploadArea.classList.add('hidden');
                 previewArea.classList.remove('hidden');
 
-                // Scroll to preview
+                // SIMPAN ke sessionStorage
+                try {
+                    const previewData = {
+                        dataUrl: dataUrl,
+                        name: file.name,
+                        size: formatFileSize(file.size),
+                        timestamp: Date.now()
+                    };
+                    sessionStorage.setItem('checkout_payment_proof_preview', JSON.stringify(previewData));
+                    console.log('✅ Preview saved to storage');
+                } catch (err) {
+                    console.error('❌ Failed to save preview:', err);
+                }
+
                 previewArea.scrollIntoView({
                     behavior: 'smooth',
                     block: 'nearest'
                 });
+
+                console.log('✅ Preview displayed successfully');
             };
+
             reader.onerror = () => {
                 showError('❌ Gagal membaca file! Silakan coba lagi.');
                 fileInput.value = '';
+                currentFile = null;
             };
+
             reader.readAsDataURL(file);
         }
 
@@ -832,42 +881,56 @@
             resetUpload();
         });
 
-        // Change file - open file picker
+        // Change file - open file picker tanpa reset
         changeBtn.addEventListener('click', () => {
+            console.log('🔄 Change file clicked');
+            // Jangan reset file, langsung buka file picker
             fileInput.click();
         });
 
-        // Reset upload state
+        /**
+         * Reset upload state
+         */
         function resetUpload() {
             fileInput.value = '';
+            currentFile = null;
             previewImage.src = '';
             previewFileName.textContent = '';
             previewFileSize.textContent = '';
             uploadArea.classList.remove('hidden');
             previewArea.classList.add('hidden');
             hideError();
+
+            // Clear storage
+            sessionStorage.removeItem('checkout_payment_proof_preview');
+            console.log('🔄 Upload reset');
         }
 
-        // Show error message
+        /**
+         * Show error message
+         */
         function showError(message) {
             uploadErrorMessage.textContent = message;
             uploadError.classList.remove('hidden');
             uploadError.classList.add('flex');
 
-            // Auto hide after 5 seconds
             setTimeout(() => {
                 hideError();
             }, 5000);
         }
 
-        // Hide error message
+        /**
+         * Hide error message
+         */
         function hideError() {
             uploadError.classList.add('hidden');
             uploadError.classList.remove('flex');
             uploadErrorMessage.textContent = '';
         }
 
-        // Format file size
+        /**
+         * Format file size
+         */
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
@@ -876,9 +939,10 @@
             return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
-        // Payment Proof Modal Functions
+        /**
+         * Payment Proof Modal Functions
+         */
         function openProofModal() {
-            const previewImage = document.getElementById('preview-image');
             const modalProofImage = document.getElementById('modal-proof-image');
             const modalProofFileName = document.getElementById('modal-proof-file-name');
             const modalProofFileSize = document.getElementById('modal-proof-file-size');
@@ -901,13 +965,14 @@
             document.body.style.overflow = '';
         }
 
-        // Countdown Timer untuk Checkout
+        /**
+         * Countdown Timer untuk Checkout
+         */
         @if ($checkoutAllowed)
             (function() {
                 const countdownEl = document.getElementById('countdown-timer');
                 if (!countdownEl) return;
 
-                // Cutoff time: 17:00 WIB today
                 const cutoffTime = new Date();
                 cutoffTime.setHours(17, 0, 0, 0);
 
@@ -919,9 +984,8 @@
                         countdownEl.textContent = 'Waktu checkout telah berakhir';
                         countdownEl.classList.add('text-red-600', 'font-bold');
 
-                        // Disable form dan redirect
                         const form = document.querySelector('form');
-                        const submitBtn = form ? .querySelector('button[type="submit"]');
+                        const submitBtn = form?.querySelector('button[type="submit"]');
                         if (submitBtn) {
                             submitBtn.disabled = true;
                             submitBtn.classList.remove('bg-green-500', 'hover:bg-green-600');
@@ -930,7 +994,6 @@
                                 '<svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg> Checkout Ditutup';
                         }
 
-                        // Show alert
                         alert('⏰ Waktu checkout telah berakhir (jam 17:00 WIB). Halaman akan dimuat ulang.');
                         window.location.reload();
                         return;
@@ -942,7 +1005,6 @@
 
                     countdownEl.textContent = `${hours}j ${minutes}m ${seconds}d`;
 
-                    // Warning jika kurang dari 30 menit
                     if (diff < 30 * 60 * 1000) {
                         countdownEl.classList.add('text-red-600', 'font-bold', 'animate-pulse');
                     } else if (diff < 60 * 60 * 1000) {
@@ -955,7 +1017,9 @@
             })();
         @endif
 
-        // Event listeners for Payment Proof Modal
+        /**
+         * Event listeners for Payment Proof Modal & Preview Restoration
+         */
         document.addEventListener('DOMContentLoaded', function() {
             // Open modal when clicking preview image
             const previewContainer = document.getElementById('preview-image-container');
@@ -999,6 +1063,60 @@
                     }
                 }
             });
+
+            /**
+             * RESTORE PREVIEW dari sessionStorage jika ada error validation
+             */
+            const hasError = {{ $errors->any() || session('error') ? 'true' : 'false' }};
+            const hasSuccess = {{ session('success') ? 'true' : 'false' }};
+
+            console.log('🔍 Page loaded - hasError:', hasError, 'hasSuccess:', hasSuccess);
+
+            if (hasSuccess) {
+                // Clear storage jika berhasil
+                sessionStorage.removeItem('checkout_payment_proof_preview');
+                console.log('🗑️ Preview storage cleared (success)');
+                return;
+            }
+
+            if (hasError) {
+                // Restore preview dari storage
+                try {
+                    const savedData = sessionStorage.getItem('checkout_payment_proof_preview');
+                    if (savedData) {
+                        const preview = JSON.parse(savedData);
+                        console.log('🔄 Restoring preview from storage:', preview);
+
+                        const previewImage = document.getElementById('preview-image');
+                        const previewFileName = document.getElementById('preview-file-name');
+                        const previewFileSize = document.getElementById('preview-file-size');
+                        const uploadArea = document.getElementById('upload-area');
+                        const previewArea = document.getElementById('preview-area');
+
+                        if (previewImage && preview.dataUrl) {
+                            previewImage.src = preview.dataUrl;
+                            previewFileName.textContent = preview.name;
+                            previewFileSize.textContent = preview.size;
+
+                            // Show preview, hide upload area
+                            uploadArea.classList.add('hidden');
+                            previewArea.classList.remove('hidden');
+
+                            console.log('✅ Preview restored successfully');
+
+                            // Scroll to preview
+                            setTimeout(() => {
+                                previewArea.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'nearest'
+                                });
+                            }, 300);
+                        }
+                    }
+                } catch (err) {
+                    console.error('❌ Failed to restore preview:', err);
+                }
+            }
         });
     </script>
 
