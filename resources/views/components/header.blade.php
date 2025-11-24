@@ -71,7 +71,8 @@
                         class="inline-flex items-center px-4 py-2 text-gray-700 hover:text-green-600 font-medium transition-colors duration-200">
                         <div
                             class="me-1 w-8 h-8 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative flex-shrink-0">
-                            <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="Profile Picture"
+                            <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('profile/blank.webp') }}" 
+                            alt="Profile Picture"
                                 class="w-full h-full object-cover">
                         </div>
                         <span class="hidden sm:inline truncate max-w-[100px] md:max-w-[150px]">

@@ -5,7 +5,8 @@
         <div class="flex items-center space-x-3">
             <div
                 class="me-1 w-8 h-8 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative shadow-md">
-                <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="Profile Picture"
+                <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('profile/blank.webp') }}" 
+                alt="Profile Picture"
                     class="w-full h-full object-cover">
             </div>
             <div>

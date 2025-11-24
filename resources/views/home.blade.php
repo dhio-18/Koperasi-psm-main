@@ -41,18 +41,30 @@
 
             <!-- Carousel Modern & Sleek -->
             <div class="order-1 md:order-2" x-data="{
-                images: [
-                    '{{ asset('carousel/slider1.jpg') }}',
-                    '{{ asset('carousel/slider2.jpg') }}',
-                    '{{ asset('carousel/slider3.jpg') }}',
-                    '{{ asset('carousel/slider4.jpg') }}',
-                ],
-                active: 0,
-                next() { this.active = (this.active + 1) % this.images.length },
-                prev() { this.active = (this.active - 1 + this.images.length) % this.images.length },
-                start() { if (this.images.length > 1) { setInterval(() => this.next(), 5000) } }
-            }" x-init="start()"
-                class="relative w-full overflow-hidden rounded-2xl shadow-xl group">
+    images: [
+        @foreach($carousels as $carousel)
+            '{{ asset('storage/' . $carousel->image_path) }}'{{ !$loop->last ? ',' : '' }}
+        @endforeach
+    ],
+    active: 0,
+    next() { this.active = (this.active + 1) % this.images.length },
+    prev() { this.active = (this.active - 1 + this.images.length) % this.images.length },
+    start() { if (this.images.length > 1) { setInterval(() => this.next(), 5000) } }
+}" x-init="start()"
+    class="relative w-full overflow-hidden rounded-2xl shadow-xl group">
+    
+    @if($carousels->isEmpty())
+        <!-- Tampilan jika tidak ada carousel -->
+        <div class="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 bg-gray-200 rounded-2xl flex items-center justify-center">
+            <div class="text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-gray-500 mt-2">Tidak ada gambar carousel</p>
+            </div>
+        </div>
+    @endif
                 <!-- Container gambar dengan overlay gradient -->
                 <div class="relative w-full h-48 sm:h-64 md:h-80 lg:h-96">
                     <template x-for="(image, index) in images" :key="index">

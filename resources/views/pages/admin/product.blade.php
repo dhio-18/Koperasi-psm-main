@@ -147,8 +147,9 @@
                                 <td class="px-6 py-4">
                                     <template x-if="product.expired_date">
                                         <div class="text-sm"
-                                             :class="new Date(product.expired_date) < new Date() ? 'text-red-600 font-semibold' : 'text-gray-900'"
-                                             x-text="formatDate(product.expired_date)">
+                                            :class="new Date(product.expired_date) < new Date() ? 'text-red-600 font-semibold' :
+                                                'text-gray-900'"
+                                            x-text="formatDate(product.expired_date)">
                                         </div>
                                     </template>
                                     <template x-if="!product.expired_date">
@@ -364,8 +365,7 @@
                                 Tanggal Kadaluarsa <span class="text-gray-400 text-xs">(Opsional)</span>
                             </label>
                             <input x-model="editData.expired_date" type="date" id="expired_date" name="expired_date"
-                                value="{{ old('expired_date') }}"
-                                min="{{ date('Y-m-d') }}"
+                                value="{{ old('expired_date') }}" min="{{ date('Y-m-d') }}"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors duration-200">
 
                             @error('expired_date')
@@ -663,7 +663,29 @@
                 },
 
                 getImageUrl() {
-                    return this.editData.currentImage ? this.baseUrl + this.editData.currentImage : null;
+                    if (!this.editData.currentImage) {
+                        return this.baseUrl + 'produk/contohproduk.png'; // fallback
+                    }
+
+                    const imagePath = this.editData.currentImage;
+
+                    // Jika sudah full URL (http/https), return as is
+                    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                        return imagePath;
+                    }
+
+                    // Jika path dimulai dengan 'products/' (dari storage)
+                    if (imagePath.startsWith('products/')) {
+                        return this.baseUrl + 'storage/' + imagePath;
+                    }
+
+                    // Jika path dimulai dengan 'produk/' (old public path)
+                    if (imagePath.startsWith('produk/')) {
+                        return this.baseUrl + imagePath;
+                    }
+
+                    // Default: anggap relative path dari storage
+                    return this.baseUrl + 'storage/' + imagePath;
                 },
 
                 handleImageUpload(event) {

@@ -365,7 +365,29 @@
                 },
 
                 getImageUrl() {
-                    return this.editData.currentImage ? this.baseUrl + this.editData.currentImage : null;
+                    if (!this.editData.currentImage) {
+                        return this.baseUrl + 'produk/contohproduk.png'; // fallback
+                    }
+
+                    const imagePath = this.editData.currentImage;
+
+                    // Jika sudah full URL (http/https), return as is
+                    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                        return imagePath;
+                    }
+
+                    // Jika path dimulai dengan 'products/' (dari storage)
+                    if (imagePath.startsWith('products/')) {
+                        return this.baseUrl + 'storage/' + imagePath;
+                    }
+
+                    // Jika path dimulai dengan 'produk/' (old public path)
+                    if (imagePath.startsWith('produk/')) {
+                        return this.baseUrl + imagePath;
+                    }
+
+                    // Default: anggap relative path dari storage
+                    return this.baseUrl + 'storage/' + imagePath;
                 },
 
                 handleImageUpload(event) {

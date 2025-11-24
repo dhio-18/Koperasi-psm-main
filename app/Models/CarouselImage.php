@@ -18,4 +18,20 @@ class CarouselImage extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Scope untuk hanya mengambil carousel yang aktif
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
+    /**
+     * Scope untuk mengurutkan berdasarkan order
+     */
+    public function scopeOrdered($query)
+    {
+        return $query->orderBy('order', 'asc');
+    }
 }

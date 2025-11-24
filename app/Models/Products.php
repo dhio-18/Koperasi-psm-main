@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Categories;
 use App\Models\OrderItems;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Products extends Model
 {
@@ -36,47 +37,51 @@ class Products extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'expired_date' => 'date',
         'is_active' => 'boolean',
+        'price' => 'decimal:2',
+        'expired_date' => 'date',
     ];
 
-    // Relationships
+    /**
+     * Append accessor ke JSON
+     */
+    protected $appends = ['image_url'];
+
+    /**
+     * Relasi: produk belongs to kategori
+     */
     public function category()
     {
-        return $this->belongsTo(Categories::class);
+        return $this->belongsTo(Categories::class, 'category_id', 'id');
     }
-
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItems::class);
-    }
-
-    public function carts()
-    {
-        return $this->hasMany(Carts::class);
-    }
-
+    /**
+     * Get full URL gambar produk dengan fallback
+     * UPDATED: Lebih robust untuk handle berbagai case
+     */
     public function getImageUrlAttribute()
     {
-        // Jika tidak ada gambar, return default
-        if (!$this->images) {
+        // Jika tidak ada gambar atau kosong
+        if (empty($this->images)) {
             return asset('produk/contohproduk.png');
         }
 
-        // Jika path dimulai dengan 'products/', gunakan storage
-        if (str_starts_with($this->images, 'products/')) {
-            // Cek apakah file exists di storage
-            if (Storage::disk('public')->exists($this->images)) {
-                return asset('storage/' . $this->images);
-            }
+        // Jika sudah full URL (http/https), return as is
+        if (Str::startsWith($this->images, ['http://', 'https://'])) {
+            return $this->images;
         }
 
-        // Jika path dimulai dengan 'produk/' (public), gunakan langsung
-        if (str_starts_with($this->images, 'produk/')) {
+        // Jika path dimulai dengan 'products/' (dari storage/upload)
+        if (Str::startsWith($this->images, 'products/')) {
+            // Return storage URL langsung
+            return asset('storage/' . $this->images);
+        }
+
+        // Jika path dimulai dengan 'produk/' (old public path)
+        if (Str::startsWith($this->images, 'produk/')) {
             return asset($this->images);
         }
 
-        // Default: anggap dari storage
+        // Default: anggap relative path dari storage
         return asset('storage/' . $this->images);
     }
 }

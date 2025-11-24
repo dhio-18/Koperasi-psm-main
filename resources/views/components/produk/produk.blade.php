@@ -1,21 +1,20 @@
-{{-- resources/views/components/product-card.blade.php --}}
-@props(['id', 'slug', 'name', 'image', 'price', 'stock' => null])
+{{-- resources/views/components/produk/produk.blade.php --}}
+@props(['product'])
 
 <div x-data="{
     qty: 1,
     min: 1,
-    max() { return {{ $stock ? (int) $stock : 'Infinity' }}; },
+    max() { return {{ $product->stock ? (int) $product->stock : 'Infinity' }}; },
     inc() { if (this.qty < this.max()) this.qty++ },
     dec() { if (this.qty > this.min) this.qty-- }
 }"
     class="h-full rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition flex flex-col">
 
     {{-- Link ke detail --}}
-    <a href="{{ route('products.show', ['slug' => $slug]) }}" class="block">
+    <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="block">
         <div class="aspect-[4/5] w-full overflow-hidden rounded-t-xl">
-            {{-- ✅ BENAR - Langsung pakai $image tanpa cek Str::startsWith --}}
-            <img src="{{ $image }}"
-                alt="{!! html_entity_decode($name) !!}" 
+            <img src="{{ $product->image_url }}"
+                alt="{!! html_entity_decode($product->name) !!}" 
                 onerror="this.onerror=null; this.src='{{ asset('produk/contohproduk.png') }}';"
                 loading="lazy" 
                 class="h-full w-full object-cover">
@@ -24,14 +23,14 @@
 
     {{-- Info --}}
     <div class="flex-1 p-3 flex flex-col">
-        <a href="{{ route('products.show', ['slug' => $slug]) }}" class="block">
+        <a href="{{ route('products.show', ['slug' => $product->slug]) }}" class="block">
             <h3 class="text-sm font-semibold text-gray-800 line-clamp-2 min-h-[2.5rem]">
-                {!! html_entity_decode($name) !!}
+                {!! html_entity_decode($product->name) !!}
             </h3>
         </a>
 
         <div class="mt-1 text-green-700 font-bold">
-            Rp {{ number_format($price, 0, ',', '.') }}
+            Rp {{ number_format($product->price, 0, ',', '.') }}
         </div>
 
         {{-- Stepper Qty --}}
@@ -52,8 +51,8 @@
                 +
             </button>
 
-            @if ($stock !== null)
-                <span class="ml-2 text-xs text-gray-500">Stok: {{ $stock }}</span>
+            @if ($product->stock !== null)
+                <span class="ml-2 text-xs text-gray-500">Stok: {{ $product->stock }}</span>
             @endif
         </div>
 
@@ -63,8 +62,8 @@
             {{-- Beli sekarang (petir) --}}
             <form action="{{ route('checkout') }}" method="POST">
                 @csrf
-                <input type="hidden" name="product_id" value="{{ $id }}">
-                <input type="hidden" name="price" value="{{ $price }}">
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <input type="hidden" name="price" value="{{ $product->price }}">
                 <input type="hidden" name="qty" x-model="qty">
                 <button type="submit" title="Beli sekarang" aria-label="Beli sekarang"
                     class="inline-flex items-center justify-center h-9 w-9 md:h-8 md:w-8 rounded-md
@@ -79,8 +78,8 @@
             {{-- Tambah ke keranjang --}}
             <form action="{{ route('cart.add') }}" method="POST">
                 @csrf
-                <input type="hidden" name="product_id" value="{{ $id }}">
-                <input type="hidden" name="price" value="{{ $price }}">
+                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                <input type="hidden" name="price" value="{{ $product->price }}">
                 <input type="hidden" name="qty" x-model="qty">
                 <button type="submit" title="Tambah ke keranjang" aria-label="Tambah ke keranjang"
                     class="inline-flex items-center justify-center h-9 w-9 md:h-8 md:w-8 rounded-md
