@@ -13,8 +13,12 @@
     {{-- Link ke detail --}}
     <a href="{{ route('products.show', ['slug' => $slug]) }}" class="block">
         <div class="aspect-[4/5] w-full overflow-hidden rounded-t-xl">
-            <img src="{{ Str::startsWith($image, ['http://', 'https://']) ? $image : asset($image) }}"
-                alt="{!! html_entity_decode($name) !!}" loading="lazy" class="h-full w-full object-cover">
+            {{-- ✅ BENAR - Langsung pakai $image tanpa cek Str::startsWith --}}
+            <img src="{{ $image }}"
+                alt="{!! html_entity_decode($name) !!}" 
+                onerror="this.onerror=null; this.src='{{ asset('produk/contohproduk.png') }}';"
+                loading="lazy" 
+                class="h-full w-full object-cover">
         </div>
     </a>
 
