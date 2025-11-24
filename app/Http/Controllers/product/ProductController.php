@@ -4,7 +4,7 @@ namespace App\Http\Controllers\product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Products;
-use App\Models\Categories; // ✅ Tambahkan ini
+use App\Models\Categories;
 
 class ProductController extends Controller
 {

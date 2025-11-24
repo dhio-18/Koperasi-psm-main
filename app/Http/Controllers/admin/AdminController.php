@@ -11,7 +11,7 @@ use App\Models\Payments;
 use App\Models\Products;
 use App\Models\Returns;
 use App\Models\Shipments;
-use App\Services\FileUploadservice;
+use App\Services\FileUploadService;
 use Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -129,7 +129,7 @@ class AdminController extends Controller
         try {
             DB::beginTransaction();
 
-            $fileUploadService = new FileUploadservice();
+            $fileUploadService = new FileUploadService();
             $image_path = $fileUploadService->upload($request, 'icon', 'categories');
 
             Categories::create([
@@ -173,7 +173,7 @@ class AdminController extends Controller
 
             // Hanya ubah icon jika ada file baru
             if ($request->hasFile('icon')) {
-                $fileUploadService = new FileUploadservice();
+                $fileUploadService = new FileUploadService();
                 $image_path = $fileUploadService->upload($request, 'icon', 'categories');
                 if ($image_path) {
                     $updateData['image'] = $image_path;
@@ -264,7 +264,7 @@ class AdminController extends Controller
         try {
             DB::beginTransaction();
 
-            $fileUploadService = new FileUploadservice();
+            $fileUploadService = new FileUploadService();
             $image_path = $fileUploadService->upload($request, 'images', 'products');
 
             Products::create([
@@ -312,7 +312,7 @@ class AdminController extends Controller
             ];
 
             if ($request->hasFile('images')) {
-                $fileUploadService = new FileUploadservice();
+                $fileUploadService = new FileUploadService();
                 $image_path = $fileUploadService->upload($request, 'images', 'products');
                 $updateData['images'] = $image_path;
             }
