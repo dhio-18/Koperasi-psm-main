@@ -124,7 +124,7 @@
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <!-- Product Image -->
                                 <td class="px-6 py-4">
-                                    <img :src="baseUrl + product.images" alt="product image"
+                                    <img :src="baseUrl + 'storage/' + product.images" alt="product image"
                                         class="w-20 h-20 object-cover rounded">
                                 </td>
 

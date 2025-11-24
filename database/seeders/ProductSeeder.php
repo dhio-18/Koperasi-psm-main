@@ -33,7 +33,7 @@ class ProductSeeder extends Seeder
                 'price' => 3500,
                 'stock' => 100,
                 'weight' => 77,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -44,7 +44,7 @@ class ProductSeeder extends Seeder
                 'price' => 8000,
                 'stock' => 75,
                 'weight' => 60,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -55,7 +55,7 @@ class ProductSeeder extends Seeder
                 'price' => 12000,
                 'stock' => 50,
                 'weight' => 250,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
 
@@ -68,7 +68,7 @@ class ProductSeeder extends Seeder
                 'price' => 15000,
                 'stock' => 60,
                 'weight' => 1500,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -79,7 +79,7 @@ class ProductSeeder extends Seeder
                 'price' => 15000,
                 'stock' => 55,
                 'weight' => 1500,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -90,7 +90,7 @@ class ProductSeeder extends Seeder
                 'price' => 6000,
                 'stock' => 200,
                 'weight' => 1500,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
 
@@ -103,7 +103,7 @@ class ProductSeeder extends Seeder
                 'price' => 50000,
                 'stock' => 40,
                 'weight' => 200,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -114,7 +114,7 @@ class ProductSeeder extends Seeder
                 'price' => 5000,
                 'stock' => 150,
                 'weight' => 350,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -125,7 +125,7 @@ class ProductSeeder extends Seeder
                 'price' => 25000,
                 'stock' => 80,
                 'weight' => 150,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
 
@@ -138,7 +138,7 @@ class ProductSeeder extends Seeder
                 'price' => 3000,
                 'stock' => 200,
                 'weight' => 80,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -149,7 +149,7 @@ class ProductSeeder extends Seeder
                 'price' => 4500,
                 'stock' => 90,
                 'weight' => 75,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -160,7 +160,7 @@ class ProductSeeder extends Seeder
                 'price' => 22000,
                 'stock' => 45,
                 'weight' => 500,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
 
@@ -173,7 +173,7 @@ class ProductSeeder extends Seeder
                 'price' => 7000,
                 'stock' => 120,
                 'weight' => 50,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -184,7 +184,7 @@ class ProductSeeder extends Seeder
                 'price' => 15000,
                 'stock' => 85,
                 'weight' => 100,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -195,7 +195,7 @@ class ProductSeeder extends Seeder
                 'price' => 8000,
                 'stock' => 110,
                 'weight' => 38,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
 
@@ -208,7 +208,7 @@ class ProductSeeder extends Seeder
                 'price' => 75000,
                 'stock' => 30,
                 'weight' => 5000,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -219,7 +219,7 @@ class ProductSeeder extends Seeder
                 'price' => 35000,
                 'stock' => 50,
                 'weight' => 1000,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
             [
@@ -230,7 +230,7 @@ class ProductSeeder extends Seeder
                 'price' => 12000,
                 'stock' => 150,
                 'weight' => 1000,
-                'images' => 'produk/contohproduk.png',
+                'images' => 'products/contohproduk.png',
                 'is_active' => true,
             ],
         ];

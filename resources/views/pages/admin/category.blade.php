@@ -62,7 +62,7 @@
                         <template x-for="category in paginatedCategories" :key="category.id">
                             <tr class="hover:bg-gray-50 transition-colors">
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <img :src="baseUrl + category.image" alt="image"
+                                    <img :src="baseUrl + 'storage/' +  category.image" alt="image"
                                         class="w-10 h-10 object-cover rounded">
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
