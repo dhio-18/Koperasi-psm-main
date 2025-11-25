@@ -599,7 +599,7 @@ class AdminController extends Controller
                 'order_id' => $order->id,
                 'user_id' => Auth::id(),
                 'action' => 'returned',
-                'description' => 'Pengembalian disetujui oleh ' . Auth::user()->name . '. Stok produk telah dikembalikan.',
+                'description' => 'Pengembalian disetujui oleh ' . Auth::user()->name . '.\nStok produk telah dikembalikan.',
             ]);
 
             DB::commit();
