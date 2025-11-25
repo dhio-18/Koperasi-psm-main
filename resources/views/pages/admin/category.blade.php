@@ -142,46 +142,55 @@
 
                         <!-- Icon -->
                         <div class="mb-4">
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Icon</label>
 
                             <div
-                                class="p-4 h-28 border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 flex items-center justify-center">
+                                class="p-2 h-20 border border-dashed border-gray-300 rounded-md bg-gray-50
+        flex items-center justify-center">
 
-                                <div x-show="editData.imagePreview || editData.currentImage">
+                                <!-- Preview -->
+                                <div x-show="editData.imagePreview || editData.currentImage"
+                                    class="w-full h-full flex items-center justify-center">
                                     <img :src="editData.imagePreview || getImageUrl()"
                                         class="max-w-full max-h-full object-contain rounded">
                                 </div>
 
+                                <!-- Placeholder -->
                                 <div x-show="!editData.imagePreview && !editData.currentImage" class="text-center">
-                                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor">
+                                    <svg class="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor">
                                         <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0
-                                    0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172
-                                    a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172
-                                    a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round"
+                        0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172
+                        a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172
+                        a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round"
                                             stroke-linejoin="round" />
                                     </svg>
-                                    <p class="mt-2 text-sm text-gray-500">Icon</p>
+                                    <p class="mt-1 text-xs text-gray-500">Icon</p>
                                 </div>
                             </div>
 
-                            <!-- FIXED -->
+                            <!-- File Input -->
                             <input type="file" name="icon" x-ref="imageInput" accept="image/*"
                                 @change="handleImageUpload($event)" class="hidden">
 
-                            <div x-show="editData.iconError" class="mt-2 text-sm text-red-600"
+                            <div x-show="editData.iconError" class="mt-1 text-xs text-red-600"
                                 x-text="editData.iconError"></div>
 
                             @error('icon')
-                                <div class="mt-2 text-sm text-red-600">{{ $message }}</div>
+                                <div class="mt-1 text-xs text-red-600">{{ $message }}</div>
                             @enderror
 
-                            <div class="flex gap-2 mt-3">
+                            <div class="flex gap-2 mt-2">
                                 <button type="button" @click="removeImage()"
-                                    class="px-4 py-2 text-sm border border-red-300 text-red-600">Hapus Icon</button>
+                                    class="px-3 py-1 text-xs border border-red-300 text-red-600 rounded hover:bg-red-50">
+                                    Hapus
+                                </button>
                                 <button type="button" @click="$refs.imageInput.click()"
-                                    class="px-4 py-2 text-sm border border-green-300 text-green-600">Upload Icon</button>
+                                    class="px-3 py-1 text-xs border border-green-300 text-green-600 rounded hover:bg-green-50">
+                                    Upload
+                                </button>
                             </div>
                         </div>
+
 
                         <!-- Name -->
                         <div class="mb-4">
