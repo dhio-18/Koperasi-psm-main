@@ -93,7 +93,8 @@
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <div>
                         <h2 class="text-lg font-semibold text-gray-900">Daftar Pesanan</h2>
-                        <p class="text-sm text-gray-500 mt-1">Kelola dan pantau semua pesanan yang belum di konfirmasi, diverifikasi dan dikembalikan</p>
+                        <p class="text-sm text-gray-500 mt-1">Kelola dan pantau semua pesanan yang belum di konfirmasi,
+                            diverifikasi dan dikembalikan</p>
                     </div>
 
                     <!-- Filter Buttons -->
@@ -226,51 +227,52 @@
 
             <!-- Pagination -->
             @if ($orders->hasPages())
-                <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-                    <div class="flex items-center justify-center">
-                        <!-- Tombol Navigasi -->
+                <div class="px-6 py-4 border-t border-gray-100">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+
+                        <!-- Info -->
+                        <div class="text-sm text-gray-600">
+                            Menampilkan
+                            <span class="font-semibold text-gray-900">{{ $orders->firstItem() }}</span>
+                            sampai
+                            <span class="font-semibold text-gray-900">{{ $orders->lastItem() }}</span>
+                            dari
+                            <span class="font-semibold text-gray-900">{{ $orders->total() }}</span>
+                            pesanan
+                        </div>
+
+                        <!-- Pagination Links -->
                         <div class="flex items-center gap-2">
+
+                            {{-- Previous Button --}}
                             @if ($orders->onFirstPage())
-                                <span
-                                    class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
-                                 shadow-sm transition-colors
-                                 disabled:text-gray-300 disabled:cursor-not-allowed">
+                                <span class="px-3 py-2 text-sm bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed">
                                     Sebelumnya
                                 </span>
                             @else
                                 <a href="{{ $orders->previousPageUrl() }}"
-                                    class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
-                                 shadow-sm transition-colors
-                                 hover:bg-green-600 hover:text-white">
+                                    class="px-3 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                                     Sebelumnya
                                 </a>
                             @endif
 
-                            <span class="px-1 text-xs sm:text-sm text-gray-700">
-                                <span class="text-green-600 font-semibold">{{ $orders->currentPage() }}</span>
-                                <span class="text-gray-400">/</span>
-                                <span class="font-semibold">{{ $orders->lastPage() }}</span>
-                            </span>
-
+                            {{-- Next Button --}}
                             @if ($orders->hasMorePages())
                                 <a href="{{ $orders->nextPageUrl() }}"
-                                    class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
-                                 shadow-sm transition-colors
-                                 hover:bg-green-600 hover:text-white">
-                                    Selanjutnya
+                                    class="px-3 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                                    Berikutnya
                                 </a>
                             @else
-                                <span
-                                    class="appearance-none border border-gray-300 rounded-lg px-2.5 py-1 text-xs sm:text-sm
-                                 shadow-sm transition-colors
-                                 disabled:text-gray-300 disabled:cursor-not-allowed">
-                                    Selanjutnya
+                                <span class="px-3 py-2 text-sm bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed">
+                                    Berikutnya
                                 </span>
                             @endif
+
                         </div>
                     </div>
                 </div>
             @endif
+
         </div>
     </div>
 
