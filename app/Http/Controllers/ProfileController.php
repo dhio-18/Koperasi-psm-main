@@ -261,7 +261,7 @@ class ProfileController extends Controller
 
     public function orders()
     {
-        return $orders = Orders::with([
+        $orders = Orders::with([
             'orderItems.products',
             'returns',  // Load semua returns termasuk yang ditolak
             'shipment',
