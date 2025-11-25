@@ -10,7 +10,7 @@ class OrderHistory extends Model
 
     protected $fillable = ['order_id', 'user_id', 'action', 'description'];
 
-    public $timestamps = false;
+    public $timestamps = true;
 
     public function order()
     {
