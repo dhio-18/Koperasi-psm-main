@@ -37,6 +37,10 @@ return [
 
     'mailers' => [
 
+        'resend' => [
+            'transport' => 'resend',
+        ],
+
         'smtp' => [
             'transport' => 'smtp',
             'scheme' => env('MAIL_SCHEME', 'smtp'),
@@ -60,10 +64,6 @@ return [
             // 'client' => [
             //     'timeout' => 5,
             // ],
-        ],
-
-        'resend' => [
-            'transport' => 'resend',
         ],
 
         'sendmail' => [
