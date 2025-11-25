@@ -603,8 +603,9 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.return', ['status' => 'returned'])
-                ->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
+            // return redirect()->route('admin.return', ['status' => 'returned'])
+            //     ->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
+            return redirect()->back()->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Return approval error: ' . $e->getMessage());
