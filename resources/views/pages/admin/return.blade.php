@@ -461,7 +461,7 @@
                             <div class="divide-y divide-gray-200">
                                 <template x-for="product in orderData?.order_items" :key="product.id">
                                     <div class="p-4 flex items-center space-x-4">
-                                        <img :src="baseUrl + product.products.images" :alt="product.products.name"
+                                        <img :src="getImageUrl()" alt="product image"
                                             class="w-20 h-20 object-cover rounded-lg">
                                         <div class="flex-1">
                                             <h4 class="font-medium text-gray-900" x-text="product.products.name">
@@ -1035,6 +1035,32 @@
                         default:
                             return 'bg-gray-100 text-gray-800 border border-gray-300';
                     }
+                },
+                getImageUrl(product) {
+                    // Pastikan product dan image ada
+                    if (!product || !product.products || !product.products.image) {
+                        return this.baseUrl + 'produk/contohproduk.png'; // fallback
+                    }
+
+                    const imagePath = product.products.image;
+
+                    // Jika sudah full URL (http/https), return as is
+                    if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
+                        return imagePath;
+                    }
+
+                    // Jika path dimulai dengan 'products/' (dari storage)
+                    if (imagePath.startsWith('products/')) {
+                        return this.baseUrl + 'storage/' + imagePath;
+                    }
+
+                    // Jika path dimulai dengan 'produk/' (old public path)
+                    if (imagePath.startsWith('produk/')) {
+                        return this.baseUrl + imagePath;
+                    }
+
+                    // Default: anggap relative path dari storage
+                    return this.baseUrl + 'storage/' + imagePath;
                 },
                 getStatusName(status) {
                     switch (status) {
