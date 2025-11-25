@@ -363,15 +363,6 @@ class AdminController extends Controller
                 $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
                 $order->time = Carbon::parse($order->created_at)->format('H:i');
 
-                if ($order->histories) {
-                    $order->histories = $order->histories->map(function ($history) {
-                        $history->created_at = Carbon::parse($history->created_at)
-                            ->timezone('Asia/Jakarta')
-                            ->format('d-m-Y H:i:s');
-                        return $history;
-                    });
-                }
-
                 return $order;
             });
 
@@ -404,15 +395,6 @@ class AdminController extends Controller
             ->map(function ($order) {
                 $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
                 $order->time = Carbon::parse($order->created_at)->format('H:i');
-
-                if ($order->histories) {
-                    $order->histories = $order->histories->map(function ($history) {
-                        $history->created_at = Carbon::parse($history->created_at)
-                            ->timezone('Asia/Jakarta')
-                            ->format('d-m-Y H:i:s');
-                        return $history;
-                    });
-                }
 
                 return $order;
             });
