@@ -12,6 +12,8 @@ class OrderHistory extends Model
 
     public $timestamps = true;
 
+    const UPDATED_AT = null; // Hanya created_at yang dipakai
+
     public function order()
     {
         return $this->belongsTo(Orders::class, 'order_id');
