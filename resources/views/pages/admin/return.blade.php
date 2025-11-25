@@ -705,7 +705,7 @@
 
                                 <!-- Content -->
                                 <p class="text-sm font-semibold text-gray-800" x-text="formatAction(history.action)"></p>
-                                <p class="text-sm text-gray-600" x-text="history.description"></p>
+                                <p class="text-sm text-gray-600 whitespace-pre-line" x-text="history.description.replace(/\\n/g, '\n')"></p>
                                 <p class="text-xs text-gray-400 mt-1"
                                     x-text="new Date(history.created_at).toLocaleString()">
                                 </p>
