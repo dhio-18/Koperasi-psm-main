@@ -562,8 +562,9 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('admin.return', ['status' => 'rejected'])
-                ->with('success', 'Pengembalian berhasil ditolak.');
+            // return redirect()->route('admin.return', ['status' => 'rejected'])
+            //     ->with('success', 'Pengembalian berhasil ditolak.');
+            return redirect()->back()->with('success', 'Pengembalian berhasil ditolak.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menolak pengembalian: ' . $e->getMessage());
