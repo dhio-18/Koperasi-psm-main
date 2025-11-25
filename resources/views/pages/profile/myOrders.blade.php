@@ -361,7 +361,7 @@
                                                         <p class="text-sm text-gray-700 whitespace-pre-line" x-text="history.description.replace(/\\n/g, '\n')"></p>
                                                         </p>
                                                         <p class="text-xs text-gray-500"
-                                                            x-text="formatDate(history.created_at)">
+                                                            x-text="history.created_at">
                                                         </p>
                                                     </div>
                                                 </div>
