@@ -446,7 +446,8 @@ class AdminController extends Controller
             $order->save();
 
             DB::commit();
-            return redirect()->back()->with('success', 'Pembayaran berhasil disetujui.');
+            return redirect()->route('admin.orders', ['status' => 'verified'])
+                ->with('success', 'Pembayaran berhasil disetujui.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menyetujui pembayaran: ' . $e->getMessage());
@@ -494,7 +495,8 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->back()->with('success', 'Pesanan berhasil dikirim .');
+            return redirect()->route('admin.orders', ['status' => 'sending'])
+                ->with('success', 'Pesanan berhasil dikirim.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal mengirim pesanan: ' . $e->getMessage());
@@ -523,7 +525,8 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->back()->with('success', 'Pembayaran berhasil ditolak.');
+            return redirect()->route('admin.orders', ['status' => 'rejected'])
+                ->with('success', 'Pembayaran berhasil ditolak.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menolak pembayaran: ' . $e->getMessage());
@@ -559,7 +562,8 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->back()->with('success', 'Pengembalian berhasil ditolak.');
+            return redirect()->route('admin.return', ['status' => 'rejected'])
+                ->with('success', 'Pengembalian berhasil ditolak.');
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal menolak pengembalian: ' . $e->getMessage());
@@ -598,7 +602,8 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->back()->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
+            return redirect()->route('admin.return', ['status' => 'returned'])
+                ->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Return approval error: ' . $e->getMessage());
