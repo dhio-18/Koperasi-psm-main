@@ -215,13 +215,85 @@
 
 
 
-        <!-- Pagination -->
-        <div class="mt-auto">
-            <!-- Pagination -->
-            <x-admin.pagination data="filteredCategories" />
+        <!-- Pagination Inline -->
+        <div class="bg-gray-50 px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+
+            <!-- Items per page -->
+            <div class="flex items-center gap-2">
+                {{-- <span class="text-sm text-gray-600">Tampilkan</span> --}}
+
+                <select x-model.number="itemsPerPage" @change="currentPage = 1"
+                    class="w-20 border-gray-300 rounded-lg py-1.5 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600">
+                    <option value="3">3</option>
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                </select>
+
+                {{-- <span class="text-sm text-gray-600">item</span> --}}
+            </div>
+
+            <!-- Pagination Buttons -->
+            <div class="flex items-center gap-2">
+
+                <!-- Previous -->
+                <button @click="previousPage" :disabled="currentPage === 1"
+                    class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm transition
+                   hover:bg-green-600 hover:text-white
+                   disabled:text-gray-300 disabled:hover:bg-transparent disabled:cursor-not-allowed">
+                    Sebelumnya
+                </button>
+
+                <!-- Page Numbers -->
+                {{-- <div class="flex items-center gap-1">
+
+                    <!-- First Page -->
+                    <template x-if="currentPage > 3">
+                        <button @click="goToPage(1)"
+                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
+                        hover:bg-green-600 hover:text-white"
+                            :class="currentPage === 1 ? 'bg-green-600 text-white' : ''">
+                            1
+                        </button>
+                    </template>
+
+                    <!-- Left Ellipsis -->
+                    <template x-if="currentPage > 4">
+                        <span class="text-gray-500 px-1">...</span>
+                    </template>
+
+                    <!-- Middle Pages -->
+                    <template x-for="page in getPageNumbers()" :key="page">
+                        <button @click="goToPage(page)"
+                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
+                        hover:bg-green-600 hover:text-white"
+                            :class="currentPage === page ? 'bg-green-600 text-white' : ''" x-text="page"></button>
+                    </template>
+
+                    <!-- Right Ellipsis -->
+                    <template x-if="currentPage < totalPages - 3">
+                        <span class="text-gray-500 px-1">...</span>
+                    </template>
+
+                    <!-- Last Page -->
+                    <template x-if="currentPage < totalPages - 2">
+                        <button @click="goToPage(totalPages)"
+                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
+                        hover:bg-green-600 hover:text-white"
+                            x-text="totalPages"></button>
+                    </template>
+                </div> --}}
+
+                <!-- Next -->
+                <button @click="nextPage" :disabled="currentPage === totalPages"
+                    class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm transition
+                   hover:bg-green-600 hover:text-white
+                   disabled:text-gray-300 disabled:hover:bg-transparent disabled:cursor-not-allowed">
+                    Selanjutnya
+                </button>
+
+            </div>
         </div>
-
-
 
     </div>
 

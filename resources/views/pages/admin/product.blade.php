@@ -458,7 +458,7 @@
 
             <!-- Items per page -->
             <div class="flex items-center gap-2">
-                <span class="text-sm text-gray-600">Tampilkan</span>
+                {{-- <span class="text-sm text-gray-600">Tampilkan</span> --}}
 
                 <select x-model.number="itemsPerPage" @change="currentPage = 1"
                     class="w-20 border-gray-300 rounded-lg py-1.5 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600">
@@ -468,7 +468,7 @@
                     <option value="20">20</option>
                 </select>
 
-                <span class="text-sm text-gray-600">item</span>
+                {{-- <span class="text-sm text-gray-600">item</span> --}}
             </div>
 
             <!-- Pagination Buttons -->
@@ -483,7 +483,7 @@
                 </button>
 
                 <!-- Page Numbers -->
-                <div class="flex items-center gap-1">
+                {{-- <div class="flex items-center gap-1">
 
                     <!-- First Page -->
                     <template x-if="currentPage > 3">
@@ -520,7 +520,7 @@
                         hover:bg-green-600 hover:text-white"
                             x-text="totalPages"></button>
                     </template>
-                </div>
+                </div> --}}
 
                 <!-- Next -->
                 <button @click="nextPage" :disabled="currentPage === totalPages"
