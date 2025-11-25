@@ -358,7 +358,7 @@ class AdminController extends Controller
             $ordersQuery->where('status', $statusFilter);
         }
 
-        $orders = $ordersQuery->get()
+        return $orders = $ordersQuery->get()
             ->map(function ($order) {
                 $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
                 $order->time = Carbon::parse($order->created_at)->format('H:i');
