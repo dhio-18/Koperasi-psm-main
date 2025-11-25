@@ -272,6 +272,7 @@ class ProfileController extends Controller
             ->get()
             ->map(function ($order) {
                 $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
+                $order->time = Carbon::parse($order->created_at)->format('H:i');
 
                 // Pastikan returns di-load dan ter-serialize dengan benar
                 if ($order->returns) {
@@ -386,11 +387,11 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Pengembalian berhasil dikirim!');
     } catch (\Exception $e) {
         DB::rollBack();
-        
+
         // Log error untuk debugging
         \Log::error('Return order error: ' . $e->getMessage());
         \Log::error('Stack trace: ' . $e->getTraceAsString());
-        
+
         return redirect()->back()
             ->with('error', 'Terjadi kesalahan: ' . $e->getMessage())
             ->withInput();

@@ -133,6 +133,7 @@
                                     </div>
                                     <div class="text-sm text-gray-500">
                                         <span x-text="order.date"></span>
+                                        <span x-text="'Jam ' + order.time"></span>
                                     </div>
                                     <a x-show="order?.invoice_path"
                                         :href="'{{ asset('storage/invoices') }}' + '/' + order?.invoice_path"

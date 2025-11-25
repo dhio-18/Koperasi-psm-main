@@ -361,6 +361,7 @@ class AdminController extends Controller
         $orders = $ordersQuery->get()
             ->map(function ($order) {
                 $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
+                $order->time = Carbon::parse($order->created_at)->format('H:i');
                 return $order;
             });
 
@@ -392,6 +393,7 @@ class AdminController extends Controller
         $orders = $ordersQuery->get()
             ->map(function ($order) {
                 $order->date = Carbon::parse($order->created_at)->format('d-m-Y');
+                $order->time = Carbon::parse($order->created_at)->format('H:i');
                 return $order;
             });
 
@@ -459,6 +461,7 @@ class AdminController extends Controller
         $validated = $request->validate([
             'carrier' => 'required|string|max:100',
             'notes' => 'nullable|string|max:255',
+            'type' => 'required|in:order,return'
         ]);
 
         try {
@@ -475,6 +478,7 @@ class AdminController extends Controller
                     $product->save();
                 }
             }
+
             $order->status = 'sending';
             $order->save();
 
@@ -483,7 +487,7 @@ class AdminController extends Controller
                 'tracking_number' => $trackingNumber,
                 'carrier' => $validated['carrier'],
                 'status' => 'shipped',
-                'shipped_at' => Carbon::now(),
+                'shipped_at' => now(),
                 'notes' => $validated['notes'] ?? null,
             ]);
 
@@ -495,13 +499,21 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
+
+            if ($validated['type'] === 'return') {
+                return redirect()->route('admin.return', ['status' => 'sending'])
+                    ->with('success', 'Pengembalian berhasil dikirim.');
+            }
+
             return redirect()->route('admin.orders', ['status' => 'sending'])
                 ->with('success', 'Pesanan berhasil dikirim.');
+
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back()->with('error', 'Gagal mengirim pesanan: ' . $e->getMessage());
         }
     }
+
 
     public function rejectPayment(Request $request, $id)
     {
@@ -603,9 +615,9 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            // return redirect()->route('admin.return', ['status' => 'returned'])
-            //     ->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
-            return redirect()->back()->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
+            return redirect()->route('admin.return', ['status' => 'returned'])
+                ->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
+            // return redirect()->back()->with('success', 'Pengembalian berhasil disetujui dan stok telah dikembalikan.');
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Return approval error: ' . $e->getMessage());

@@ -85,6 +85,8 @@
                                 Pelanggan</th>
                             <th class="px-6 py-4 text-left text-xs font-medium  uppercase tracking-wider">
                                 Tanggal Pesan</th>
+                            <th class="px-6 py-4 text-left text-xs font-medium  uppercase tracking-wider">
+                                Jam Pesanan Masuk</th>
                             <th class="px-6 py-4 text-left text-xs font-medium  uppercase tracking-wider">Total
                                 Pembayaran</th>
                             <th class="px-6 py-4 text-left text-xs font-medium  uppercase tracking-wider">
@@ -103,6 +105,7 @@
                                     <span class="text-gray-900 font-medium" x-text="order.customer_name"></span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-900" x-text="order.date"></td>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-900" x-text="order.time"></td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="text-gray-900 font-medium"
                                         x-text="formatCurrency(order.total_amount)"></span>
@@ -203,6 +206,8 @@
                         @csrf
                         <div>
                             <x-input-label for="carrier" value="Nama Pengirim" />
+
+                            <input type="hidden" name="type" value="order">
 
                             <input id="carrier" name="carrier" placeholder="Masukkan nama pengirim"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-green-500"
