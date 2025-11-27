@@ -205,7 +205,7 @@
                                     <input type="tel" name="phone" x-model="formData.phone"
                                         placeholder="Masukkan nomor telepon penerima paket"
                                         class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                                        required>
+                                        value="{{ Auth::user()->phone }}" required>
                                     @error('phone')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -306,6 +306,10 @@
                 openModal() {
                     this.isEditMode = false;
                     this.resetForm();
+
+                    // Set default nomor telepon user ketika TAMBAH baru
+                    this.formData.phone = "{{ Auth::user()->phone }}";
+
                     this.isModalOpen = true;
                     document.body.style.overflow = 'hidden';
                 },

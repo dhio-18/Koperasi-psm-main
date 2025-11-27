@@ -286,7 +286,8 @@
 
                                 <!-- Content -->
                                 <p class="text-sm font-semibold text-gray-800" x-text="formatAction(history.action)"></p>
-                                <p class="text-sm text-gray-600 whitespace-pre-line" x-text="history.description.replace(/\\n/g, '\n')"></p>
+                                <p class="text-sm text-gray-600 whitespace-pre-line"
+                                    x-text="history.description.replace(/\\n/g, '\n')"></p>
                                 <p class="text-xs text-gray-400 mt-1"
                                     x-text="new Date(history.created_at).toLocaleString()">
                                 </p>
@@ -548,7 +549,7 @@
                                 <template x-for="product in orderData?.order_items" :key="product.id">
                                     <div class="p-4 flex items-center space-x-4">
                                         <img :src="getImageUrl()" alt="product image"
-                                        class="w-20 h-20 object-cover rounded">
+                                            class="w-20 h-20 object-cover rounded">
                                         <div class="flex-1">
                                             <h4 class="font-medium text-gray-900" x-text="product.products.name">
                                             </h4>
@@ -876,46 +877,6 @@
                     Sebelumnya
                 </button>
 
-                <!-- Page Numbers -->
-                {{-- <div class="flex items-center gap-1">
-
-                    <!-- First Page -->
-                    <template x-if="currentPage > 3">
-                        <button @click="goToPage(1)"
-                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
-                        hover:bg-green-600 hover:text-white"
-                            :class="currentPage === 1 ? 'bg-green-600 text-white' : ''">
-                            1
-                        </button>
-                    </template>
-
-                    <!-- Left Ellipsis -->
-                    <template x-if="currentPage > 4">
-                        <span class="text-gray-500 px-1">...</span>
-                    </template>
-
-                    <!-- Middle Pages -->
-                    <template x-for="page in getPageNumbers()" :key="page">
-                        <button @click="goToPage(page)"
-                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
-                        hover:bg-green-600 hover:text-white"
-                            :class="currentPage === page ? 'bg-green-600 text-white' : ''" x-text="page"></button>
-                    </template>
-
-                    <!-- Right Ellipsis -->
-                    <template x-if="currentPage < totalPages - 3">
-                        <span class="text-gray-500 px-1">...</span>
-                    </template>
-
-                    <!-- Last Page -->
-                    <template x-if="currentPage < totalPages - 2">
-                        <button @click="goToPage(totalPages)"
-                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
-                        hover:bg-green-600 hover:text-white"
-                            x-text="totalPages"></button>
-                    </template>
-                </div> --}}
-
                 <!-- Next -->
                 <button @click="nextPage" :disabled="currentPage === totalPages"
                     class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm transition
@@ -976,12 +937,7 @@
 
                     const sorted = this.sortOrders(this.orders);
 
-                    this.filteredOrders = sorted.filter(order => {
-                        if (this.statusFilter === '' || !this.statusFilter) {
-                            return true; // Tampilkan semua jika filter kosong
-                        }
-                        return order.status == this.statusFilter;
-                    });
+                    this.filterOrders();
                 },
 
                 get paginatedOrders() {
@@ -1021,23 +977,23 @@
                 filterOrders() {
                     let filtered = this.orders;
 
-                    // Search filter
-                    if (this.searchQuery) {
-                        filtered = filtered.filter(order =>
-                            order.customer_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.order_number.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.date.toString().includes(this.searchQuery) ||
-                            order.total_amount.toString().includes(this.searchQuery) ||
-                            order.shipping_address.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.user.email.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.user.phone.toLowerCase().includes(this.searchQuery.toLowerCase())
-                        );
-                    }
-
                     // Status filter
                     if (this.statusFilter) {
                         filtered = filtered.filter(order => order.status == this.statusFilter);
+                    }
+
+                    // Search filter
+                    if (this.searchQuery) {
+                        filtered = filtered.filter(order =>
+                            (order.customer_name || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.order_number || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.date || '').toString().includes(this.searchQuery) ||
+                            (order.total_amount || '').toString().includes(this.searchQuery) ||
+                            (order.shipping_address || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.user?.name || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.user?.email || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.user?.phone || '').toLowerCase().includes(this.searchQuery.toLowerCase())
+                        );
                     }
 
                     // Sort

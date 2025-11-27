@@ -20,7 +20,7 @@
 
         <!-- Product Image Section -->
         <div class="space-y-3 sm:space-y-4">
-            <div class="aspect-square bg-black rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden">
+            <div class="aspect-square p-5 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden">
                 @if (isset($product) && $product->images)
                 <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
                     onerror="this.onerror=null; this.src='{{ asset('produk/contohproduk.png') }}';"

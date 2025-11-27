@@ -49,11 +49,15 @@ class ManageUserController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
+            'password'  => 'nullable|min:6',
         ]);
 
         // Update user data
         $user->name = $validated['name'];
         $user->email = $validated['email'];
+        if (!empty($validated['password'])) {
+            $user->password = bcrypt($validated['password']);
+        }
         $user->save();
 
         return redirect()->route('superadmin.manage-users.index')->with('success', 'User berhasil diperbarui!');

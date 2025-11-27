@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:' . User::class],
-            'phone' => ['max:12', 'regex:/^[0-9]+$/'],
+            'phone' => ['max:13', 'regex:/^[0-9]+$/'],
             'password' => ['required', 'confirmed', 'min:8', Rules\Password::defaults()],
         ], [
             'name.required' => 'Nama wajib diisi',
@@ -40,7 +40,7 @@ class RegisteredUserController extends Controller
             'email.email' => 'Format email tidak valid',
             'email.unique' => 'Email sudah terdaftar',
             'phone.regex' => 'Nomor handphone hanya boleh berisi angka',
-            'phone.max' => 'Nomor handphone maksimal 12 digit',
+            'phone.max' => 'Nomor handphone maksimal 13 digit',
             'password.required' => 'Password wajib diisi',
             'password.confirmed' => 'Konfirmasi password tidak sesuai',
             'password.min' => 'Password minimal 8 karakter',

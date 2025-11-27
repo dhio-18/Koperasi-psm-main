@@ -144,6 +144,7 @@
                             <th class="px-6 py-4 text-left">Jumlah</th>
                             <th class="px-6 py-4 text-left">Status</th>
                             <th class="px-6 py-4 text-left">Tanggal</th>
+                            <th class="px-6 py-4 text-left">Jam</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
@@ -166,7 +167,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     <span
-                                        class="font-mono text-sm font-medium text-gray-700">#{{ $order->order_number }}</span>
+                                        class="font-mono text-sm font-medium text-gray-700">{{ $order->order_number }}</span>
                                 </td>
                                 <td class="px-6 py-4">
                                     <span class="font-semibold text-gray-900">Rp
@@ -191,6 +192,11 @@
                                 <td class="px-6 py-4">
                                     <div class="text-gray-700">
                                         <p class="font-medium">{{ $order->created_at->format('d M Y') }}</p>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <div class="text-gray-700">
+                                        <p class="font-medium">{{ $order->created_at->format('H:i') }}</p>
                                     </div>
                                 </td>
                             </tr>

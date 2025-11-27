@@ -978,12 +978,7 @@
 
                     const sorted = this.sortOrders(this.orders);
 
-                    this.filteredOrders = sorted.filter(order => {
-                        if (this.statusFilter === '' || !this.statusFilter) {
-                            return true; // Tampilkan semua jika filter kosong
-                        }
-                        return order.status == this.statusFilter;
-                    });
+                    this.filterOrders();
                 },
 
                 get paginatedOrders() {
@@ -996,23 +991,23 @@
                 filterOrders() {
                     let filtered = this.orders;
 
-                    // Search filter
-                    if (this.searchQuery) {
-                        filtered = filtered.filter(order =>
-                            order.customer_name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.order_number.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.date.toString().includes(this.searchQuery) ||
-                            order.total_amount.toString().includes(this.searchQuery) ||
-                            order.shipping_address.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.user.email.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-                            order.user.phone.toLowerCase().includes(this.searchQuery.toLowerCase())
-                        );
-                    }
-
                     // Status filter
                     if (this.statusFilter) {
                         filtered = filtered.filter(order => order.status == this.statusFilter);
+                    }
+
+                    // Search filter
+                    if (this.searchQuery) {
+                        filtered = filtered.filter(order =>
+                            (order.customer_name || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.order_number || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.date || '').toString().includes(this.searchQuery) ||
+                            (order.total_amount || '').toString().includes(this.searchQuery) ||
+                            (order.shipping_address || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.user?.name || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.user?.email || '').toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+                            (order.user?.phone || '').toLowerCase().includes(this.searchQuery.toLowerCase())
+                        );
                     }
 
                     // Sort
