@@ -80,8 +80,8 @@
                       d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
               </svg>
             </div>
-            @php $phone = config('app.phone', '+6282285978581'); @endphp
-            <a href="https://wa.me/6282285978581?text=Halo%20Koperasi%20PSM"
+            @php $phone = config('app.phone', '+6282316843922'); @endphp
+            <a href="https://wa.me/6282316843922?text=Halo%20Koperasi%20PSM"
                target="_blank" rel="noopener"
                class="text-gray-600 hover:text-green-600 transition-colors text-left flex-1">
               {{ $phone }}
@@ -109,7 +109,7 @@
       <section aria-labelledby="footer-social" class="text-left">
         <h2 id="footer-social" class="text-gray-900 font-bold text-sm sm:text-base mb-3 sm:mb-4">Ikuti Kami</h2>
         <div class="flex flex-wrap justify-start gap-2.5 sm:gap-3">
-          <a href="{{ config('app.instagram_url', 'https://www.instagram.com/') }}"
+          <a href="{{ config('app.instagram_url', 'https://www.instagram.com/koperasi_psmi?igsh=dzVhcXVpanRzM3Rv/') }}"
              class="group w-10 h-10 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center bg-gradient-to-br from-purple-600 via-pink-600 to-orange-500
                     hover:shadow-lg hover:scale-110 transition-all duration-300"
              target="_blank" rel="noopener" aria-label="Instagram">

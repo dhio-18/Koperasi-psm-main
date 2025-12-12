@@ -40,7 +40,8 @@
                                     x-text="index + 1"></td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-gray-900" x-text="user.name"></td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-gray-900" x-text="user.email"></td>
-                                <td class="px-4 md:px-6 py-3 whitespace-nowrap capitalize text-gray-700" x-text="user.role"></td>
+                                <td class="px-4 md:px-6 py-3 whitespace-nowrap capitalize text-gray-700" x-text="user.role">
+                                </td>
                                 <td class="px-4 md:px-6 py-3 whitespace-nowrap text-right">
                                     <div class="flex justify-center gap-2">
                                         <form action="" id="form-confirm" method="POST">
@@ -48,6 +49,15 @@
                                             @method('DELETE')
                                         </form>
 
+                                        <!-- Edit -->
+                                        <button @click="openEditModal(user)"
+                                            class="text-green-600 hover:text-green-400 transition-colors">
+                                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </button>
                                         <!-- Hapus -->
                                         <button @click="confirmDelete(user.id)"
                                             class="text-red-600 hover:text-red-700 transition-colors" title="Hapus">
@@ -57,22 +67,14 @@
                                                     d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M9 7V4h6v3" />
                                             </svg>
                                         </button>
-
-                                        <!-- Edit -->
-                                        <button @click="openEditModal(user)"
-                                            class="text-blue-600 hover:text-blue-700 transition-colors" title="Edit">
-                                            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M15.232 5.232l3.536 3.536M16.5 3a2.121 2.121 0 013 3L7 18.5 3 19l.5-4L16.5 3z" />
-                                            </svg>
-                                        </button>
                                     </div>
                                 </td>
                             </tr>
                         </template>
 
                         <tr x-show="filteredUsers().length === 0">
-                            <td colspan="5" class="text-center py-6 text-gray-500 text-sm">Tidak ada pengguna ditemukan.</td>
+                            <td colspan="5" class="text-center py-6 text-gray-500 text-sm">Tidak ada pengguna ditemukan.
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -89,7 +91,8 @@
                         class="flex-1 px-3 py-2 border rounded-lg text-gray-700 hover:bg-gray-100 text-sm">Batal</button>
 
                     <button @click="processConfirmation()"
-                        class="flex-1 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Ya, Hapus</button>
+                        class="flex-1 px-3 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm">Ya,
+                        Hapus</button>
                 </div>
             </div>
         </div>
@@ -181,15 +184,15 @@
 
                             <button type="button" @click="showPasswordEdit = !showPasswordEdit"
                                 class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 hover:text-gray-700">
-                                <svg x-show="!showPasswordEdit" xmlns="http://www.w3.org/2000/svg"
-                                    class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg x-show="!showPasswordEdit" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                         d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                     <circle cx="12" cy="12" r="3" stroke-width="1.8" />
                                 </svg>
 
-                                <svg x-show="showPasswordEdit" xmlns="http://www.w3.org/2000/svg"
-                                    class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg x-show="showPasswordEdit" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
+                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                         d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 012.507-4.568M6.18 6.18L18 18" />
                                 </svg>
@@ -250,12 +253,22 @@
                 },
 
                 openAddModal() {
-                    this.form = { id: null, name: '', email: '', password: '' }
+                    this.form = {
+                        id: null,
+                        name: '',
+                        email: '',
+                        password: ''
+                    }
                     this.showModal = true
                 },
 
                 openEditModal(user) {
-                    this.form = { id: user.id, name: user.name, email: user.email, password: '' }
+                    this.form = {
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        password: ''
+                    }
                     this.showEditModal = true
                 },
 

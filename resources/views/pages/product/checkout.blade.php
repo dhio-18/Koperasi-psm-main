@@ -72,7 +72,7 @@
                                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <div class="flex-1">
-                                    <h3 class="text-red-800 font-semibold mb-1">⏰ Waktu Checkout Telah Berakhir</h3>
+                                    <h3 class="text-red-800 font-semibold mb-1">Waktu Checkout Telah Berakhir</h3>
                                     <p class="text-sm text-red-700">
                                         Maaf, checkout hanya dapat dilakukan <strong>sebelum jam 17:00 WIB</strong>.
                                         Silakan coba lagi besok mulai jam 07:00 WIB.
@@ -89,7 +89,7 @@
                                         d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
                                 <div class="flex-1">
-                                    <h3 class="text-blue-800 font-semibold mb-1">ℹ️ Info Waktu Checkout</h3>
+                                    <h3 class="text-blue-800 font-semibold mb-1">Info Waktu Checkout</h3>
                                     <p class="text-sm text-blue-700">
                                         Checkout dapat dilakukan hingga <strong>jam 17:00 WIB</strong> setiap hari.
                                         Sisa waktu: <strong id="countdown-timer" class="font-mono"></strong>
@@ -635,7 +635,7 @@
             if (!paymentProof || !paymentProof.files || paymentProof.files.length === 0) {
                 isValid = false;
                 errorMessages.push('- Upload bukti transfer');
-                console.log('❌ Validation failed: No file detected');
+                console.log('Validation failed: No file detected');
                 const uploadArea = document.getElementById('upload-area');
                 if (uploadArea) {
                     uploadArea.classList.add('border-red-500');
@@ -645,7 +645,7 @@
                 }
             } else {
                 const file = paymentProof.files[0];
-                console.log('✅ File detected:', {
+                console.log('File detected:', {
                     name: file.name,
                     size: file.size,
                     type: file.type
@@ -655,7 +655,7 @@
             if (!isValid) {
                 e.preventDefault();
                 console.log('Form validation failed:', errorMessages);
-                let alertMessage = '⚠️ Mohon lengkapi data berikut:\n\n' + errorMessages.join('\n');
+                let alertMessage = 'Mohon lengkapi data berikut:\n\n' + errorMessages.join('\n');
                 alert(alertMessage);
 
                 const firstError = document.querySelector('.border-red-500');
@@ -701,7 +701,7 @@
                 }, 30000);
             }
 
-            console.log('✅ Form submitted successfully!');
+            console.log('Form submitted successfully!');
             return true;
         });
 
@@ -793,12 +793,12 @@
         function handleFileSelect() {
             const file = fileInput.files[0];
             if (!file) {
-                console.log('⚠️ No file selected');
+                console.log('No file selected');
                 return;
             }
 
             currentFile = file;
-            console.log('📁 File selected:', {
+            console.log('File selected:', {
                 name: file.name,
                 size: file.size,
                 type: file.type
@@ -809,7 +809,7 @@
             // Validasi file type
             const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
             if (!allowedTypes.includes(file.type.toLowerCase())) {
-                showError('❌ Format file tidak didukung! Hanya JPG, JPEG, dan PNG yang diperbolehkan.');
+                showError('Format file tidak didukung! Hanya JPG, JPEG, dan PNG yang diperbolehkan.');
                 fileInput.value = '';
                 currentFile = null;
                 return;
@@ -818,7 +818,7 @@
             // Validasi file size - maksimal 2MB
             const maxSize = 2 * 1024 * 1024;
             if (file.size > maxSize) {
-                showError('❌ Ukuran file terlalu besar! Maksimal 2MB. File Anda: ' + formatFileSize(file.size));
+                showError('Ukuran file terlalu besar! Maksimal 2MB. File Anda: ' + formatFileSize(file.size));
                 fileInput.value = '';
                 currentFile = null;
                 return;
@@ -827,7 +827,7 @@
             // Validasi file size minimal - minimal 10KB
             const minSize = 10 * 1024;
             if (file.size < minSize) {
-                showError('⚠️ Ukuran file terlalu kecil! Pastikan gambar bukti transfer jelas dan dapat dibaca.');
+                showError('Ukuran file terlalu kecil! Pastikan gambar bukti transfer jelas dan dapat dibaca.');
                 fileInput.value = '';
                 currentFile = null;
                 return;
@@ -854,9 +854,9 @@
                         timestamp: Date.now()
                     };
                     sessionStorage.setItem('checkout_payment_proof_preview', JSON.stringify(previewData));
-                    console.log('✅ Preview saved to storage');
+                    console.log('Preview saved to storage');
                 } catch (err) {
-                    console.error('❌ Failed to save preview:', err);
+                    console.error('Failed to save preview:', err);
                 }
 
                 previewArea.scrollIntoView({
@@ -864,11 +864,11 @@
                     block: 'nearest'
                 });
 
-                console.log('✅ Preview displayed successfully');
+                console.log('Preview displayed successfully');
             };
 
             reader.onerror = () => {
-                showError('❌ Gagal membaca file! Silakan coba lagi.');
+                showError('Gagal membaca file! Silakan coba lagi.');
                 fileInput.value = '';
                 currentFile = null;
             };
@@ -883,7 +883,7 @@
 
         // Change file - open file picker tanpa reset
         changeBtn.addEventListener('click', () => {
-            console.log('🔄 Change file clicked');
+            console.log('Change file clicked');
             // Jangan reset file, langsung buka file picker
             fileInput.click();
         });
@@ -903,7 +903,7 @@
 
             // Clear storage
             sessionStorage.removeItem('checkout_payment_proof_preview');
-            console.log('🔄 Upload reset');
+            console.log('Upload reset');
         }
 
         /**
@@ -994,7 +994,7 @@
                                 '<svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg> Checkout Ditutup';
                         }
 
-                        alert('⏰ Waktu checkout telah berakhir (jam 17:00 WIB). Halaman akan dimuat ulang.');
+                        alert('Waktu checkout telah berakhir (jam 17:00 WIB). Halaman akan dimuat ulang.');
                         window.location.reload();
                         return;
                     }
@@ -1070,12 +1070,12 @@
             const hasError = {{ $errors->any() || session('error') ? 'true' : 'false' }};
             const hasSuccess = {{ session('success') ? 'true' : 'false' }};
 
-            console.log('🔍 Page loaded - hasError:', hasError, 'hasSuccess:', hasSuccess);
+            console.log('Page loaded - hasError:', hasError, 'hasSuccess:', hasSuccess);
 
             if (hasSuccess) {
                 // Clear storage jika berhasil
                 sessionStorage.removeItem('checkout_payment_proof_preview');
-                console.log('🗑️ Preview storage cleared (success)');
+                console.log('Preview storage cleared (success)');
                 return;
             }
 
@@ -1085,7 +1085,7 @@
                     const savedData = sessionStorage.getItem('checkout_payment_proof_preview');
                     if (savedData) {
                         const preview = JSON.parse(savedData);
-                        console.log('🔄 Restoring preview from storage:', preview);
+                        console.log('Restoring preview from storage:', preview);
 
                         const previewImage = document.getElementById('preview-image');
                         const previewFileName = document.getElementById('preview-file-name');
@@ -1102,7 +1102,7 @@
                             uploadArea.classList.add('hidden');
                             previewArea.classList.remove('hidden');
 
-                            console.log('✅ Preview restored successfully');
+                            console.log('Preview restored successfully');
 
                             // Scroll to preview
                             setTimeout(() => {
@@ -1114,7 +1114,7 @@
                         }
                     }
                 } catch (err) {
-                    console.error('❌ Failed to restore preview:', err);
+                    console.error('Failed to restore preview:', err);
                 }
             }
         });

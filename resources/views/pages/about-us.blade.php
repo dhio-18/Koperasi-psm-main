@@ -49,9 +49,6 @@
                             Koperasi PSM adalah koperasi yang fokus menyediakan kebutuhan pokok,
                             barang harian, dan layanan simpan-pinjam yang aman, mudah, dan saling menguntungkan.
                         </p>
-                        <p class="text-gray-600 leading-relaxed">
-                            Kami berkomitmen pada prinsip kebersamaan: keuntungan kembali lagi kepada anggota.
-                        </p>
                     </div>
 
                     <!-- Komitmen -->
@@ -147,9 +144,8 @@
                         class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 md:p-7 text-center text-sm md:text-[15px]">
                         <p class="text-gray-900 font-semibold text-lg mb-3">Jam Operasional</p>
                         <ul class="space-y-1.5 text-gray-600">
-                            <li>Senin - Jumat : 08.00 - 17.00</li>
-                            <li>Sabtu : 08.00 - 12.00</li>
-                            <li>Minggu / Libur Nasional : Tutup</li>
+                            <li>Senin - Minggu : 08.00 - 17.00</li>
+
                         </ul>
                     </div>
                 </div>
