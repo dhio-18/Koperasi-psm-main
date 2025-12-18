@@ -22,18 +22,11 @@ class CartController extends Controller
         return view('pages.product.cart', compact('cartItems'));
     }
 
-    /**
-     * Tambah ke keranjang dari halaman detail/kartu produk.
-     * - Baca qty dari form (default 1)
-     * - Jika produk sudah ada di cart user → increment quantity
-     * - Harga diambil dari DB (bukan input user)
-     */
     public function addToCart(Request $request)
     {
         $data = $request->validate([
             'product_id' => ['required', 'integer', 'exists:products,id'],
-            'qty' => ['nullable', 'integer', 'min:1'],   // ← qty opsional, default 1
-            // 'price' DIHAPUS: jangan percaya harga dari client
+            'qty' => ['nullable', 'integer', 'min:1'],
         ]);
 
         $userId = Auth::id();
@@ -43,34 +36,37 @@ class CartController extends Controller
         try {
             DB::beginTransaction();
 
-            // Ambil produk & harga dari DB
             $product = Products::select('id', 'name', 'price', 'stock')->findOrFail($productId);
 
-            // (Opsional) batasi qty terhadap stok
-            if (!is_null($product->stock) && $qty > $product->stock) {
-                $qty = $product->stock;
+            if (is_null($product->stock) || $product->stock == 0) {
+                DB::rollBack();
+                return redirect()->back()->with('error', "Maaf, stok produk '{$product->name}' habis. Produk tidak dapat ditambahkan ke keranjang.");
             }
 
-            // Cek apakah produk sudah ada di keranjang user
             $existing = Carts::where('user_id', $userId)
                 ->where('product_id', $productId)
                 ->first();
 
             if ($existing) {
-                // Tambahkan quantity
                 $newQty = $existing->quantity + $qty;
 
-                // (Opsional) batasi lagi terhadap stok
-                if (!is_null($product->stock) && $newQty > $product->stock) {
-                    $newQty = $product->stock;
+                if ($newQty > $product->stock) {
+                    DB::rollBack();
+                    return redirect()->back()->with('error', "Maaf, stok produk '{$product->name}' tidak mencukupi. Stok tersedia {$product->stock}, di keranjang sudah ada {$existing->quantity}, dan kuantitas yang ingin ditambah adalah {$qty}.");
                 }
 
+                // Update quantity
                 $existing->update([
                     'quantity' => $newQty,
                     'price' => (int) $product->price,
                 ]);
             } else {
-                // Buat baris baru
+                if ($qty > $product->stock) {
+                    DB::rollBack();
+                    return redirect()->back()->with('error', "Maaf, stok produk '{$product->name}' tidak mencukupi. Stok tersedia: {$product->stock}, diminta: {$qty}.");
+                }
+
+
                 Carts::create([
                     'user_id' => $userId,
                     'product_id' => $productId,
@@ -110,18 +106,12 @@ class CartController extends Controller
         }
     }
 
-    /**
-     * Batch action dari halaman keranjang:
-     * - delete
-     * - update qty
-     * - lanjut checkout
-     */
     public function checkout(Request $request)
     {
         $action = $request->input('action');
         $selectedItems = $request->input('selected_items', []);
         $quantities = $request->input('quantities', []);
-        $prices = $request->input('prices', []); 
+        $prices = $request->input('prices', []);
 
         if (empty($selectedItems)) {
             return redirect()->back()->with('error', 'Tidak ada item yang dipilih.');
@@ -195,7 +185,6 @@ class CartController extends Controller
                 ->whereIn('id', $selectedItems)
                 ->get()
                 ->map(function ($item) use ($quantities) {
-                    // harga & nama diambil dari relasi product (bukan dari carts)
                     return [
                         'product_id' => $item->product_id,
                         'name' => $item->product->name,
@@ -205,12 +194,11 @@ class CartController extends Controller
                     ];
                 })->toArray();
 
-            // Simpan untuk dipakai di CheckoutController@checkoutCart
             session([
                 'address' => $address,
                 'orderItems' => $orderItems,
                 'cartItemIds' => $selectedItems,
-                'from_cart' => true  // Marker untuk checkout dari keranjang
+                'from_cart' => true
             ]);
 
             return redirect()->route('checkout.cart');

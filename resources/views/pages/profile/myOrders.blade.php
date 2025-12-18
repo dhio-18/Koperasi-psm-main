@@ -561,13 +561,18 @@
                                 @error('images')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                                 @enderror
+
+                                <!-- Pesan error validasi client-side -->
+                                <p x-show="validationErrors.images"
+                                   x-text="validationErrors.images"
+                                   class="text-red-500 text-sm mt-1"></p>
                             </div>
                             <div class="flex justify-end space-x-3 border-t border-gray-200 p-4">
                                 <button type="button" @click="showReturnModal = false; resetForm()"
                                     class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-colors duration-200">
                                     Batal
                                 </button>
-                                <button type="submit" @click="prepareForm()"
+                                <button type="submit" @click="validateReturnForm($event)"
                                     class="px-6 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors duration-200">
                                     Kirim
                                 </button>
@@ -647,6 +652,11 @@
                     reason: '',
                     comments: '',
                     images: []
+                },
+
+                // Pesan error validasi
+                validationErrors: {
+                    images: ''
                 },
 
                 init() {
@@ -764,6 +774,21 @@
                     this.showReturnModal = true;
                 },
 
+                // Validasi form sebelum submit
+                validateReturnForm(event) {
+                    // Reset error
+                    this.validationErrors.images = '';
+
+                    // Cek apakah ada gambar yang diupload
+                    if (!this.returnData.images || this.returnData.images.length === 0) {
+                        event.preventDefault(); // Mencegah form submit
+                        this.validationErrors.images = 'Bukti kondisi produk wajib dilampirkan minimal 1 foto.';
+                        return false;
+                    }
+
+                    return true;
+                },
+
                 processConfirmation() {
                     if (this.selectedOrderId) {
                         const url = this.formConfirmActtion = this.baseUrl + 'user/profile/orders/' + this.selectedOrderId;
@@ -789,6 +814,9 @@
                 handleImageUpload(event) {
                     const files = event.target.files;
                     if (!files || files.length === 0) return;
+
+                    // Reset error saat user upload gambar
+                    this.validationErrors.images = '';
 
                     Array.from(files).forEach(file => {
                         const reader = new FileReader();
@@ -819,6 +847,7 @@
                 resetForm() {
                     this.imagePreview = [];
                     this.returnData.images = [];
+                    this.validationErrors.images = ''; // Reset error message
 
                     this.$refs.imageInput.value = '';
                     const dt = new DataTransfer();

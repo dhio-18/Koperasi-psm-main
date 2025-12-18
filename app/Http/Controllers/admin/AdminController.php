@@ -473,11 +473,16 @@ class AdminController extends Controller
 
             $trackingNumber = strtoupper('TRK-' . Str::random(10));
 
-            foreach ($order->orderItems as $item) {
-                $product = Products::find($item->product_id);
-                if ($product) {
-                    $product->stock = max(0, $product->stock - $item->quantity);
-                    $product->save();
+            // Kurangi stok HANYA untuk pengiriman pengembalian (return)
+            // Untuk pesanan normal, stok sudah dikurangi saat verifikasi pembayaran
+            if ($validated['type'] === 'return') {
+                // Ini pengiriman produk pengganti, kurangi stok lagi
+                foreach ($order->orderItems as $item) {
+                    $product = Products::find($item->product_id);
+                    if ($product) {
+                        $product->stock = max(0, $product->stock - $item->quantity);
+                        $product->save();
+                    }
                 }
             }
 

@@ -49,16 +49,16 @@
                 </div>
             </div>
 
-            <!-- Barang Terkirim (kuning) -->
+            <!-- Barang Terkirim/Selesai (hijau) -->
             <div
                 class="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition duration-300 flex items-center justify-between">
                 <div>
-                    <div class="text-sm text-gray-600">Barang Terkirim</div>
+                    <div class="text-sm text-gray-600">Barang Terkirim atau Selesai</div>
                     <div class="text-2xl font-bold mt-1 text-gray-900">{{ $totalCompletedOrders }}</div>
-                    <div class="text-yellow-600 text-sm mt-1">+{{ $completedOrdersThisWeek }} minggu ini</div>
+                    <div class="text-green-600 text-sm mt-1">+{{ $completedOrdersThisWeek }} minggu ini</div>
                 </div>
-                <div class="bg-yellow-100 p-3 rounded-full">
-                    <svg class="w-6 h-6 text-yellow-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                <div class="bg-green-100 p-3 rounded-full">
+                    <svg class="w-6 h-6 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <rect x="3" y="7" width="11" height="8" rx="1"></rect>
                         <path d="M14 9h4l3 3v3h-7z"></path>

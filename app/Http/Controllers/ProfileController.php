@@ -339,11 +339,15 @@ class ProfileController extends Controller
     $request->validate([
         'reason' => 'required|in:defective,wrong_item,other',
         'comments' => 'nullable|string|max:1000',
-        'images.*' => 'image|mimes:jpeg,png,jpg|max:5120', // max 5MB per image
+        'images' => 'required|array|min:1', // Wajib upload minimal 1 gambar
+        'images.*' => 'required|image|mimes:jpeg,png,jpg|max:5120', // max 5MB per image
     ], [
         'reason.required' => 'Alasan pengembalian harus dipilih',
         'reason.in' => 'Alasan pengembalian tidak valid',
         'comments.max' => 'Catatan maksimal 1000 karakter',
+        'images.required' => 'Bukti kondisi produk wajib dilampirkan',
+        'images.min' => 'Minimal 1 foto bukti kondisi harus dilampirkan',
+        'images.*.required' => 'Bukti kondisi produk wajib dilampirkan',
         'images.*.image' => 'File harus berupa gambar',
         'images.*.mimes' => 'Format gambar harus jpeg, png, atau jpg',
         'images.*.max' => 'Ukuran gambar maksimal 5MB',
