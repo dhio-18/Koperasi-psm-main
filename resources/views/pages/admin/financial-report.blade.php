@@ -13,7 +13,7 @@
                 <p class="text-gray-600">Laporan {{ $periodLabel }} - {{ $startDate->format('d M Y') }} s/d
                     {{ $endDate->format('d M Y') }}</p>
             </div>
-            
+
             <!-- Download Button -->
             <div>
                 <a href="{{ route('superadmin.financial-report', [
