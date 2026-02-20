@@ -14,7 +14,7 @@
                     Produk Berkualitas
                 </div>
                 <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
-                    Selamat Datang di di
+                    Selamat Datang di
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
                         Koperasi PSM
                     </span>
