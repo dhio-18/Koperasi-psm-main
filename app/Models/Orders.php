@@ -19,6 +19,7 @@ class Orders extends Model
         'customer_phone',
         'shipping_address',
         'invoice_path',
+        'receipt_path',
         'notes',
         'user_id',
         'confirmed_at',

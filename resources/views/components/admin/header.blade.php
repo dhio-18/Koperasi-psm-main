@@ -34,7 +34,7 @@
                     </button>
 
                     {{-- Dropdown --}}
-                    <div x-show="open" x-transition @click.outside="open=false"
+                    <div x-show="open" x-cloak x-transition @click.outside="open=false"
                         class="absolute right-0 mt-2 w-44 sm:w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200 z-[120]">
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf

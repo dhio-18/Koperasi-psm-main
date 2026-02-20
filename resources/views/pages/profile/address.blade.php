@@ -104,7 +104,7 @@
                 </div>
 
                 {{-- Modal Overlay --}}
-                <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-400"
+                <div x-show="isModalOpen" x-cloak @keydown.escape.window="closeModal()" x-transition:enter="transition ease-out duration-400"
                     x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                     x-transition:leave="transition ease-in duration-300" x-transition:leave-start="opacity-100"
                     x-transition:leave-end="opacity-0"
@@ -112,7 +112,7 @@
                     style="backdrop-filter: blur(4px);" @click="closeModal()">
 
                     {{-- Modal Content --}}
-                    <div x-show="isModalOpen" x-transition:enter="transition ease-out duration-400 delay-75"
+                    <div x-show="isModalOpen" x-cloak x-transition:enter="transition ease-out duration-400 delay-75"
                         x-transition:enter-start="opacity-0 scale-90 translate-y-8"
                         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
                         x-transition:leave="transition ease-in duration-300"
@@ -181,7 +181,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-6" x-show="!label.toLowerCase().includes('kantor')">
+                                <div class="mb-6" x-show="!label.toLowerCase().includes('kantor')" x-cloak>
                                     <label class="block text-sm font-medium text-gray-700 mb-2">
                                         Nomor Rumah
                                         <template x-if="!label.toLowerCase().includes('kantor') && label">

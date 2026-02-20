@@ -430,13 +430,22 @@ class AdminController extends Controller
             if (!Storage::exists('public/invoices')) {
                 Storage::makeDirectory('public/invoices');
             }
+            if (!Storage::exists('public/receipts')) {
+                Storage::makeDirectory('public/receipts');
+            }
 
+            // Generate Invoice (A4)
             $pdf = Pdf::loadView('pdf.invoice', compact('order'))->setPaper('a4');
             $fileName = 'invoice-' . str_replace('#', '', $order->order_number) . '.pdf';
-
-            // 🔹 Simpan ke storage publik (seperti kamu simpan images)
             $path = 'invoices/' . $fileName;
             Storage::disk('public')->put($path, $pdf->output());
+
+            // Generate Receipt/Struk (80mm thermal)
+            $receiptPdf = Pdf::loadView('pdf.receipt', compact('order'))->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm width
+            $receiptFileName = 'receipt-' . str_replace('#', '', $order->order_number) . '.pdf';
+            $receiptPath = 'receipts/' . $receiptFileName;
+            Storage::disk('public')->put($receiptPath, $receiptPdf->output());
+
             OrderHistory::create([
                 'order_id' => $order->id,
                 'user_id' => Auth::id(),
@@ -447,6 +456,7 @@ class AdminController extends Controller
             $order = Orders::findOrFail($id);
             $order->status = 'verified';
             $order->invoice_path = $fileName;
+            $order->receipt_path = $receiptFileName;
             $order->save();
 
             DB::commit();
@@ -603,6 +613,25 @@ class AdminController extends Controller
 
             $order = Orders::with('orderItems')->findOrFail($return->order_id);
             $order->status = 'returned';
+
+            // Generate Receipt/Struk for return (if not already created during payment approval)
+            if (!$order->receipt_path) {
+                $receiptDirectory = storage_path('app/public/receipts');
+                if (!file_exists($receiptDirectory)) {
+                    mkdir($receiptDirectory, 0777, true);
+                }
+
+                $receiptFileName = 'receipt_' . $order->order_number . '_' . time() . '.pdf';
+                $receiptPath = $receiptDirectory . '/' . $receiptFileName;
+
+                // Generate receipt PDF (80mm thermal paper)
+                $receiptPdf = PDF::loadView('pdf.receipt', compact('order'))
+                    ->setPaper([0, 0, 226.77, 841.89], 'portrait'); // 80mm width
+                $receiptPdf->save($receiptPath);
+
+                $order->receipt_path = $receiptFileName;
+            }
+
             $order->save();
 
             // Kembalikan stok produk

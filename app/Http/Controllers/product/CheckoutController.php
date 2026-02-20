@@ -25,7 +25,7 @@ class CheckoutController extends Controller
     {
         $now = Carbon::now('Asia/Jakarta');
         $cutoffTime = Carbon::today('Asia/Jakarta')->setTime(17, 0, 0); // 17:00 WIB
-        
+
         return $now->lessThan($cutoffTime);
     }
 
@@ -36,13 +36,13 @@ class CheckoutController extends Controller
     {
         $now = Carbon::now('Asia/Jakarta');
         $cutoffTime = Carbon::today('Asia/Jakarta')->setTime(17, 0, 0);
-        
+
         if ($now->greaterThanOrEqualTo($cutoffTime)) {
             // Sudah lewat cutoff, hitung ke besok
             $nextCutoff = Carbon::tomorrow('Asia/Jakarta')->setTime(17, 0, 0);
             return $now->diffForHumans($nextCutoff, ['parts' => 2]);
         }
-        
+
         return $now->diffForHumans($cutoffTime, ['parts' => 2]);
     }
 
@@ -63,8 +63,8 @@ class CheckoutController extends Controller
         $remainingTime = $this->getRemainingTime();
 
         return view('pages.product.checkout', compact(
-            'address', 
-            'orderItems', 
+            'address',
+            'orderItems',
             'paymentAccounts',
             'checkoutAllowed',
             'remainingTime'
@@ -79,7 +79,7 @@ class CheckoutController extends Controller
     {
         // Validasi waktu checkout
         if (!$this->isCheckoutAllowed()) {
-            return redirect()->back()->with('error', 
+            return redirect()->back()->with('error',
                 'Maaf, checkout hanya dapat dilakukan sebelum jam 17:00 WIB. Silakan coba lagi besok.');
         }
 
@@ -118,8 +118,8 @@ class CheckoutController extends Controller
         $remainingTime = $this->getRemainingTime();
 
         return view('pages.product.checkout', compact(
-            'address', 
-            'orderItems', 
+            'address',
+            'orderItems',
             'paymentAccounts',
             'checkoutAllowed',
             'remainingTime'
@@ -234,7 +234,7 @@ class CheckoutController extends Controller
             if ($fromCart) {
                 return redirect()->route('cart.index')->with('success', 'Checkout berhasil diproses!');
             }
-            
+
             return redirect()->route('products.index')->with('success', 'Checkout berhasil diproses!');
         } catch (\Exception $e) {
             DB::rollBack();

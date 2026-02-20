@@ -655,11 +655,26 @@
                         </div>
                     </div>
 
-                    <a x-show="orderData?.invoice_path"
-                        :href="'{{ asset('storage/invoices') }}' + '/' + orderData?.invoice_path" target="_blank"
-                        class="hidden md:inline-block mt-3 text-green-600 hover:text-green-700 text-sm font-medium">
-                        Download Invoice
-                    </a>
+                    <!-- Download Links -->
+                    <div x-show="orderData?.invoice_path || orderData?.receipt_path" class="mt-4 flex flex-wrap gap-3">
+                        <a x-show="orderData?.invoice_path"
+                            :href="'{{ asset('storage/invoices') }}' + '/' + orderData?.invoice_path" target="_blank"
+                            class="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium border border-blue-200">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            Download Invoice (A4)
+                        </a>
+
+                        <a x-show="orderData?.receipt_path"
+                            :href="'{{ asset('storage/receipts') }}' + '/' + orderData?.receipt_path" target="_blank"
+                            class="inline-flex items-center px-4 py-2 bg-green-50 text-green-700 rounded-lg hover:bg-green-100 transition-colors text-sm font-medium border border-green-200">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            Download Struk (80mm)
+                        </a>
+                    </div>
                 </div>
 
                 <!-- Footer Action -->

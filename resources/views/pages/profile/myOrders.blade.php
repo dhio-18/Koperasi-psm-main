@@ -583,7 +583,7 @@
             </div>
 
             <!-- Return Image Modal -->
-            <div x-show="showReturnImageModal" x-transition:enter="transition ease-out duration-400"
+            <div x-show="showReturnImageModal" x-cloak x-transition:enter="transition ease-out duration-400"
                 x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
                 @keydown.escape="closeReturnImageModal()" @click.self="closeReturnImageModal()"
                 class="fixed inset-0 bg-black bg-opacity-90 z-[120]">

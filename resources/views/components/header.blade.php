@@ -71,7 +71,7 @@
                         class="inline-flex items-center px-4 py-2 text-gray-700 hover:text-green-600 font-medium transition-colors duration-200">
                         <div
                             class="me-1 w-8 h-8 rounded-full border-4 border-gray-200 bg-gray-100 overflow-hidden relative flex-shrink-0">
-                            <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('profile/blank.webp') }}" 
+                            <img src="{{ Auth::user()->profile_photo_path ? asset('storage/' . Auth::user()->profile_photo_path) : asset('profile/blank.webp') }}"
                             alt="Profile Picture"
                                 class="w-full h-full object-cover">
                         </div>
@@ -84,7 +84,7 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
-                    <div x-show="open" @click.away="open = false"
+                    <div x-show="open" x-cloak @click.away="open = false"
                         class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
 
                         <!-- Profile -->

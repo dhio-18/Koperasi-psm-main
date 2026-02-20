@@ -84,6 +84,18 @@ class FinancialReportController extends Controller
                 'end_date' => $customEndDate
             ]);
 
+        // Jika request download PDF
+        if ($request->has('download') && $request->download == 'pdf') {
+            return $this->downloadPDF(
+                $startDate,
+                $endDate,
+                $totalRevenue,
+                $totalOrders,
+                $topProducts,
+                $orderDetails->items()
+            );
+        }
+
         return view('pages.admin.financial-report', compact(
             'periodLabel',
             'startDate',
@@ -98,5 +110,43 @@ class FinancialReportController extends Controller
         ));
     }
 
+    /**
+     * Download Laporan Keuangan dalam format PDF
+     */
+    private function downloadPDF($startDate, $endDate, $totalRevenue, $totalOrders, $topProducts, $orders)
+    {
+        // Hitung total pesanan dikembalikan dalam periode
+        $returnedOrders = Orders::where('status', 'returned')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->count();
+
+        // Hitung kerugian dari pesanan dikembalikan
+        $returnLoss = Orders::where('status', 'returned')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->sum('total_amount');
+
+        // Pendapatan bersih
+        $netRevenue = $totalRevenue - $returnLoss;
+
+        $data = [
+            'start_date' => $startDate->format('d/m/Y'),
+            'end_date' => $endDate->format('d/m/Y'),
+            'generated_at' => Carbon::now()->format('d/m/Y H:i:s'),
+            'total_revenue' => $totalRevenue,
+            'net_revenue' => $netRevenue,
+            'return_loss' => $returnLoss,
+            'total_orders' => $totalOrders,
+            'returned_orders' => $returnedOrders,
+            'top_products' => $topProducts,
+            'orders' => $orders,
+        ];
+
+        $pdf = PDF::loadView('pdf.financial-report', $data)
+            ->setPaper('a4', 'portrait');
+
+        $filename = 'laporan-keuangan-' . $startDate->format('Ymd') . '-' . $endDate->format('Ymd') . '.pdf';
+
+        return $pdf->download($filename);
+    }
 
 }

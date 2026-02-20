@@ -93,7 +93,7 @@
                     Koperasi PSM<br>
                     Hutan Register, Kec. Pakuan Ratu, Kabupaten Way Kanan, Lampung<br>
                     kpmsiapsedia@gmail.com<br>
-                    +62 822 8597 8581
+                    +62 823 1684 3922
                 </p>
             </div>
         </div>

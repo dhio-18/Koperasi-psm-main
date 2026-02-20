@@ -32,5 +32,12 @@ class UserSeeder extends Seeder
             'password' => bcrypt('admin2.psm'),
             'role' => 'admin'
         ]);
+
+        User::create([
+            'name' => 'User',
+            'email' => 'user@koperasipsm.com',
+            'password' => bcrypt('12345678'),
+            'role' => 'customer'
+        ]);
     }
 }
