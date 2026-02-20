@@ -14,7 +14,7 @@
                     Produk Berkualitas
                 </div>
                 <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight">
-                    Selamat Datang di
+                    Selamat Datang di di
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-emerald-500">
                         Koperasi PSM
                     </span>
@@ -52,7 +52,7 @@
     start() { if (this.images.length > 1) { setInterval(() => this.next(), 5000) } }
 }" x-init="start()"
     class="relative w-full overflow-hidden rounded-2xl shadow-xl group">
-    
+
     @if($carousels->isEmpty())
         <!-- Tampilan jika tidak ada carousel -->
         <div class="relative w-full h-48 sm:h-64 md:h-80 lg:h-96 bg-gray-200 rounded-2xl flex items-center justify-center">
@@ -119,9 +119,9 @@
                 <!-- Grid Kategori dengan hover effect -->
                 <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-10 gap-3 md:gap-4">
                     @foreach ($categories as $item)
-                        <x-kategori 
-                        name="{!! html_entity_decode($item['name']) !!}" 
-                        image="{{ $item['image'] }}" 
+                        <x-kategori
+                        name="{!! html_entity_decode($item['name']) !!}"
+                        image="{{ $item['image'] }}"
                         slug="{{ $item['slug'] }}" />
                     @endforeach
                 </div>
