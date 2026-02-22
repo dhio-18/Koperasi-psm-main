@@ -48,7 +48,7 @@ class Categories extends Model
     {
         // Jika tidak ada gambar, return default
         if (!$this->image) {
-            return asset('category/default.png');
+            return asset('category/contohcategory.png');
         }
 
         // Jika path dimulai dengan 'categories/', gunakan storage
