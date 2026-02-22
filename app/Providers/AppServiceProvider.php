@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
                 View::composer('*', function ($view) {
             $categories = Cache::remember('active_categories', 3600, function () {
                 return Categories::where('is_active', true)
-                    ->select('name', 'slug')
+                    ->select('name', 'slug','image')
                     ->get();
             });
             $view->with('categories', $categories);
