@@ -92,7 +92,7 @@ class FinancialReportController extends Controller
                 ->whereBetween('created_at', [$startDate, $endDate])
                 ->latest()
                 ->get();
-            
+
             return $this->downloadPDF(
                 $startDate,
                 $endDate,
