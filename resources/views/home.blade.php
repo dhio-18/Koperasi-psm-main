@@ -121,7 +121,7 @@
                     @foreach ($categories as $item)
                         <x-kategori
                         name="{!! html_entity_decode($item['name']) !!}"
-                        image="{{ $item['image_url'] }}"
+                        image="{{ $item['image'] }}"
                         slug="{{ $item['slug'] }}" />
                     @endforeach
                 </div>
