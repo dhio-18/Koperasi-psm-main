@@ -13,6 +13,8 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <style>[x-cloak] { display: none !important; }</style>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 </head>
 
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-4">

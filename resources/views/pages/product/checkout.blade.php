@@ -131,6 +131,7 @@
                             <!-- Dropdown pilih akun -->
                             <div class="mb-4">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Pilih Akun Pembayaran</label>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">(Setelah memilih akun lakukan pembayaran sesuai dengan informasi yang ditampilkan.)</label>
                                 <select
                                     class="block w-full pl-3 pr-10 py-2 border border-green-200 rounded-lg focus:ring-green-500 focus:border-green-500 bg-white"
                                     x-model="selectedId" @change="onSelect()">

@@ -897,45 +897,6 @@
                     Sebelumnya
                 </button>
 
-                <!-- Page Numbers -->
-                {{-- <div class="flex items-center gap-1">
-
-                    <!-- First Page -->
-                    <template x-if="currentPage > 3">
-                        <button @click="goToPage(1)"
-                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
-                        hover:bg-green-600 hover:text-white"
-                            :class="currentPage === 1 ? 'bg-green-600 text-white' : ''">
-                            1
-                        </button>
-                    </template>
-
-                    <!-- Left Ellipsis -->
-                    <template x-if="currentPage > 4">
-                        <span class="text-gray-500 px-1">...</span>
-                    </template>
-
-                    <!-- Middle Pages -->
-                    <template x-for="page in getPageNumbers()" :key="page">
-                        <button @click="goToPage(page)"
-                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
-                        hover:bg-green-600 hover:text-white"
-                            :class="currentPage === page ? 'bg-green-600 text-white' : ''" x-text="page"></button>
-                    </template>
-
-                    <!-- Right Ellipsis -->
-                    <template x-if="currentPage < totalPages - 3">
-                        <span class="text-gray-500 px-1">...</span>
-                    </template>
-
-                    <!-- Last Page -->
-                    <template x-if="currentPage < totalPages - 2">
-                        <button @click="goToPage(totalPages)"
-                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm shadow-sm
-                        hover:bg-green-600 hover:text-white"
-                            x-text="totalPages"></button>
-                    </template>
-                </div> --}}
 
                 <!-- Next -->
                 <button @click="nextPage" :disabled="currentPage === totalPages"

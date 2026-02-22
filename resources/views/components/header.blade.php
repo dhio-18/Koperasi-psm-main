@@ -195,13 +195,9 @@
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button>
-                    <div x-show="openCat" @click.away="openCat = false"
+                    <div x-show="openCat" x-cloak @click.away="openCat = false"
                         class="absolute left-0 mt-2 w-56 bg-white rounded-md shadow-lg py-1 z-50">
-                        @php
-                            $categories = \App\Models\Categories::where('is_active', true)
-                                ->select('name', 'slug')
-                                ->get();
-                        @endphp
+
                         @foreach ($categories as $category)
                             <a href="{{ route('products.category', $category['slug']) }}"
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
@@ -253,7 +249,7 @@
                             clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <div x-show="openCatMobile" class="mt-1 bg-white rounded-md shadow-inner">
+                <div x-show="openCatMobile" x-cloak class="mt-1 bg-white rounded-md shadow-inner">
                     @foreach ($categories as $category)
                         <a href="{{ route('products.category', $category['slug']) }}"
                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
