@@ -22,8 +22,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+//
                 View::composer('*', function ($view) {
+            $data = $view->getData();
+            if (array_key_exists('categories', $data)) {
+                return;
+            }
+
+
             $categories = Cache::remember('active_categories', 3600, function () {
                 return Categories::where('is_active', true)
                     ->select('name', 'slug','image')
