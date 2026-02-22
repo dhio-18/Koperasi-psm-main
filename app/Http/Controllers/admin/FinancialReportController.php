@@ -86,13 +86,20 @@ class FinancialReportController extends Controller
 
         // Jika request download PDF
         if ($request->has('download') && $request->download == 'pdf') {
+            // Ambil SEMUA pesanan untuk PDF (tidak pakai pagination)
+            $allOrders = Orders::with('user', 'orderItems.products')
+                ->where('status', 'completed')
+                ->whereBetween('created_at', [$startDate, $endDate])
+                ->latest()
+                ->get();
+            
             return $this->downloadPDF(
                 $startDate,
                 $endDate,
                 $totalRevenue,
                 $totalOrders,
                 $topProducts,
-                $orderDetails->items()
+                $allOrders  // Kirim semua pesanan, bukan $orderDetails->items()
             );
         }
 
