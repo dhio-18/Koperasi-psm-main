@@ -87,7 +87,7 @@ class FinancialReportController extends Controller
                     return $item->quantity * $item->price;
                 });
                 $totalQuantity = $items->sum('quantity');
-                
+
                 return [
                     'product_name' => $items->first()->products->name ?? 'Unknown',
                     'quantity' => $totalQuantity,
