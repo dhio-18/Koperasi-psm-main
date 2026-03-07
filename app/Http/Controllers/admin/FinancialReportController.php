@@ -73,6 +73,49 @@ class FinancialReportController extends Controller
             ->take(5)
             ->values();
 
+        // Semua Produk yang Terjual (untuk PDF - tanpa pagination)
+        $allProductsData = Orders::where('status', 'completed')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->with('orderItems.products')
+            ->get()
+            ->flatMap(function ($order) {
+                return $order->orderItems;
+            })
+            ->groupBy('product_id')
+            ->map(function ($items) {
+                $totalRevenue = $items->sum(function ($item) {
+                    return $item->quantity * $item->price;
+                });
+                $totalQuantity = $items->sum('quantity');
+                
+                return [
+                    'product_name' => $items->first()->products->name ?? 'Unknown',
+                    'quantity' => $totalQuantity,
+                    'unit_price' => $totalQuantity > 0 ? $totalRevenue / $totalQuantity : 0,
+                    'revenue' => $totalRevenue,
+                ];
+            })
+            ->sortByDesc('quantity')
+            ->values();
+
+        // Total untuk summary
+        $totalProducts = $allProductsData->count();
+        $totalProductQuantity = $allProductsData->sum('quantity');
+        $totalProductRevenue = $allProductsData->sum('revenue');
+
+        // Produk dengan Pagination (10 per halaman)
+        $productsPaginated = new \Illuminate\Pagination\LengthAwarePaginator(
+            $allProductsData->forPage($request->get('page', 1), 10),
+            $allProductsData->count(),
+            10,
+            $request->get('page', 1),
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+        $productsPaginated->appends([
+            'start_date' => $customStartDate,
+            'end_date' => $customEndDate
+        ]);
+
         // Detail Pesanan dengan Pagination (hanya pesanan selesai, 10 per halaman)
         $orderDetails = Orders::with('user', 'orderItems.products')
             ->where('status', 'completed')
@@ -84,7 +127,7 @@ class FinancialReportController extends Controller
                 'end_date' => $customEndDate
             ]);
 
-        // Jika request download PDF
+        // Jika request download PDF Detail Transaksi
         if ($request->has('download') && $request->download == 'pdf') {
             // Ambil SEMUA pesanan untuk PDF (tidak pakai pagination)
             $allOrders = Orders::with('user', 'orderItems.products')
@@ -93,13 +136,22 @@ class FinancialReportController extends Controller
                 ->latest()
                 ->get();
 
-            return $this->downloadPDF(
+            return $this->downloadTransactionPDF(
                 $startDate,
                 $endDate,
                 $totalRevenue,
                 $totalOrders,
                 $topProducts,
                 $allOrders  // Kirim semua pesanan, bukan $orderDetails->items()
+            );
+        }
+
+        // Jika request download PDF Produk
+        if ($request->has('download') && $request->download == 'pdf-products') {
+            return $this->downloadProductsPDF(
+                $startDate,
+                $endDate,
+                $allProductsData
             );
         }
 
@@ -111,6 +163,10 @@ class FinancialReportController extends Controller
             'totalOrders',
             'dailyData',
             'topProducts',
+            'productsPaginated',
+            'totalProducts',
+            'totalProductQuantity',
+            'totalProductRevenue',
             'orderDetails',
             'customStartDate',
             'customEndDate'
@@ -118,9 +174,9 @@ class FinancialReportController extends Controller
     }
 
     /**
-     * Download Laporan Keuangan dalam format PDF
+     * Download Laporan Keuangan Detail Transaksi dalam format PDF
      */
-    private function downloadPDF($startDate, $endDate, $totalRevenue, $totalOrders, $topProducts, $orders)
+    private function downloadTransactionPDF($startDate, $endDate, $totalRevenue, $totalOrders, $topProducts, $orders)
     {
         // Hitung total pesanan dikembalikan dalam periode
         $returnedOrders = Orders::where('status', 'returned')
@@ -152,6 +208,28 @@ class FinancialReportController extends Controller
             ->setPaper('a4', 'portrait');
 
         $filename = 'laporan-keuangan-' . $startDate->format('Ymd') . '-' . $endDate->format('Ymd') . '.pdf';
+
+        return $pdf->download($filename);
+    }
+
+    /**
+     * Download Laporan Produk Terjual dalam format PDF
+     */
+    private function downloadProductsPDF($startDate, $endDate, $allProducts)
+    {
+        $data = [
+            'start_date' => $startDate->format('d/m/Y'),
+            'end_date' => $endDate->format('d/m/Y'),
+            'generated_at' => Carbon::now()->format('d/m/Y H:i:s'),
+            'products' => $allProducts,
+            'total_quantity' => collect($allProducts)->sum('quantity'),
+            'total_revenue' => collect($allProducts)->sum('revenue'),
+        ];
+
+        $pdf = PDF::loadView('pdf.products-report', $data)
+            ->setPaper('a4', 'portrait');
+
+        $filename = 'laporan-produk-terjual-' . $startDate->format('Ymd') . '-' . $endDate->format('Ymd') . '.pdf';
 
         return $pdf->download($filename);
     }

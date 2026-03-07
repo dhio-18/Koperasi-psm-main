@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Keuangan</title>
+    <title>Laporan Produk Terjual</title>
     <style>
         * {
             margin: 0;
@@ -60,14 +61,6 @@
             border: 2px solid #000;
         }
 
-        .summary-section h2 {
-            font-size: 14px;
-            color: #000;
-            margin-bottom: 12px;
-            border-bottom: 2px solid #000;
-            padding-bottom: 5px;
-        }
-
         .summary-grid {
             display: table;
             width: 100%;
@@ -93,10 +86,6 @@
             font-weight: bold;
             color: #000;
             width: 40%;
-        }
-
-        .summary-value.negative {
-            color: #000;
         }
 
         .section {
@@ -143,10 +132,6 @@
             background: white;
         }
 
-        table tbody tr:hover {
-            background: white;
-        }
-
         .text-right {
             text-align: right;
         }
@@ -183,21 +168,22 @@
         }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <div class="header">
         <h1>KOPERASI PSM</h1>
-        <div class="company-name">Laporan Detail Transaksi Selesai</div>
-        <div class="period">Periode: {{ $start_date }} - {{ $end_date }}</div>
+        <div class="company-name">Laporan Produk Terjual</div>
+        <div class="period">Periode: {{ $start_date }} s/d {{ $end_date }}</div>
         <div class="generated">Dicetak pada: {{ $generated_at }}</div>
     </div>
 
-    <!-- Summary Section - Gabungan -->
+    <!-- Summary Section -->
     <div class="summary-section">
         <div class="summary-grid">
             <div class="summary-row">
-                <div class="summary-label" style="font-weight: bold; font-size: 12px;">Total Pesanan Selesai:</div>
-                <div class="summary-value" style="font-size: 14px;">{{ $total_orders }} pesanan</div>
+                <div class="summary-label" style="font-weight: bold; font-size: 12px;">Total Produk Terjual:</div>
+                <div class="summary-value" style="font-size: 14px;">{{ $total_quantity }} Item</div>
             </div>
             <div class="summary-row">
                 <div class="summary-label" style="font-weight: bold; font-size: 12px;">Total Pendapatan:</div>
@@ -206,59 +192,49 @@
         </div>
     </div>
 
-    <!-- Detail Pesanan -->
-    @if(count($orders) > 0)
+    <!-- Products Table -->
+    @if(count($products) > 0)
     <div class="section">
-        <h2>Detail Pesanan</h2>
+        <h2>Detail Produk</h2>
         <table>
             <thead>
                 <tr>
-                    <th width="8%">No</th>
-                    <th width="17%">No. Pesanan</th>
-                    <th width="18%">Tanggal</th>
-                    <th width="22%">Pelanggan</th>
-                    <th width="13%" class="text-center">Jumlah Item</th>
-                    <th width="22%" class="text-right">Total</th>
+                    <th style="width: 8%">NO</th>
+                    <th style="width: 40%">NAMA PRODUK</th>
+                    <th style="width: 15%" class="text-center">TOTAL TERJUAL</th>
+                    <th style="width: 17%" class="text-right">HARGA SATUAN</th>
+                    <th style="width: 20%" class="text-right">PENDAPATAN</th>
                 </tr>
             </thead>
             <tbody>
-                @php
-                    $grandTotal = 0;
-                    $totalItems = 0;
-                @endphp
-                @foreach($orders as $index => $order)
+                @foreach($products as $index => $product)
                 <tr>
                     <td class="text-center">{{ $index + 1 }}</td>
-                    <td>{{ $order->order_number }}</td>
-                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d/m/Y H:i') }}</td>
-                    <td>{{ $order->user->name ?? '-' }}</td>
-                    <td class="text-center">{{ $order->orderItems->sum('quantity') }} item</td>
-                    <td class="text-right currency">Rp {{ number_format($order->total_amount, 0, ',', '.') }}</td>
+                    <td>{{ $product['product_name'] }}</td>
+                    <td class="text-center">{{ $product['quantity'] }} item</td>
+                    <td class="text-right">Rp {{ number_format($product['unit_price'], 0, ',', '.') }}</td>
+                    <td class="text-right currency">Rp {{ number_format($product['revenue'], 0, ',', '.') }}</td>
                 </tr>
-                @php
-                    $grandTotal += $order->total_amount;
-                    $totalItems += $order->orderItems->sum('quantity');
-                @endphp
                 @endforeach
                 <tr class="total-row">
-                    <td colspan="4" class="text-right" style="font-weight: bold;">GRAND TOTAL:</td>
-                    <td class="text-center">{{ $totalItems }} item</td>
-                    <td class="text-right currency">Rp {{ number_format($grandTotal, 0, ',', '.') }}</td>
+                    <td colspan="2" class="text-right" style="font-weight: bold;">TOTAL:</td>
+                    <td class="text-center">{{ $total_quantity }} item</td>
+                    <td class="text-right">-</td>
+                    <td class="text-right currency">Rp {{ number_format($total_revenue, 0, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
     @else
     <div class="section">
-        <h2>Detail Pesanan</h2>
-        <div class="no-data">Tidak ada pesanan dalam periode ini</div>
+        <h2>Detail Produk</h2>
+        <div class="no-data">Tidak ada produk terjual pada periode ini</div>
     </div>
-    @endif
-
-    <!-- Footer -->
+    @endif    <!-- Footer -->
     <div class="footer">
         <p>Laporan ini digenerate secara otomatis oleh sistem Koperasi PSM</p>
         <p>Untuk informasi lebih lanjut, hubungi administrator</p>
     </div>
 </body>
+
 </html>
