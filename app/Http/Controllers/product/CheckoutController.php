@@ -192,7 +192,7 @@ class CheckoutController extends Controller
             foreach ($orderItems as $item) {
                 // Ambil data produk untuk snapshot
                 $product = Products::find($item['product_id']);
-                
+
                 OrderItems::create([
                     'order_id'            => $order->id,
                     'product_id'          => (int) $item['product_id'],

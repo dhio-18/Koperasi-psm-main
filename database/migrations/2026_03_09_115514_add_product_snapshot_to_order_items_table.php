@@ -64,14 +64,14 @@ return new class extends Migration
         Schema::table('order_items', function (Blueprint $table) {
             // Hapus kolom snapshot
             $table->dropColumn(['product_name', 'product_description']);
-            
+
             // Kembalikan foreign key ke cascade
             $table->dropForeign(['product_id']);
             $table->foreign('product_id')
                   ->references('id')
                   ->on('products')
                   ->onDelete('cascade');
-            
+
             // Kembalikan product_id ke not nullable
             $table->unsignedBigInteger('product_id')->nullable(false)->change();
         });

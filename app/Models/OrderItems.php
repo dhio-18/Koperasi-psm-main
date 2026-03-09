@@ -8,11 +8,11 @@ class OrderItems extends Model
 {
     protected $table = 'order_items';
     protected $fillable = [
-        'id', 
-        'quantity', 
-        'price', 
-        'subtotal', 
-        'order_id', 
+        'id',
+        'quantity',
+        'price',
+        'subtotal',
+        'order_id',
         'product_id',
         'product_name',          // Snapshot
         'product_description'    // Snapshot
