@@ -198,6 +198,21 @@ class AdminController extends Controller
         try {
             DB::beginTransaction();
 
+            // Cek apakah kategori masih memiliki produk
+            $category = Categories::find($id);
+
+            if (!$category) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Kategori tidak ditemukan.');
+            }
+
+            $productCount = Products::where('category_id', $id)->count();
+
+            if ($productCount > 0) {
+                DB::rollBack();
+                return redirect()->back()->with('error', 'Kategori tidak dapat dihapus karena masih memiliki ' . $productCount . ' produk. Hapus atau pindahkan produk terlebih dahulu.');
+            }
+
             Categories::where('id', $id)->delete();
 
             DB::commit();
