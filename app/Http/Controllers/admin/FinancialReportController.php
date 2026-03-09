@@ -76,20 +76,27 @@ class FinancialReportController extends Controller
         // Semua Produk yang Terjual (untuk PDF - tanpa pagination)
         $allProductsData = Orders::where('status', 'completed')
             ->whereBetween('created_at', [$startDate, $endDate])
-            ->with('orderItems.products')
+            ->with('orderItems')  // Tidak perlu load products relation
             ->get()
             ->flatMap(function ($order) {
                 return $order->orderItems;
             })
-            ->groupBy('product_id')
-            ->map(function ($items) {
+            ->filter(function ($item) {
+                // Filter hanya yang punya product_name
+                return !empty($item->product_name);
+            })
+            ->groupBy(function ($item) {
+                // Group by nama produk dari snapshot
+                return $item->product_name;
+            })
+            ->map(function ($items, $productName) {
                 $totalRevenue = $items->sum(function ($item) {
                     return $item->quantity * $item->price;
                 });
                 $totalQuantity = $items->sum('quantity');
 
                 return [
-                    'product_name' => $items->first()->products->name ?? 'Unknown',
+                    'product_name' => $productName,
                     'quantity' => $totalQuantity,
                     'unit_price' => $totalQuantity > 0 ? $totalRevenue / $totalQuantity : 0,
                     'revenue' => $totalRevenue,

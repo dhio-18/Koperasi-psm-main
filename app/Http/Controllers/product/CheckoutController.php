@@ -190,11 +190,16 @@ class CheckoutController extends Controller
             ]);
 
             foreach ($orderItems as $item) {
+                // Ambil data produk untuk snapshot
+                $product = Products::find($item['product_id']);
+                
                 OrderItems::create([
-                    'order_id'   => $order->id,
-                    'product_id' => (int) $item['product_id'],
-                    'quantity'   => (int) $item['quantity'],
-                    'price'      => (int) $item['price'],
+                    'order_id'            => $order->id,
+                    'product_id'          => (int) $item['product_id'],
+                    'quantity'            => (int) $item['quantity'],
+                    'price'               => (int) $item['price'],
+                    'product_name'        => $product ? $product->name : 'Unknown Product',
+                    'product_description' => $product ? $product->description : null,
                 ]);
             }
 

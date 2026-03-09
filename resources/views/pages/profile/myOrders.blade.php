@@ -257,10 +257,12 @@
                             <template x-for="item in order.order_items" :key="item.id">
                                 <div class="flex items-center justify-between mb-3">
                                     <div class="flex items-center gap-3">
-                                        <img :src="getProductImageUrl(item.products.images)" :alt="item.products.name"
-                                        class="w-12 h-12 rounded-lg object-cover border border-gray-200">
+                                        <img :src="getProductImageUrl(item.products?.images || '/images/placeholder.png')" 
+                                             :alt="item.product_name || item.products?.name || 'Produk'"
+                                             class="w-12 h-12 rounded-lg object-cover border border-gray-200">
                                         <div>
-                                            <p class="font-medium text-gray-900" x-text="item.products.name"></p>
+                                            <p class="font-medium text-gray-900" 
+                                               x-text="item.product_name || item.products?.name || 'Produk Tidak Tersedia'"></p>
                                             <p class="text-sm text-gray-500"><span x-text="item.quantity"></span> item
                                             </p>
                                         </div>
@@ -703,8 +705,12 @@
                         filtered = filtered.filter(order =>
                             order.order_number.toLowerCase().includes(query) ||
                             order.total_amount.toString().includes(query) ||
-                            order.order_items.some(item => item.products.name.toLowerCase().includes(query)) ||
-                            order.order_items.some(item => item.products.description.toLowerCase().includes(query))
+                            order.order_items.some(item => {
+                                const productName = item.product_name || item.products?.name || '';
+                                const productDesc = item.product_description || item.products?.description || '';
+                                return productName.toLowerCase().includes(query) || 
+                                       productDesc.toLowerCase().includes(query);
+                            })
                         );
                     }
 

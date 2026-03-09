@@ -262,7 +262,11 @@ class ProfileController extends Controller
     public function orders()
     {
         $orders = Orders::with([
-            'orderItems.products',
+            'orderItems' => function($query) {
+                // Load orderItems dengan snapshot fields
+                $query->select('id', 'order_id', 'product_id', 'quantity', 'price', 'product_name', 'product_description');
+            },
+            'orderItems.products',  // Tetap load untuk produk yang masih ada (untuk gambar)
             'returns',  // Load semua returns termasuk yang ditolak
             'shipment',
             'histories',
