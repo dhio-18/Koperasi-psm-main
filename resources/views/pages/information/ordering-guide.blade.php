@@ -33,7 +33,7 @@
                 <!-- Steps Container -->
                 <div class="space-y-6 mb-12">
                     <!-- Step 1 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -51,7 +51,7 @@
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -69,7 +69,7 @@
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -87,7 +87,7 @@
                     </div>
 
                     <!-- Step 4 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -105,7 +105,7 @@
                     </div>
 
                     <!-- Step 5 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -123,7 +123,7 @@
                     </div>
 
                     <!-- Step 6 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -141,7 +141,7 @@
                     </div>
 
                     <!-- Step 7 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -159,7 +159,7 @@
                     </div>
 
                     <!-- Step 8 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -177,7 +177,7 @@
                     </div>
 
                     <!-- Step 9 -->
-                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-green-500">
                         <div class="flex-shrink-0">
                             <div
                                 class="flex items-center justify-center h-12 w-12 rounded-xl bg-green-600 text-white font-bold text-lg">
@@ -195,66 +195,164 @@
                     </div>
                 </div>
 
-                <!-- Tips Section -->
-                <div class="bg-green-50 border-l-4 border-green-600 p-6 rounded-r-lg mb-12">
-                    <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        Tips & Trik Berbelanja
-                    </h3>
-                    <ul class="space-y-3 text-gray-700">
-                        <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="text-sm md:text-base">Periksa ketersediaan stok produk sebelum melakukan
-                                pemesanan</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="text-sm md:text-base">Lengkapi data profil Anda untuk proses checkout yang lebih
-                                cepat</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="text-sm md:text-base">Pastikan alamat pengiriman sudah benar sebelum menyelesaikan
-                                pesanan</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="text-sm md:text-base">Simpan nomor resi pengiriman untuk referensi Anda</span>
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <svg class="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" fill="currentColor"
-                                viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd" />
-                            </svg>
-                            <span class="text-sm md:text-base">Hubungi layanan pelanggan kami jika ada pertanyaan atau
-                                kendala</span>
-                        </li>
-                    </ul>
+                <!-- Divider -->
+                <div class="flex items-center gap-4 my-12">
+                    <div class="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                    <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 9l-7 7-7-7" />
+                    </svg>
+                    <div class="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
+                </div>
+
+                <!-- Return Hero Section -->
+                <section
+                    class="bg-gradient-to-br from-orange-600 to-orange-700 text-white rounded-[1.75rem] shadow-md mx-4 md:mx-6 lg:mx-10 mb-8">
+                    <div class="max-w-6xl mx-auto px-4 py-14 md:py-16 text-center flex flex-col items-center">
+                        <div class="space-y-4 max-w-2xl">
+                            <div class="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl mb-4 mx-auto">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M16 15v-1a4 4 0 00-4-4H8m0 0l3 3m-3-3l3-3m9 14V5a2 2 0 00-2-2H6a2 2 0 00-2 2v16l4-2 4 2 4-2 4 2z" />
+                                </svg>
+                            </div>
+                            <h2 class="text-[28px] md:text-[36px] font-bold leading-tight">
+                                Tata Cara Pengembalian
+                            </h2>
+                            <p class="text-base md:text-[17px] text-white/90 leading-relaxed">
+                                Panduan lengkap untuk mengajukan pengembalian produk yang tidak sesuai
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Return Process Section -->
+                <div class="mb-12">
+                    <div class="space-y-6">
+                        <!-- Return Step 1 -->
+                        <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-orange-500">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-xl bg-orange-600 text-white font-bold text-lg">
+                                    1
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Periksa Kondisi Produk</h3>
+                                <p class="text-sm md:text-base text-gray-600 leading-relaxed">
+                                    Segera periksa kondisi produk saat barang diterima. Pastikan produk yang diterima sesuai
+                                    dengan pesanan Anda. Jika terdapat kerusakan, kekurangan, atau ketidaksesuaian produk,
+                                    segera dokumentasikan dengan foto yang jelas.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Return Step 2 -->
+                        <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-orange-500">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-xl bg-orange-600 text-white font-bold text-lg">
+                                    2
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Buka Halaman Pesananku</h3>
+                                <p class="text-sm md:text-base text-gray-600 leading-relaxed">
+                                    Login ke akun Anda dan masuk ke halaman "Pesananku". Cari pesanan yang ingin Anda
+                                    kembalikan, lalu klik tombol "Detail" untuk melihat informasi lengkap pesanan tersebut.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Return Step 3 -->
+                        <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-orange-500">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-xl bg-orange-600 text-white font-bold text-lg">
+                                    3
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Klik Tombol Ajukan Pengembalian</h3>
+                                <p class="text-sm md:text-base text-gray-600 leading-relaxed">
+                                    Pada halaman detail pesanan, klik tombol "Ajukan Pengembalian" yang berwarna merah. Tombol
+                                    ini hanya akan muncul untuk pesanan dengan status "Dikirim".
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Return Step 4 -->
+                        <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-orange-500">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-xl bg-orange-600 text-white font-bold text-lg">
+                                    4
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Isi Formulir Pengembalian</h3>
+                                <p class="text-sm md:text-base text-gray-600 leading-relaxed mb-3">
+                                    Lengkapi formulir pengembalian dengan informasi berikut:
+                                </p>
+                                <ul class="space-y-2 text-sm md:text-base text-gray-600">
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span><strong>Alasan Pengembalian:</strong> Pilih alasan yang sesuai (produk rusak, salah kirim, tidak sesuai deskripsi, dll)</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span><strong>Deskripsi Detail:</strong> Jelaskan masalah yang Anda alami dengan detail</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <svg class="w-5 h-5 text-orange-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span><strong>Upload Foto:</strong> Unggah foto produk yang menunjukkan kerusakan atau masalah (maksimal 5MB)</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Return Step 5 -->
+                        <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-orange-500">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-xl bg-orange-600 text-white font-bold text-lg">
+                                    5
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Submit dan Tunggu Persetujuan</h3>
+                                <p class="text-sm md:text-base text-gray-600 leading-relaxed">
+                                    Setelah mengisi formulir dengan lengkap, klik tombol "Submit Pengembalian". Tim kami akan
+                                    meninjau pengajuan Anda. Anda akan menerima notifikasi melalui
+                                    halaman "Pesananku" mengenai status persetujuan pengembalian Anda.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Return Step 6 -->
+                        <div class="flex gap-6 items-start bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow border-l-4 border-orange-500">
+                            <div class="flex-shrink-0">
+                                <div
+                                    class="flex items-center justify-center h-12 w-12 rounded-xl bg-orange-600 text-white font-bold text-lg">
+                                    6
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-lg md:text-xl font-bold text-gray-900 mb-2">Pengembalian Produk</h3>
+                                <p class="text-sm md:text-base text-gray-600 leading-relaxed">
+                                    Jika pengajuan Anda disetujui, ikuti instruksi yang diberikan untuk mengembalikan produk.
+                                    Pastikan produk dikemas dengan baik dan aman. Setelah produk diterima dan diverifikasi oleh
+                                    tim kami, proses penggantian produk akan segera diproses.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- CTA Button -->

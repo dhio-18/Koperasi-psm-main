@@ -9,12 +9,18 @@ use Illuminate\Support\Facades\Storage;
 
 class CarouselController extends Controller
 {
+    /**
+     * Tampilkan halaman manajemen carousel
+     */
     public function index()
     {
         $carousels = CarouselImage::orderBy('order')->get();
         return view('pages.admin.carousel', compact('carousels'));
     }
 
+    /**
+     * Tambah gambar carousel baru
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -44,6 +50,9 @@ class CarouselController extends Controller
         }
     }
 
+    /**
+     * Ubah status aktif gambar carousel
+     */
     public function toggleActive($id)
     {
         try {
@@ -60,6 +69,9 @@ class CarouselController extends Controller
         }
     }
 
+    /**
+     * Perbarui urutan gambar carousel
+     */
     public function updateOrder(Request $request)
     {
         $request->validate([
@@ -85,6 +97,9 @@ class CarouselController extends Controller
         }
     }
 
+    /**
+     * Hapus gambar carousel
+     */
     public function destroy($id)
     {
         try {

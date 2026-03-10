@@ -27,7 +27,7 @@
           <li>
             <a href="{{ route('ordering-guide') }}"
                class="inline-flex items-center gap-2 text-gray-600 hover:text-green-600 hover:translate-x-1 transition-all duration-200">
-              <span>Tata Cara Pemesanan</span>
+              <span>Tata Cara Pemesanan & Pengembalian</span>
             </a>
           </li>
             <li>

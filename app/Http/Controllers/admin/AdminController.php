@@ -22,6 +22,9 @@ use Str;
 
 class AdminController extends Controller
 {
+    /**
+     * Dashboard Admin
+     */
     public function dashboard(Request $request)
     {
         $totalOrders = Orders::whereNot('status', 'rejected')->count();
@@ -264,6 +267,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Tambah Produk
+     */
     public function productStore(Request $request)
     {
         $validated = $request->validate([
@@ -301,6 +307,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Update Produk
+     */
     public function productUpdate(Request $request, $id)
     {
         $validated = $request->validate([
@@ -342,6 +351,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Hapus Produk
+     */
     public function productDelete($id)
     {
         try {
@@ -391,6 +403,9 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Kelola Pengembalian
+     */
     public function return(Request $request)
     {
         $type = DB::select("SHOW COLUMNS FROM orders WHERE Field = 'status'")[0]->Type;
@@ -424,6 +439,9 @@ class AdminController extends Controller
         ]);
     }
 
+    /**
+     * Setujui Pembayaran
+     */
     public function approvePayment(Request $request, $id)
     {
         $validated = $request->validate([
@@ -483,6 +501,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Kirim Pesanan
+     */
     public function orderSend(Request $request, $id)
     {
         $validated = $request->validate([
@@ -546,7 +567,9 @@ class AdminController extends Controller
         }
     }
 
-
+    /**
+     * Tolak Pembayaran
+     */
     public function rejectPayment(Request $request, $id)
     {
         $validated = $request->validate([
@@ -577,6 +600,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Tolak Pengembalian
+     */
     public function returnRejected(Request $request, $id)
     {
 
@@ -606,8 +632,6 @@ class AdminController extends Controller
             ]);
 
             DB::commit();
-            // return redirect()->route('admin.return', ['status' => 'rejected'])
-            //     ->with('success', 'Pengembalian berhasil ditolak.');
             return redirect()->back()->with('success', 'Pengembalian berhasil ditolak.');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -615,6 +639,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Setujui Pengembalian
+     */
     public function returnApproved(Request $request, $id)
     {
         try {
